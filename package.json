@@ -29,6 +29,7 @@
     "start-s4": "fiori run --config ./ui5-s4.yaml --open \"/index.html\"",
     "fetch-po-metadata": "node scripts/fetch-po-metadata.mjs",
     "fetch-cbo-metadata": "node scripts/fetch-cbo-metadata.mjs",
+    "fetch-api-metadata": "node scripts/fetch-api-metadata.mjs",
     "extract-schema": "node scripts/extract-schema.js",
     "generate-mock": "node scripts/generate-mock.js",
     "generate-abap": "node scripts/generate-abap.js",

@@ -65,6 +65,24 @@
           "odataVersion": "2.0"
         }
       },
+      "productService": {
+        "uri": "/sap/opu/odata/sap/API_PRODUCT_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/s4api/API_PRODUCT_SRV/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "businessPartnerService": {
+        "uri": "/sap/opu/odata/sap/API_BUSINESS_PARTNER/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/s4api/API_BUSINESS_PARTNER/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
       "purchaseOrderService": {
         "uri": "/sap/opu/odata4/sap/api_purchaseorder_2/srvd_a2x/sap/purchaseorder/0001/",
         "type": "OData",
@@ -171,6 +189,24 @@
         "preload": false,
         "settings": {
           "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "product": {
+        "dataSource": "productService",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "bp": {
+        "dataSource": "businessPartnerService",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
           "defaultCountMode": "Inline",
           "useBatch": true
         }

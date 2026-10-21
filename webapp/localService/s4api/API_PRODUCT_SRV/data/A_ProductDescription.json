@@ -1,0 +1,42 @@
+[
+  {
+    "Product": "SERV-ADU",
+    "Language": "PT",
+    "ProductDescription": "Serviço Aduaneiro"
+  },
+  {
+    "Product": "SERV-ADU",
+    "Language": "EN",
+    "ProductDescription": "Serviço Aduaneiro"
+  },
+  {
+    "Product": "SERV-DESP",
+    "Language": "PT",
+    "ProductDescription": "Despesas Diversas"
+  },
+  {
+    "Product": "SERV-DESP",
+    "Language": "EN",
+    "ProductDescription": "Despesas Diversas"
+  },
+  {
+    "Product": "ITEM-001",
+    "Language": "PT",
+    "ProductDescription": "Componente Eletrônico"
+  },
+  {
+    "Product": "ITEM-001",
+    "Language": "EN",
+    "ProductDescription": "Componente Eletrônico"
+  },
+  {
+    "Product": "ITEM-002",
+    "Language": "PT",
+    "ProductDescription": "Peça Industrial"
+  },
+  {
+    "Product": "ITEM-002",
+    "Language": "EN",
+    "ProductDescription": "Peça Industrial"
+  }
+]

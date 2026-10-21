@@ -6,7 +6,8 @@ sap.ui.define([
     "sap/m/StandardListItem",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
-    "acx/sapimport/s4/model/cbo"
+    "acx/sapimport/s4/model/cbo",
+    "acx/sapimport/s4/model/lookups"
 ], /**
  * @param {typeof import("sap/ui/core/mvc/Controller").default} Controller
  * @param {typeof import("sap/ui/model/Filter").default} Filter
@@ -16,7 +17,8 @@ sap.ui.define([
  * @param {typeof import("sap/m/MessageToast").default} MessageToast
  * @param {typeof import("sap/m/MessageBox").default} MessageBox
  * @param {object} cbo
- */ (Controller, Filter, FilterOperator, SelectDialog, StandardListItem, MessageToast, MessageBox, cbo) => {
+ * @param {object} lookups
+ */ (Controller, Filter, FilterOperator, SelectDialog, StandardListItem, MessageToast, MessageBox, cbo, lookups) => {
     "use strict";
 
     // Ported from ../sapimport/webapp/controller/Configs.controller.js. Differences from that
@@ -82,17 +84,22 @@ sap.ui.define([
         onValueHelp(oEvent) {
             const oInput = oEvent.getSource();
             const sEntity = oInput.data("vhEntity");
-            const sTitleField = oInput.data("vhTitleField");
-            const sDescField = oInput.data("vhDescField");
             const sProperty = oInput.data("vhProperty");
 
             this._oValueHelpDialogs = this._oValueHelpDialogs || {};
             let oDialog = this._oValueHelpDialogs[sEntity];
             if (!oDialog) {
+                // Fornecedores/produtos vêm das APIs do S/4 (model/lookups, com os campos de lá);
+                // o resto dos lookups, do mainService
+                const oSource = lookups.source(this.getOwnerComponent(), sEntity)
+                    || { model: this.getOwnerComponent().getModel(), path: "/" + sEntity };
+                const sTitleField = oSource.titleField || oInput.data("vhTitleField");
+                const sDescField = oSource.descField || oInput.data("vhDescField");
                 oDialog = new SelectDialog({
                     title: VALUE_HELP_TITLES[sEntity] || sEntity,
                     items: {
-                        path: "/" + sEntity,
+                        path: oSource.path,
+                        filters: oSource.filters || [],
                         template: new StandardListItem({
                             title: "{" + sTitleField + "}",
                             description: "{" + sDescField + "}"
@@ -100,9 +107,10 @@ sap.ui.define([
                     },
                     search: (oSearchEvent) => {
                         const sValue = oSearchEvent.getParameter("value");
-                        oSearchEvent.getSource().getBinding("items").filter(
-                            new Filter(sTitleField, FilterOperator.Contains, sValue)
-                        );
+                        oSearchEvent.getSource().getBinding("items").filter(sValue ? new Filter({
+                            filters: [sTitleField, sDescField].map((sField) => new Filter(sField, FilterOperator.Contains, sValue)),
+                            and: false
+                        }) : []);
                     },
                     confirm: (oConfirmEvent) => {
                         const oSelectedItem = oConfirmEvent.getParameter("selectedItem");
@@ -114,8 +122,8 @@ sap.ui.define([
                         }
                     }
                 });
-                // Lookups vêm do mainService; sem isto o diálogo herdaria o modelo "impicfg" da view
-                oDialog.setModel(this.getOwnerComponent().getModel());
+                // Sem isto o diálogo herdaria o modelo "impicfg" da view
+                oDialog.setModel(oSource.model);
                 this.getView().addDependent(oDialog);
                 this._oValueHelpDialogs[sEntity] = oDialog;
             }

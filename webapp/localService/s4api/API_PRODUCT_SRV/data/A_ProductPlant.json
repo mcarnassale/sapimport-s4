@@ -1,0 +1,22 @@
+[
+  {
+    "Product": "SERV-ADU",
+    "Plant": "1410",
+    "ConsumptionTaxCtrlCode": ""
+  },
+  {
+    "Product": "SERV-DESP",
+    "Plant": "1410",
+    "ConsumptionTaxCtrlCode": ""
+  },
+  {
+    "Product": "ITEM-001",
+    "Plant": "1410",
+    "ConsumptionTaxCtrlCode": "8517.12.31"
+  },
+  {
+    "Product": "ITEM-002",
+    "Plant": "1410",
+    "ConsumptionTaxCtrlCode": "8471.30.12"
+  }
+]

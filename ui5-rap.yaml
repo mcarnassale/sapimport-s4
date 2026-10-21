@@ -23,6 +23,8 @@ server:
         paths:
           - /sap/opu/odata4/sap/api_purchaseorder_2/
           - /sap/opu/odata/sap/YY1_ACX_
+          - /sap/opu/odata/sap/API_PRODUCT_SRV/
+          - /sap/opu/odata/sap/API_BUSINESS_PARTNER/
     - name: fiori-tools-proxy
       afterMiddleware: s4-api-proxy
       configuration:

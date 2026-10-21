@@ -1,0 +1,30 @@
+[
+  {
+    "Product": "SERV-ADU",
+    "ProductType": "HAWA",
+    "BaseUnit": "PC",
+    "NetWeight": "0.000",
+    "WeightUnit": ""
+  },
+  {
+    "Product": "SERV-DESP",
+    "ProductType": "HAWA",
+    "BaseUnit": "PC",
+    "NetWeight": "0.000",
+    "WeightUnit": ""
+  },
+  {
+    "Product": "ITEM-001",
+    "ProductType": "HAWA",
+    "BaseUnit": "PC",
+    "NetWeight": "2.500",
+    "WeightUnit": "KG"
+  },
+  {
+    "Product": "ITEM-002",
+    "ProductType": "HAWA",
+    "BaseUnit": "PC",
+    "NetWeight": "15.000",
+    "WeightUnit": "KG"
+  }
+]

@@ -7,7 +7,8 @@ sap.ui.define([
     "sap/m/StandardListItem",
     "sap/m/MessageToast",
     "sap/m/MessageBox",
-    "acx/sapimport/s4/model/cbo"
+    "acx/sapimport/s4/model/cbo",
+    "acx/sapimport/s4/model/lookups"
 ], /**
  * @param {typeof import("sap/ui/core/mvc/Controller").default} Controller
  * @param {typeof import("sap/ui/model/json/JSONModel").default} JSONModel
@@ -18,7 +19,8 @@ sap.ui.define([
  * @param {typeof import("sap/m/MessageToast").default} MessageToast
  * @param {typeof import("sap/m/MessageBox").default} MessageBox
  * @param {object} cbo
- */ (Controller, JSONModel, Filter, FilterOperator, SelectDialog, StandardListItem, MessageToast, MessageBox, cbo) => {
+ * @param {object} lookups
+ */ (Controller, JSONModel, Filter, FilterOperator, SelectDialog, StandardListItem, MessageToast, MessageBox, cbo, lookups) => {
     "use strict";
 
     // Ported from ../sapimport/webapp/controller/PreCalcDetail.controller.js. IMPIPRV/PRV1 vêm do
@@ -164,6 +166,7 @@ sap.ui.define([
             this._openLineValueHelp(oEvent, {
                 key: "cardCode",
                 title: this._t("preCalcColCard"),
+                lookup: "BusinessPartners",
                 path: "/BusinessPartners",
                 titleField: "CardCode",
                 descField: "CardName",
@@ -178,6 +181,7 @@ sap.ui.define([
             this._openLineValueHelp(oEvent, {
                 key: "itemCode",
                 title: this._t("preCalcColItem"),
+                lookup: "Items",
                 path: "/Items",
                 titleField: "ItemCode",
                 descField: "ItemName",
@@ -194,20 +198,28 @@ sap.ui.define([
 
             let oDialog = this._oLineValueHelpDialogs[oConfig.key];
             if (!oDialog) {
+                // Fornecedores/produtos vêm das APIs do S/4 (model/lookups, com os campos de lá);
+                // o resto (despesas, moedas), do mainService
+                const oSource = (oConfig.lookup && lookups.source(this.getOwnerComponent(), oConfig.lookup))
+                    || { model: this._getLookupModel(), path: oConfig.path };
+                const sTitleField = oSource.titleField || oConfig.titleField;
+                const sDescField = oSource.descField || oConfig.descField;
                 oDialog = new SelectDialog({
                     title: oConfig.title,
                     items: {
-                        path: oConfig.path,
+                        path: oSource.path,
+                        filters: oSource.filters || [],
                         template: new StandardListItem({
-                            title: "{" + oConfig.titleField + "}",
-                            description: "{" + oConfig.descField + "}"
+                            title: "{" + sTitleField + "}",
+                            description: "{" + sDescField + "}"
                         })
                     },
                     search: (oSearchEvent) => {
                         const sValue = oSearchEvent.getParameter("value");
-                        oSearchEvent.getSource().getBinding("items").filter(
-                            new Filter(oConfig.titleField, FilterOperator.Contains, sValue)
-                        );
+                        oSearchEvent.getSource().getBinding("items").filter(sValue ? new Filter({
+                            filters: [sTitleField, sDescField].map((sField) => new Filter(sField, FilterOperator.Contains, sValue)),
+                            and: false
+                        }) : []);
                     },
                     confirm: (oConfirmEvent) => {
                         const oSelectedItem = oConfirmEvent.getParameter("selectedItem");
@@ -216,8 +228,8 @@ sap.ui.define([
                         }
                     }
                 });
-                // Lookups (despesas, moedas, parceiros, itens) vêm do mainService, não do documento local
-                oDialog.setModel(this._getLookupModel());
+                // Sem isto o diálogo herdaria o documento local da view
+                oDialog.setModel(oSource.model);
                 this.getView().addDependent(oDialog);
                 this._oLineValueHelpDialogs[oConfig.key] = oDialog;
             }

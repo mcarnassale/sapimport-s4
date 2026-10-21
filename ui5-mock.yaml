@@ -59,6 +59,15 @@ server:
             metadataPath: ./webapp/localService/cbo/YY1_ACX_IMPLAY_CDS/metadata.xml
             mockdataPath: ./webapp/localService/cbo/YY1_ACX_IMPLAY_CDS/data
             generateMockData: false
+          # Cadastros do S/4 (OData V2) — $metadata REAL (npm run fetch-api-metadata)
+          - urlPath: /sap/opu/odata/sap/API_PRODUCT_SRV
+            metadataPath: ./webapp/localService/s4api/API_PRODUCT_SRV/metadata.xml
+            mockdataPath: ./webapp/localService/s4api/API_PRODUCT_SRV/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/API_BUSINESS_PARTNER
+            metadataPath: ./webapp/localService/s4api/API_BUSINESS_PARTNER/metadata.xml
+            mockdataPath: ./webapp/localService/s4api/API_BUSINESS_PARTNER/data
+            generateMockData: false
           # Pedidos de compra — $metadata REAL do api_purchaseorder_2 (npm run fetch-po-metadata).
           # Sem dados gerados: só os pedidos do fixture (generate-mock.js), senão a busca do
           # "Inserir Pedidos" traria pedidos aleatórios.

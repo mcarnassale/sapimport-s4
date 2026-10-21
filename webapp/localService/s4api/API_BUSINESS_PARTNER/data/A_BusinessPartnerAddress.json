@@ -1,0 +1,14 @@
+[
+  {
+    "BusinessPartner": "F00001",
+    "AddressID": "1",
+    "Country": "BR",
+    "CityName": "Santos"
+  },
+  {
+    "BusinessPartner": "F00002",
+    "AddressID": "2",
+    "Country": "US",
+    "CityName": "Miami"
+  }
+]

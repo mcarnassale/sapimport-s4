@@ -19,7 +19,8 @@ sap.ui.define([
     "sap/m/Text",
     "sap/ui/layout/HorizontalLayout",
     "acx/sapimport/s4/model/purchaseOrders",
-    "acx/sapimport/s4/model/cbo"
+    "acx/sapimport/s4/model/cbo",
+    "acx/sapimport/s4/model/lookups"
 ], /**
  * @param {typeof import("sap/ui/core/mvc/Controller").default} Controller
  * @param {typeof import("sap/ui/model/json/JSONModel").default} JSONModel
@@ -42,10 +43,11 @@ sap.ui.define([
  * @param {typeof import("sap/ui/layout/HorizontalLayout").default} HorizontalLayout
  * @param {object} purchaseOrders
  * @param {object} cbo
+ * @param {object} lookups
  */ (
     Controller, JSONModel, Filter, FilterOperator, Sorter, SelectDialog, StandardListItem, MessageToast, MessageBox,
     Dialog, Button, DatePicker, Input, Label, Table, Column, ColumnListItem, Text, HorizontalLayout,
-    purchaseOrders, cbo
+    purchaseOrders, cbo, lookups
 ) => {
     "use strict";
 
@@ -181,10 +183,13 @@ sap.ui.define([
             return this.getOwnerComponent().getModel("po");
         },
 
-        // { model, path } da lista de um value help: CBO do S/4 (ex.: IMPLAY -> YY1_ACX_IMPLAY,
-        // model/cbo) lê do modelo V2 dele; o resto dos lookups, do mainService.
+        // { model, path, titleField?, descField?, filters? } da lista de um value help: CBO do S/4
+        // (ex.: IMPLAY -> YY1_ACX_IMPLAY, model/cbo), cadastro de API padrão do S/4 (fornecedores,
+        // produtos — model/lookups, que também troca os nomes de campo) ou, o resto, mainService.
         _getValueHelpSource(sEntitySet) {
-            return cbo.source(this.getOwnerComponent(), sEntitySet) || { model: this._getLookupModel(), path: "/" + sEntitySet };
+            const oComponent = this.getOwnerComponent();
+            return cbo.source(oComponent, sEntitySet) || lookups.source(oComponent, sEntitySet)
+                || { model: this._getLookupModel(), path: "/" + sEntitySet };
         },
 
         _markDirty() {
@@ -302,16 +307,17 @@ sap.ui.define([
         // uma Promise em vez de escrever num campo bindado, já que essa escolha não fica salva em
         // lugar nenhum (o original também não grava zCardCode no Processo).
         _pickSupplierForPO2DI() {
+            const oSource = this._getValueHelpSource("BusinessPartners");
             return new Promise((resolve) => {
                 const oDialog = new SelectDialog({
                     title: this._t("procPO2DISelectSupplierTitle"),
                     items: {
-                        path: "/BusinessPartners",
-                        template: new StandardListItem({ title: "{CardCode}", description: "{CardName}" })
+                        path: oSource.path,
+                        template: new StandardListItem({ title: `{${oSource.titleField}}`, description: `{${oSource.descField}}` })
                     },
                     search: (oEvent) => {
                         const sValue = oEvent.getParameter("value");
-                        oEvent.getSource().getBinding("items").filter(new Filter("CardName", FilterOperator.Contains, sValue));
+                        oEvent.getSource().getBinding("items").filter(new Filter(oSource.descField, FilterOperator.Contains, sValue));
                     },
                     confirm: (oEvent) => {
                         const oSelectedItem = oEvent.getParameter("selectedItem");
@@ -320,7 +326,7 @@ sap.ui.define([
                     cancel: () => resolve(null),
                     afterClose: () => oDialog.destroy()
                 });
-                oDialog.setModel(this._getLookupModel());
+                oDialog.setModel(oSource.model);
                 this.getView().addDependent(oDialog);
                 oDialog.open();
             });
@@ -513,56 +519,31 @@ sap.ui.define([
             return aPedidoList;
         },
 
-        // Porta CodigoInternoExists (ReadDuimp.cs:1574-1595) — uma única consulta a /Items com
-        // todos os candidatos de uma vez (filtro OR), em vez de uma query por produto.
+        // Porta CodigoInternoExists (ReadDuimp.cs:1574-1595) — uma única consulta aos produtos do
+        // S/4 com todos os candidatos de uma vez (filtro OR), em vez de uma query por produto.
         async _getExistingItemCodes(aCandidates) {
-            if (aCandidates.length === 0) {
-                return new Set();
-            }
-            const oModel = this.getOwnerComponent().getModel();
-            const oFilter = new Filter({
-                filters: aCandidates.map((s) => new Filter("ItemCode", FilterOperator.EQ, s)),
-                and: false
-            });
-            const oListBinding = oModel.bindList("/Items", null, [], [oFilter]);
-            const aContexts = await oListBinding.requestContexts(0, aCandidates.length).catch(() => []);
-            return new Set(aContexts.map((oCtx) => oCtx.getProperty("ItemCode")));
+            return lookups.existingProducts(this.getOwnerComponent(), aCandidates).catch(() => new Set());
         },
 
-        // Porta UpdateItems (ReadDuimp.cs:1325-1391): cria ou atualiza o Item Master por linha do
-        // Pedido — via create()/setProperty() na entidade placeholder Items (equivalente real S/4
-        // seria API_PRODUCT_SRV, alta confiança per docs/cbo-design.md, não implementado aqui já
-        // que Items é só um placeholder de lookup neste projeto). Preenche ItemCodeSAP de volta em
-        // cada linha, igual ao original.
+        // Porta UpdateItems (ReadDuimp.cs:1325-1391), que criava/atualizava o Item Master (nome e
+        // NCM) por linha do Pedido. No S/4 o cadastro de produto é o real (API_PRODUCT_SRV), e
+        // criar/alterar produto pela API exige dados de organização (tipo, centro, unidades...) que
+        // o fluxo não tem — não portado. Aqui só se resolve o código: produto que já existe vira
+        // ItemCodeSAP; os demais são listados para o cadastro ser feito no S/4.
         async _updateItemsFromPedidoList(aPedidoList) {
-            const oModel = this.getOwnerComponent().getModel();
-            for (const oPedido of aPedidoList) {
-                const sCodigo = oPedido.ItemCodeSAP || (oPedido.CodigosInternosPU && oPedido.CodigosInternosPU[0]) || "";
-                if (!sCodigo) {
-                    continue;
-                }
-                const sDenominacao = (oPedido.Denominacao || "").slice(0, 100);
-                try {
-                    const oListBinding = oModel.bindList("/Items", null, [], [new Filter("ItemCode", FilterOperator.EQ, sCodigo)]);
-                    const aContexts = await oListBinding.requestContexts(0, 1).catch(() => []);
-                    if (aContexts.length > 0) {
-                        const oContext = aContexts[0];
-                        oContext.setProperty("ItemName", sDenominacao);
-                        if (oPedido.NCM) {
-                            oContext.setProperty("NCMCode", oPedido.NCM);
-                        }
-                        await oModel.submitBatch("deferred");
-                        MessageToast.show(this._t("procPO2DIItemUpdated", [sCodigo]));
-                    } else {
-                        const oCreateBinding = oModel.bindList("/Items");
-                        oCreateBinding.create({ ItemCode: sCodigo, ItemName: sDenominacao, NCMCode: oPedido.NCM || "" });
-                        await oModel.submitBatch("deferred");
-                        MessageToast.show(this._t("procPO2DIItemCreated", [sCodigo]));
-                    }
+            const aCandidatos = aPedidoList.map((oPedido) => oPedido.ItemCodeSAP || (oPedido.CodigosInternosPU || [])[0]).filter(Boolean);
+            const oExisting = await this._getExistingItemCodes(aCandidatos);
+            const aMissing = [];
+            aPedidoList.forEach((oPedido) => {
+                const sCodigo = oPedido.ItemCodeSAP || (oPedido.CodigosInternosPU || [])[0] || "";
+                if (oExisting.has(sCodigo)) {
                     oPedido.ItemCodeSAP = sCodigo;
-                } catch (oError) {
-                    MessageBox.error(oError.message || String(oError));
+                } else if (sCodigo) {
+                    aMissing.push(sCodigo);
                 }
+            });
+            if (aMissing.length) {
+                MessageBox.warning(this._t("procPO2DIProductsMissing", [aMissing.join(", ")]));
             }
         },
 
@@ -633,8 +614,6 @@ sap.ui.define([
         onValueHelp(oEvent) {
             const oInput = oEvent.getSource();
             const sEntity = oInput.data("vhEntity");
-            const sTitleField = oInput.data("vhTitleField");
-            const sDescField = oInput.data("vhDescField");
             const sProperty = oInput.data("vhProperty");
             const sDescProperty = oInput.data("vhDescProperty");
 
@@ -642,20 +621,28 @@ sap.ui.define([
             let oDialog = this._oValueHelpDialogs[sEntity];
             if (!oDialog) {
                 const oSource = this._getValueHelpSource(sEntity);
+                // Campos da origem real (ex.: Supplier/SupplierName) quando ela os define
+                const sTitleField = oSource.titleField || oInput.data("vhTitleField");
+                const sDescField = oSource.descField || oInput.data("vhDescField");
+                const aFixedFilters = oSource.filters || [];
                 oDialog = new SelectDialog({
                     title: VALUE_HELP_TITLES[sEntity] || sEntity,
                     items: {
                         path: oSource.path,
+                        filters: aFixedFilters,
                         template: new StandardListItem({
                             title: "{" + sTitleField + "}",
                             description: "{" + sDescField + "}"
                         })
                     },
+                    // Código ou descrição (fornecedor/produto se procura pelo nome); os filtros
+                    // fixos da origem (ex.: idioma) ficam, são de aplicação
                     search: (oSearchEvent) => {
                         const sValue = oSearchEvent.getParameter("value");
-                        oSearchEvent.getSource().getBinding("items").filter(
-                            new Filter(sTitleField, FilterOperator.Contains, sValue)
-                        );
+                        oSearchEvent.getSource().getBinding("items").filter(sValue ? new Filter({
+                            filters: [sTitleField, sDescField].map((sField) => new Filter(sField, FilterOperator.Contains, sValue)),
+                            and: false
+                        }) : []);
                     },
                     confirm: (oConfirmEvent) => {
                         const oSelectedItem = oConfirmEvent.getParameter("selectedItem");
@@ -703,16 +690,11 @@ sap.ui.define([
         },
 
         // Convertido de _loadForeignSuppliers (Processos.b1f.cs) — no original filtra
-        // BusinessPartners por CardType=cSupplier e Country<>'BR'; a entidade BusinessPartners
-        // deste projeto (lookup placeholder, ver cbo-design.md) só tem CardCode/CardName, sem
-        // CardType/Country, então esse filtro não é reproduzível aqui — carrega a lista completa,
-        // mesma simplificação já aceita pra essa mesma entidade em _pickSupplierForPO2DI.
+        // BusinessPartners por CardType=cSupplier e Country<>'BR'; aqui: fornecedores do S/4
+        // (API_BUSINESS_PARTNER) com endereço fora do Brasil (model/lookups).
         async _loadForeignSuppliers() {
-            const oModel = this.getOwnerComponent().getModel();
-            const oListBinding = oModel.bindList("/BusinessPartners", null, [new Sorter("CardName")]);
-            const aContexts = await oListBinding.requestContexts(0, 1000).catch(() => []);
-            const aSuppliers = [{ CardCode: "", CardName: "" }, ...aContexts.map((oContext) => oContext.getObject())];
-            this.getView().getModel("detailView").setProperty("/foreignSuppliers", aSuppliers);
+            const aForeign = await lookups.getSuppliers(this.getOwnerComponent(), true).catch(() => []);
+            this.getView().getModel("detailView").setProperty("/foreignSuppliers", [{ CardCode: "", CardName: "" }, ...aForeign]);
         },
 
         // Convertido da parte de fornecedor-da-linha de onItemsRowSelectionChange (o original
@@ -936,16 +918,21 @@ sap.ui.define([
             }
         },
 
-        async _createPedidoLines(sPurchaseOrder, oOrder, aOpenLines, aExistingLines) {
-            const oModel = this.getOwnerComponent().getModel();
+        // Dados de produto (peso, NCM, descrição — model/lookups) das linhas de pedido, chaveados
+        // "centro|material": o NCM do S/4 é por centro, e o centro é o do item do pedido
+        async _getItemInfoForPoLines(aPoLines) {
+            const oByPlant = {};
+            aPoLines.forEach((oLine) => { (oByPlant[oLine.Plant || ""] = oByPlant[oLine.Plant || ""] || []).push(oLine.Material); });
+            const oResult = {};
+            await Promise.all(Object.entries(oByPlant).map(async ([sPlant, aMaterials]) => {
+                const oInfo = await lookups.getItemsInfo(this.getOwnerComponent(), aMaterials, sPlant);
+                Object.entries(oInfo).forEach(([sMaterial, oItem]) => { oResult[`${sPlant}|${sMaterial}`] = oItem; });
+            }));
+            return oResult;
+        },
 
-            const aMaterials = [...new Set(aOpenLines.map((oLine) => oLine.Material))];
-            const oItemsBinding2 = oModel.bindList("/Items", null, [],
-                aMaterials.map((s) => new Filter("ItemCode", FilterOperator.EQ, s)),
-                { $select: "ItemCode,PurchaseUnitWeight1,PurchaseWeightUnit1,NCMCode" });
-            const aItemContexts = await oItemsBinding2.requestContexts(0, aMaterials.length || 1);
-            const oItemInfoByCode = {};
-            aItemContexts.forEach((oCtx) => { oItemInfoByCode[oCtx.getProperty("ItemCode")] = oCtx.getObject(); });
+        async _createPedidoLines(sPurchaseOrder, oOrder, aOpenLines, aExistingLines) {
+            const oItemInfoByKey = await this._getItemInfoForPoLines(aOpenLines);
 
             // Soma quantidade já usada desse mesmo Pedido em TODOS os Processos gravados (não só
             // o atual) — evita importar a mesma linha duas vezes em Processos diferentes.
@@ -984,7 +971,7 @@ sap.ui.define([
                     sPurchaseOrder, iLineNum, oOrder,
                     fUsedQty: oUsedQtyByLine[iLineNum] || 0,
                     fOnScreenQty: oOnScreenQtyByLine[iLineNum] || 0,
-                    oItemInfo: oItemInfoByCode[oLine.Material] || {}
+                    oItemInfo: oItemInfoByKey[`${oLine.Plant || ""}|${oLine.Material}`] || {}
                 });
                 if (oNewLine) {
                     aNewLines.push(oNewLine);
@@ -1005,17 +992,9 @@ sap.ui.define([
                 return null;
             }
 
-            // Peso unitário do cadastro do item (Items); material fora do cadastro (no S/4 real, os
-            // materiais ainda não vêm de uma API de produto) cai no peso líquido do próprio item do
-            // pedido.
-            let fUnitWeight = 0;
-            if (oItemInfo.PurchaseWeightUnit1 === 2) {
-                fUnitWeight = (Number(oItemInfo.PurchaseUnitWeight1) || 0) / 1000;
-            } else if (oItemInfo.PurchaseWeightUnit1 === 3) {
-                fUnitWeight = Number(oItemInfo.PurchaseUnitWeight1) || 0;
-            } else if (!oItemInfo.ItemCode) {
-                fUnitWeight = this._poUnitWeightKg(oLine);
-            }
+            // Peso unitário do cadastro do produto (kg, model/lookups); produto sem peso cadastrado
+            // (ou fora do cadastro) cai no peso líquido do próprio item do pedido.
+            const fUnitWeight = this._productUnitWeightKg(oItemInfo) || this._poUnitWeightKg(oLine);
             const fPeso = fUnitWeight * (oLine.OpenQuantity || 0);
 
             return {
@@ -1217,14 +1196,7 @@ sap.ui.define([
             const bPesoPed = oIcfg.PesoPed === "Y";
             const bPedPai = oHeaderContext.getProperty("PedPai") === "Y";
 
-            const aMaterials = [...new Set(Object.values(oPoLineByKey).map((oPo) => oPo.Material).filter(Boolean))];
-            const oItemByCode = {};
-            if (aMaterials.length > 0) {
-                const aItemCtx = await this._getLookupModel().bindList("/Items", null, [],
-                    [new Filter({ filters: aMaterials.map((s) => new Filter("ItemCode", FilterOperator.EQ, s)), and: false })],
-                    { $select: "ItemCode,PurchaseUnitWeight1,PurchaseWeightUnit1,NCMCode" }).requestContexts(0, 10000);
-                aItemCtx.forEach((oCtx) => { oItemByCode[oCtx.getProperty("ItemCode")] = oCtx.getObject(); });
-            }
+            const oItemByKey = await this._getItemInfoForPoLines(Object.values(oPoLineByKey).filter((oPo) => oPo.Material));
 
             const aResults = [];
             aLineContexts.forEach((oCtx) => {
@@ -1232,7 +1204,7 @@ sap.ui.define([
                 if (!oPo) {
                     return; // linha sem pedido (digitada à mão): o FOB não mexe nela, como no original
                 }
-                const oItem = oItemByCode[oPo.Material] || {};
+                const oItem = oItemByKey[`${oPo.Plant || ""}|${oPo.Material}`] || {};
                 const fLineQty = Number(oCtx.getProperty("Quantity")) || 0;
                 const fPeso = this._fobPesoLinha(oPo, oItem, bPesoPed, bPedPai ? Number(oPo.OrderQuantity) || 0 : fLineQty);
                 const { fValorUnitario, fRate } = this._fobValorUnitario(oPo, sLocalCurrency, aRateRows);
@@ -1250,16 +1222,22 @@ sap.ui.define([
             return aResults;
         },
 
-        // Peso da linha: do pedido (ICFG PesoPed) ou do cadastro do item. S/4: ItemNetWeight/
+        // Peso da linha: do pedido (ICFG PesoPed) ou do cadastro do produto. S/4: ItemNetWeight/
         // ItemWeightUnit do item do pedido (≙ Weight1/Wght1Unit da POR1) — também usado quando o
-        // material não está no cadastro (Items ainda é placeholder; materiais do S/4 real não
-        // estão lá). Unidade 2 (gramas no B1) divide por 1000.
+        // produto não tem peso cadastrado.
         _fobPesoLinha(oPo, oItem, bPesoPed, fQty) {
-            if (bPesoPed || !oItem.ItemCode) {
-                return this._poUnitWeightKg(oPo) * fQty;
+            const fProductKg = this._productUnitWeightKg(oItem);
+            return (bPesoPed || !fProductKg ? this._poUnitWeightKg(oPo) : fProductKg) * fQty;
+        },
+
+        // Peso por unidade em kg do cadastro de produto (formato de model/lookups.getItemsInfo,
+        // herdado do B1: PurchaseWeightUnit1 2 = g, 3 = kg); 0 = sem peso cadastrado
+        _productUnitWeightKg(oItem) {
+            const fWeight = Number(oItem && oItem.PurchaseUnitWeight1) || 0;
+            if (oItem && oItem.PurchaseWeightUnit1 === 2) {
+                return fWeight / 1000;
             }
-            const fWeightPerUnit = Number(oItem.PurchaseUnitWeight1) || 0;
-            return (fWeightPerUnit * fQty) / (oItem.PurchaseWeightUnit1 === 2 ? 1000 : 1);
+            return oItem && oItem.PurchaseWeightUnit1 === 3 ? fWeight : 0;
         },
 
         // Valor unitário na moeda do pedido + taxa p/ moeda local. NetAmount do item é na moeda
