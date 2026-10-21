@@ -1,0 +1,22 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.LayoutList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="layoutListPage" title="{i18n>layoutListTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <Button id="layoutListAddButton" text="{i18n>layoutListAdd}" icon="sap-icon://add" press="onAdd"/>
+        </headerContent>
+        <content>
+            <List id="layoutList"
+                items="{path: '/YY1_ACX_IMPLAY', sorter: {path: 'Code'}}"
+                noDataText="{i18n>layoutListNoData}">
+                <items>
+                    <StandardListItem id="layoutListItem"
+                        title="{Code}"
+                        description="{Name}"
+                        type="Navigation"
+                        press="onOpenLayout"/>
+                </items>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

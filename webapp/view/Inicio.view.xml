@@ -1,0 +1,33 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.Inicio"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="inicioPage" title="{i18n>inicioTitle}">
+        <FlexBox id="tileContainer" wrap="Wrap" class="sapUiContentPadding">
+            <GenericTile id="tileProcessos" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" header="{i18n>menuProcessos}" frameType="OneByOne" press="onNavToProcessosList">
+                <TileContent id="tileContentProcessos">
+                    <ImageContent id="tileImageProcessos" src="sap-icon://shipping-status"/>
+                </TileContent>
+            </GenericTile>
+            <GenericTile id="tileDespCalc" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" header="{i18n>menuDespCalc}" frameType="OneByOne" press="onNavToDespCalc">
+                <TileContent id="tileContentDespCalc">
+                    <ImageContent id="tileImageDespCalc" src="sap-icon://money-bills"/>
+                </TileContent>
+            </GenericTile>
+            <GenericTile id="tileLayout" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" header="{i18n>menuLayout}" frameType="OneByOne" press="onNavToLayoutList">
+                <TileContent id="tileContentLayout">
+                    <ImageContent id="tileImageLayout" src="sap-icon://document"/>
+                </TileContent>
+            </GenericTile>
+            <GenericTile id="tilePreCalc" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" header="{i18n>menuPreCalc}" frameType="OneByOne" press="onNavToPreCalcList">
+                <TileContent id="tileContentPreCalc">
+                    <ImageContent id="tileImagePreCalc" src="sap-icon://simulate"/>
+                </TileContent>
+            </GenericTile>
+            <GenericTile id="tileConfigs" class="sapUiTinyMarginEnd sapUiTinyMarginBottom" header="{i18n>menuConfigs}" frameType="OneByOne" press="onNavToConfigs">
+                <TileContent id="tileContentConfigs">
+                    <ImageContent id="tileImageConfigs" src="sap-icon://action-settings"/>
+                </TileContent>
+            </GenericTile>
+        </FlexBox>
+    </Page>
+</mvc:View>

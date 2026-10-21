@@ -1,0 +1,16 @@
+managed implementation in class zbp_r_despcal unique;
+strict ( 2 );
+
+define behavior for ZR_DESPCAL alias DESPCAL
+persistent table zdespcal
+lock master
+authorization master ( global )
+etag master LocalLastChanged
+{
+  create;
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  mapping for zdespcal corresponding;
+}

@@ -1,0 +1,57 @@
+projection;
+strict ( 2 );
+
+define behavior for ZC_IMPPCH alias IMPPCH
+{
+  use create;
+  use update;
+  use delete;
+  use association Itens { create; }
+  use association Moeda { create; }
+  use association Despacho { create; }
+  use association Demurrage { create; }
+  use association Previsao { create; }
+  use association LoteSerie { create; }
+}
+
+define behavior for ZC_IMPPCH_PCH1 alias PCH1
+{
+  use update;
+  use delete;
+  use association _Parent;
+}
+
+define behavior for ZC_IMPPCH_PCH2 alias PCH2
+{
+  use update;
+  use delete;
+  use association _Parent;
+}
+
+define behavior for ZC_IMPPCH_PCH3 alias PCH3
+{
+  use update;
+  use delete;
+  use association _Parent;
+}
+
+define behavior for ZC_IMPPCH_PCH4 alias PCH4
+{
+  use update;
+  use delete;
+  use association _Parent;
+}
+
+define behavior for ZC_IMPPCH_PCH5 alias PCH5
+{
+  use update;
+  use delete;
+  use association _Parent;
+}
+
+define behavior for ZC_IMPPCH_PCH6 alias PCH6
+{
+  use update;
+  use delete;
+  use association _Parent;
+}

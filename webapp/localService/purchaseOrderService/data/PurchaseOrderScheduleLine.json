@@ -1,0 +1,42 @@
+[
+  {
+    "PurchaseOrder": "4500000001",
+    "PurchaseOrderItem": "10",
+    "ScheduleLine": "1",
+    "ScheduleLineOrderQuantity": 100,
+    "OpenPurchaseOrderQuantity": 100,
+    "PurchaseOrderQuantityUnit": "PC"
+  },
+  {
+    "PurchaseOrder": "4500000001",
+    "PurchaseOrderItem": "20",
+    "ScheduleLine": "1",
+    "ScheduleLineOrderQuantity": 50,
+    "OpenPurchaseOrderQuantity": 50,
+    "PurchaseOrderQuantityUnit": "PC"
+  },
+  {
+    "PurchaseOrder": "4500000002",
+    "PurchaseOrderItem": "10",
+    "ScheduleLine": "1",
+    "ScheduleLineOrderQuantity": 30,
+    "OpenPurchaseOrderQuantity": 30,
+    "PurchaseOrderQuantityUnit": "PC"
+  },
+  {
+    "PurchaseOrder": "4500000003",
+    "PurchaseOrderItem": "10",
+    "ScheduleLine": "1",
+    "ScheduleLineOrderQuantity": 10,
+    "OpenPurchaseOrderQuantity": 10,
+    "PurchaseOrderQuantityUnit": "PC"
+  },
+  {
+    "PurchaseOrder": "4500000004",
+    "PurchaseOrderItem": "10",
+    "ScheduleLine": "1",
+    "ScheduleLineOrderQuantity": 20,
+    "OpenPurchaseOrderQuantity": 0,
+    "PurchaseOrderQuantityUnit": "PC"
+  }
+]

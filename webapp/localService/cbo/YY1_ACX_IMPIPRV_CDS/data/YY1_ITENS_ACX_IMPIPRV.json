@@ -1,0 +1,42 @@
+[
+  {
+    "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000211",
+    "SAP_PARENT_UUID": "0a1b2c3d-0000-4000-8000-000000000201",
+    "LineId": "1",
+    "DespCode": "1",
+    "DespName": "Frete",
+    "TpCalc": "03",
+    "Currency": "USD",
+    "PerDesp": "0.0000",
+    "DesBase": "",
+    "VrDesp": "1500.0000",
+    "QdeDias": "0",
+    "VrMax": "0.0000",
+    "VrMim": "0.0000",
+    "CardCode": "",
+    "CardName": "",
+    "ItemCode": "",
+    "ItemName": "",
+    "CreateNF": "N"
+  },
+  {
+    "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000212",
+    "SAP_PARENT_UUID": "0a1b2c3d-0000-4000-8000-000000000201",
+    "LineId": "2",
+    "DespCode": "2",
+    "DespName": "Seguro",
+    "TpCalc": "05",
+    "Currency": "USD",
+    "PerDesp": "0.5000",
+    "DesBase": "",
+    "VrDesp": "0.0000",
+    "QdeDias": "0",
+    "VrMax": "0.0000",
+    "VrMim": "0.0000",
+    "CardCode": "",
+    "CardName": "",
+    "ItemCode": "",
+    "ItemName": "",
+    "CreateNF": "Y"
+  }
+]

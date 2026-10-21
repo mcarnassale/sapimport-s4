@@ -1,0 +1,15 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.BackendStatus"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="backendStatusPage" title="{i18n>appTitle}">
+        <IllustratedMessage id="backendStatusMessage"
+            illustrationType="{view>/illustration}"
+            title="{view>/title}"
+            description="{view>/description}"
+            enableVerticalResponsiveness="true">
+            <additionalContent>
+                <Button id="backendStatusRetry" text="{i18n>backendRetry}" type="Emphasized" press="onRetry" visible="{view>/retryable}"/>
+            </additionalContent>
+        </IllustratedMessage>
+    </Page>
+</mvc:View>

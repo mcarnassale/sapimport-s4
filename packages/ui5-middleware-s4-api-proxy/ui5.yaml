@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+specVersion: "4.0"
+kind: extension
+type: server-middleware
+metadata:
+  name: s4-api-proxy
+middleware:
+  path: s4-api-proxy.js

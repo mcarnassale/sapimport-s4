@@ -1,0 +1,154 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.PreCalcDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:table="sap.ui.table"
+    xmlns:rowmodes="sap.ui.table.rowmodes"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="preCalcDetailPage" title="{i18n>preCalcDetailTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <subHeader>
+            <Toolbar id="preCalcHeaderToolbar">
+                <Label id="labelCode" text="{i18n>preCalcCode}" labelFor="inputCode"/>
+                <Input id="inputCode" value="{Code}" maxLength="50" enabled="{detailView>/newMode}" width="8rem"/>
+                <Label id="labelName" text="{i18n>preCalcName}" labelFor="inputName"/>
+                <Input id="inputName" value="{Name}" maxLength="100" width="16rem"/>
+                <ToolbarSpacer id="preCalcHeaderSpacer"/>
+                <Button id="preCalcDuplicateButton" text="{i18n>preCalcDuplicate}" enabled="{= !${detailView>/newMode} }" press="onDuplicate"/>
+                <Button id="preCalcAllExpensesButton" text="{i18n>preCalcAllExpenses}" press="onAllExpenses"/>
+            </Toolbar>
+        </subHeader>
+        <content>
+            <Toolbar id="preCalcLinesToolbar">
+                <Button id="preCalcAddLineButton" text="{i18n>preCalcAddLine}" icon="sap-icon://add" press="onAddLine"/>
+                <Button id="preCalcDeleteLineButton" text="{i18n>preCalcDeleteLine}" icon="sap-icon://less" press="onDeleteLine"/>
+            </Toolbar>
+            <table:Table id="linesTable"
+                rows="{to_Itens}"
+                selectionMode="MultiToggle">
+                <table:rowMode>
+                    <rowmodes:Fixed id="linesTableRowMode" rowCount="8"/>
+                </table:rowMode>
+                <table:columns>
+                    <table:Column id="colDesp" width="9rem">
+                        <Label id="labelColDesp" text="{i18n>preCalcColDesp}"/>
+                        <table:template>
+                            <Input id="inputDespCode" value="{DespCode}" showValueHelp="true" valueHelpRequest="onDespCodeValueHelp"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colDespName" width="11rem">
+                        <Label id="labelColDespName" text="{i18n>preCalcColDespName}"/>
+                        <table:template>
+                            <Input id="inputDespName" value="{DespName}"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colTpCalc" width="10rem">
+                        <Label id="labelColTpCalc" text="{i18n>preCalcColTpCalc}"/>
+                        <table:template>
+                            <Select id="selectTpCalc" selectedKey="{TpCalc}" width="100%">
+                                <core:Item id="itemTp00" key="" text=""/>
+                                <core:Item id="itemTp01" key="01" text="Siscomex"/>
+                                <core:Item id="itemTp02" key="02" text="Capatazia"/>
+                                <core:Item id="itemTp03" key="03" text="Prepaid"/>
+                                <core:Item id="itemTp04" key="04" text="Collect"/>
+                                <core:Item id="itemTp05" key="05" text="Seguro"/>
+                                <core:Item id="itemTp06" key="06" text="TxAduaneira"/>
+                                <core:Item id="itemTp07" key="07" text="Outros"/>
+                                <core:Item id="itemTp08" key="08" text="Fob"/>
+                                <core:Item id="itemTp09" key="09" text="Cif"/>
+                                <core:Item id="itemTp10" key="10" text="Dumping"/>
+                                <core:Item id="itemTp20" key="20" text="II"/>
+                                <core:Item id="itemTp21" key="21" text="IPI"/>
+                                <core:Item id="itemTp22" key="22" text="PIS"/>
+                                <core:Item id="itemTp23" key="23" text="COFINS"/>
+                                <core:Item id="itemTp24" key="24" text="ICMS"/>
+                                <core:Item id="itemTp25" key="25" text="PIS MAJ"/>
+                                <core:Item id="itemTp26" key="26" text="COFINS MAJ"/>
+                                <core:Item id="itemTp30" key="30" text="Despesa"/>
+                                <core:Item id="itemTp31" key="31" text="Calculo"/>
+                                <core:Item id="itemTp32" key="32" text="Peso Liquido"/>
+                            </Select>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colCurrency" width="7rem">
+                        <Label id="labelColCurrency" text="{i18n>preCalcColCurrency}"/>
+                        <table:template>
+                            <Input id="inputCurrency" value="{Currency}" showValueHelp="true" valueHelpRequest="onCurrencyValueHelp"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colPerDesp" width="7rem" hAlign="End">
+                        <Label id="labelColPerDesp" text="{i18n>preCalcColPerDesp}"/>
+                        <table:template>
+                            <Input id="inputPerDesp" value="{path: 'PerDesp', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colDesBase" width="9rem">
+                        <Label id="labelColDesBase" text="{i18n>preCalcColDesBase}"/>
+                        <table:template>
+                            <Input id="inputDesBase" value="{DesBase}"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colValue" width="7rem" hAlign="End">
+                        <Label id="labelColValue" text="{i18n>preCalcColValue}"/>
+                        <table:template>
+                            <Input id="inputValue" value="{path: 'VrDesp', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colDays" width="6rem" hAlign="End">
+                        <Label id="labelColDays" text="{i18n>preCalcColDays}"/>
+                        <table:template>
+                            <Input id="inputDays" value="{path: 'QdeDias', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colMax" width="7rem" hAlign="End">
+                        <Label id="labelColMax" text="{i18n>preCalcColMax}"/>
+                        <table:template>
+                            <Input id="inputMax" value="{path: 'VrMax', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colMin" width="7rem" hAlign="End">
+                        <Label id="labelColMin" text="{i18n>preCalcColMin}"/>
+                        <table:template>
+                            <Input id="inputMin" value="{path: 'VrMim', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colCardCode" width="8rem">
+                        <Label id="labelColCardCode" text="{i18n>preCalcColCard}"/>
+                        <table:template>
+                            <Input id="inputCardCode" value="{CardCode}" showValueHelp="true" valueHelpRequest="onCardCodeValueHelp"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colCardName" width="10rem">
+                        <Label id="labelColCardName" text=" "/>
+                        <table:template>
+                            <Input id="inputCardName" value="{CardName}"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colItemCode" width="8rem">
+                        <Label id="labelColItemCode" text="{i18n>preCalcColItem}"/>
+                        <table:template>
+                            <Input id="inputItemCode" value="{ItemCode}" showValueHelp="true" valueHelpRequest="onItemCodeValueHelp"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colItemName" width="10rem">
+                        <Label id="labelColItemName" text=" "/>
+                        <table:template>
+                            <Input id="inputItemName" value="{ItemName}"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column id="colCreateNF" width="6rem" hAlign="Center">
+                        <Label id="labelColCreateNF" text="{i18n>preCalcColCreateNF}"/>
+                        <table:template>
+                            <CheckBox id="checkCreateNF" selected="{path: 'CreateNF', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </content>
+        <footer>
+            <Toolbar id="preCalcFooterToolbar">
+                <ToolbarSpacer id="preCalcFooterToolbarSpacer"/>
+                <Button id="preCalcOkButton" text="{i18n>preCalcOk}" type="Emphasized" press="onSave"/>
+                <Button id="preCalcCancelButton" text="{i18n>preCalcCancel}" press="onCancel"/>
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

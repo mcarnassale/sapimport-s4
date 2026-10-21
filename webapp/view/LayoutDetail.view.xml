@@ -1,0 +1,139 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.LayoutDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="layoutDetailPage" title="{i18n>layoutDetailTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <form:SimpleForm id="layoutForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                columnsXL="1" columnsL="1" columnsM="1">
+                <form:content>
+                    <core:Title id="titleGeneral" text="{i18n>layoutGroupGeneral}"/>
+
+                    <Label id="labelCode" text="{i18n>layoutCode}"/>
+                    <Input id="inputCode" value="{Code}" maxLength="50" enabled="{detailView>/newMode}"/>
+
+                    <Label id="labelName" text="{i18n>layoutName}"/>
+                    <Input id="inputName" value="{Name}" maxLength="100"/>
+
+                    <Label id="labelDefault" text="{i18n>layoutDefault}"/>
+                    <CheckBox id="checkDefault" selected="{path: 'IsDefault', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                    <Label id="labelFileType" text="{i18n>layoutFileType}"/>
+                    <Select id="selectFileType" selectedKey="{FileType}">
+                        <core:Item id="itemFileTypeCsv" key="1" text="CSV / Excel"/>
+                        <core:Item id="itemFileTypeTxt" key="2" text="TXT"/>
+                    </Select>
+
+                    <Label id="labelFilePath" text="{i18n>layoutFilePath}"/>
+                    <Input id="inputFilePath" value="{FilePath}" maxLength="200" placeholder="{i18n>layoutFilePathHint}"/>
+
+                    <Label id="labelType" text="{i18n>layoutType}"/>
+                    <Select id="selectType" selectedKey="{LayoutType}">
+                        <core:Item id="itemType0" key="0" text="Inativo"/>
+                        <core:Item id="itemType1" key="1" text="LOTE\SERIE"/>
+                        <core:Item id="itemType2" key="2" text="PartNumber"/>
+                        <core:Item id="itemType3" key="3" text="Criar Processo"/>
+                        <core:Item id="itemType4" key="4" text="Atualizar Peso"/>
+                        <core:Item id="itemType5" key="5" text="Atualizar Preço"/>
+                        <core:Item id="itemType6" key="6" text="Atualizar Peso&amp;Preço"/>
+                    </Select>
+
+                    <core:Title id="titleOptions" text="{i18n>layoutGroupOptions}"/>
+
+                    <Label id="labelFirstLine" text="{i18n>layoutFirstLine}"/>
+                    <CheckBox id="checkFirstLine" selected="{path: 'FirstLine', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                    <Label id="labelSetPeso" text="{i18n>layoutSetPeso}"/>
+                    <CheckBox id="checkSetPeso" selected="{path: 'SetPeso', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                    <Label id="labelSetPrice" text="{i18n>layoutSetPrice}"/>
+                    <CheckBox id="checkSetPrice" selected="{path: 'SetPrice', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                    <Label id="labelBatchExplode" text="{i18n>layoutBatchExplode}"/>
+                    <CheckBox id="checkBatchExplode" selected="{path: 'BatchExplode', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                    <core:Title id="titleMapping" text="{i18n>layoutGroupMapping}"/>
+
+                    <Label id="labelInvoice" text="{i18n>layoutInvoice}"/>
+                    <Input id="inputInvoice" value="{path: 'Invoice', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. A = 1"/>
+
+                    <Label id="labelDocNum" text="{i18n>layoutDocNum}"/>
+                    <Input id="inputDocNum" value="{path: 'DocNum', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. B = 2"/>
+
+                    <Label id="labelLineVisi" text="{i18n>layoutLineVisi}"/>
+                    <Input id="inputLineVisi" value="{path: 'LineVisi', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. C = 3"/>
+
+                    <Label id="labelDocEntry" text="{i18n>layoutDocEntry}"/>
+                    <Input id="inputDocEntry" value="{path: 'DocEntry', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. D = 4"/>
+
+                    <Label id="labelLineNum" text="{i18n>layoutLineNum}"/>
+                    <Input id="inputLineNum" value="{path: 'LineNum', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. E = 5"/>
+
+                    <Label id="labelQuantity" text="{i18n>layoutQuantity}"/>
+                    <Input id="inputQuantity" value="{path: 'Quantity', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. F = 6"/>
+
+                    <Label id="labelItemCode" text="{i18n>layoutItemCode}"/>
+                    <Input id="inputItemCode" value="{path: 'ItemCode', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. G = 7"/>
+
+                    <Label id="labelWheightU" text="{i18n>layoutWheightU}"/>
+                    <Input id="inputWheightU" value="{path: 'WheightU', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. H = 8"/>
+
+                    <Label id="labelPrice" text="{i18n>layoutPrice}"/>
+                    <Input id="inputPrice" value="{path: 'Price', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. I = 9"/>
+
+                    <Label id="labelWheight" text="{i18n>layoutWheight}"/>
+                    <Input id="inputWheight" value="{path: 'Wheight', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. J = 10"/>
+
+                    <Label id="labelLineTotal" text="{i18n>layoutLineTotal}"/>
+                    <Input id="inputLineTotal" value="{path: 'LineTotal', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. K = 11"/>
+
+                    <Label id="labelContainer" text="{i18n>layoutContainer}"/>
+                    <Input id="inputContainer" value="{path: 'Container', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. L = 12"/>
+
+                    <Label id="labelFrete" text="{i18n>layoutFrete}"/>
+                    <Input id="inputFrete" value="{path: 'Frete', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. M = 13"/>
+
+                    <Label id="labelSeguro" text="{i18n>layoutSeguro}"/>
+                    <Input id="inputSeguro" value="{path: 'Seguro', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. N = 14"/>
+
+                    <Label id="labelModel" text="{i18n>layoutModel}"/>
+                    <Input id="inputModel" value="{path: 'Model', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. O = 15"/>
+
+                    <Label id="labelOrder" text="{i18n>layoutOrder}"/>
+                    <Input id="inputOrder" value="{path: 'OrderNum', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. P = 16"/>
+
+                    <Label id="labelOrderItem" text="{i18n>layoutOrderItem}"/>
+                    <Input id="inputOrderItem" value="{path: 'OrderItem', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. Q = 17"/>
+
+                    <Label id="labelBatchNum" text="{i18n>layoutBatchNum}"/>
+                    <Input id="inputBatchNum" value="{path: 'BatchNum', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. R = 18"/>
+
+                    <Label id="labelSerie" text="{i18n>layoutSerie}"/>
+                    <Input id="inputSerie" value="{path: 'Serie', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. S = 19"/>
+
+                    <Label id="labelPrdDate" text="{i18n>layoutPrdDate}"/>
+                    <Input id="inputPrdDate" value="{path: 'PrdDate', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. T = 20"/>
+
+                    <Label id="labelExpDate" text="{i18n>layoutExpDate}"/>
+                    <Input id="inputExpDate" value="{path: 'ExpDate', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. U = 21"/>
+
+                    <Label id="labelPartNumber" text="{i18n>layoutPartNumber}"/>
+                    <Input id="inputPartNumber" value="{path: 'PartNumber', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End" description="col. V = 22"/>
+                </form:content>
+            </form:SimpleForm>
+        </content>
+        <footer>
+            <Toolbar id="layoutFooterToolbar">
+                <ToolbarSpacer id="layoutFooterToolbarSpacer"/>
+                <Button id="layoutOkButton" text="{i18n>layoutOk}" type="Emphasized" press="onSave"/>
+                <Button id="layoutCancelButton" text="{i18n>layoutCancel}" press="onCancel"/>
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

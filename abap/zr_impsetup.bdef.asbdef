@@ -1,0 +1,25 @@
+managed implementation in class zbp_r_impsetup unique;
+strict ( 2 );
+
+define behavior for ZR_IMPSETUP alias ImpSetup
+persistent table zimpsetup
+// Passos de configuração (ex.: intervalo de numeração) gravam documento de modificação, rotina
+// classificada como SAVE: só podem rodar no save_modified, não na ação (fase MODIFY).
+with additional save
+lock master
+authorization master ( global )
+etag master LocalLastChanged
+{
+  internal create;
+  internal update;
+  field ( readonly : update ) SetupId;
+  field ( readonly ) CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  // GetStatus só lê a versão: precisa funcionar para qualquer usuário que abra o app
+  static function ( authorization : none ) GetStatus result [1] ZD_IMPSETUP_STATUS;
+  static action RunSetup result [1] ZD_IMPSETUP_STATUS;
+  mapping for zimpsetup corresponding
+  {
+    SetupId = setup_id;
+    SchemaVersion = schema_version;
+  }
+}

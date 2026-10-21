@@ -1,0 +1,31 @@
+managed implementation in class zbp_r_impiprv unique;
+strict ( 2 );
+
+define behavior for ZR_IMPIPRV alias IMPIPRV
+persistent table zimpiprv
+lock master
+authorization master ( global )
+etag master LocalLastChanged
+{
+  create;
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association Itens { create; }
+  mapping for zimpiprv corresponding;
+}
+
+define behavior for ZR_IMPIPRV_PRV1 alias PRV1
+persistent table zimpiprv_prv1
+lock dependent by _Parent
+authorization dependent by _Parent
+etag master LocalLastChanged
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) SAP_ParentUUID, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association _Parent;
+  mapping for zimpiprv_prv1 corresponding;
+}

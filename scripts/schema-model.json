@@ -1,0 +1,3449 @@
+{
+  "_generatedBy": "sapimport-s4/scripts/extract-schema.js",
+  "_sourceFile": "sapimport/webapp/model/schemaMigrations.js",
+  "_generatedAt": "2026-09-10T07:58:40.328Z",
+  "tables": {
+    "CDUIMP": [
+      {
+        "Name": "ChaveAcesso",
+        "Description": "ChaveAcesso",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "Numero",
+        "Description": "Numero",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "URL",
+        "Description": "URL",
+        "Type": "db_Alpha",
+        "Size": 100
+      }
+    ],
+    "CNFS": [
+      {
+        "Name": "CardName",
+        "Description": "Fornecedor",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "Comments",
+        "Description": "Obs",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "DocDate",
+        "Description": "Data Lançamento",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "DocTotal",
+        "Description": "Total",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Serial",
+        "Description": "Serial",
+        "Type": "db_Alpha",
+        "Size": 254
+      }
+    ],
+    "CPCH": [
+      {
+        "Name": "DocDate",
+        "Description": "Data Lançamento",
+        "Type": "db_Date",
+        "Size": 10
+      }
+    ],
+    "CPOR": [
+      {
+        "Name": "CardName",
+        "Description": "Fornecedor",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "Comments",
+        "Description": "Obs",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "DocDate",
+        "Description": "Data Lançamento",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "DocTotal",
+        "Description": "Total",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "QdeItens",
+        "Description": "Qde Itens",
+        "Type": "db_Float",
+        "SubType": "st_Quantity",
+        "Size": 10
+      }
+    ],
+    "DESPCAL": [
+      {
+        "Name": "Code",
+        "Description": "Code",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "Currency",
+        "Description": "Currency",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "Name",
+        "Description": "Name",
+        "Type": "db_Alpha",
+        "Size": 30
+      },
+      {
+        "Name": "Valor",
+        "Description": "Valor",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "DPRV": [
+      {
+        "Name": "CardCode",
+        "Description": "CardCode",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "CardName",
+        "Description": "CardName",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "CreateNF",
+        "Description": "Criar NF",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Currency",
+        "Description": "Currency",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "DesBase",
+        "Description": "Despesa Base",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "DespCode",
+        "Description": "DespCode",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ItemCode",
+        "Description": "ItemCode",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ItemName",
+        "Description": "ItemName",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "PerDesp",
+        "Description": "% Despesa",
+        "Type": "db_Float",
+        "SubType": "st_Percentage",
+        "Size": 10
+      },
+      {
+        "Name": "QdeDias",
+        "Description": "Qde Dias",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "TpCalc",
+        "Description": "Tipo de Calculo",
+        "Type": "db_Alpha",
+        "Size": 2
+      },
+      {
+        "Name": "VrDesp",
+        "Description": "Valor Despesas",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VrMax",
+        "Description": "Valor Máximo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VrMim",
+        "Description": "Valor Mínimo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "DUMP": [
+      {
+        "Name": "CardCode",
+        "Description": "Fornecedor",
+        "Type": "db_Alpha",
+        "Size": 150
+      },
+      {
+        "Name": "CurrAdp",
+        "Description": "CurrAdp",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "ItmsGrpCod",
+        "Description": "Grupo de itens",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Origem",
+        "Description": "Origem",
+        "Type": "db_Alpha",
+        "Size": 30
+      },
+      {
+        "Name": "VrAntiDump",
+        "Description": "Vr Antidumping",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "ICFG": [
+      {
+        "Name": "AccAdiant",
+        "Description": "Conta transitoria",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "AlterQde",
+        "Description": "Alterar Qde",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "Y"
+      },
+      {
+        "Name": "AmbientePU",
+        "Description": "Ambiente PU",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ByPrice",
+        "Description": "ByPrice",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "CardPrevi",
+        "Description": "PN Previsao",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "CardRecEs",
+        "Description": "PN Receita Estadual",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "CardRecFe",
+        "Description": "PN Receita Federal",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "CardVar",
+        "Description": "Fornecedor Variação",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "CFOPCode",
+        "Description": "CFOP Padrão",
+        "Type": "db_Alpha",
+        "Size": 12
+      },
+      {
+        "Name": "CombDi",
+        "Description": "CombDi",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "CombImp",
+        "Description": "CombImp",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Consolid",
+        "Description": "Consolidar Pedido",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Courrier",
+        "Description": "Imp. Courrier",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "CustoCOFM",
+        "Description": "Custo do COFM",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "Y"
+      },
+      {
+        "Name": "DAduaneir",
+        "Description": "Despesas Aduaneiras",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "DCollect",
+        "Description": "Despesas Collect",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Debug",
+        "Description": "Debug Mode",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "DespaCNPJ",
+        "Description": "Despachante CNPJ",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "DespPrev",
+        "Description": "Despesas Previsões",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "DfCtainer",
+        "Description": "Container Padrão",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "DIItem",
+        "Description": "Posicao do Item",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "DImpostos",
+        "Description": "Despesas Impostos",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "DispOrderComb",
+        "Description": "Disp Order Combinacao",
+        "Type": "db_Numeric",
+        "Size": 10,
+        "DefaultValue": "1"
+      },
+      {
+        "Name": "DOutros",
+        "Description": "Despesas Outras",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "DSiscomex",
+        "Description": "Despesas Siscome",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "EverKg",
+        "Description": "EverKg",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "EverTN",
+        "Description": "Não converter Tonelada em Kgs",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "Expenses",
+        "Description": "Destacar Despesas NF",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Fast",
+        "Description": "Modo Fast",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Financial",
+        "Description": "Addon Financeiro",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "FreteSeg",
+        "Description": "FreteSeg",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "IntS4Hana",
+        "Description": "Integração S4Hana",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "InverterActCambio",
+        "Description": "Inverter conta cambio",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "INVNFRF",
+        "Description": "Invoice Rec Futuro",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "InvNoRm",
+        "Description": "Valor Invoice no RM",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "IsUsage",
+        "Description": "Usage by Invoice",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "ItemDebit",
+        "Description": "Item Debit",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "ItemDebt",
+        "Description": "Item Debt",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "ItemFrete",
+        "Description": "Item Frete",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "ItemPedPrev",
+        "Description": "Item Ped Prev",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "ItemSeguro",
+        "Description": "Item Seguro",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "LcrPrsmd",
+        "Description": "Lucro Presumido",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "LoteFreeTextNFN",
+        "Description": "Incluir lote na NFN",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "MaxItemNF",
+        "Description": "Max Item por NF",
+        "Type": "db_Numeric",
+        "Size": 10,
+        "DefaultValue": "200"
+      },
+      {
+        "Name": "Meprev",
+        "Description": "Meprev",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "MetodoBuscaItem",
+        "Description": "Metodo de busca de item do PU",
+        "Type": "db_Alpha",
+        "Size": 10,
+        "DefaultValue": "1"
+      },
+      {
+        "Name": "MetodoNac",
+        "Description": "Metodo de calculo do valor de nacionalização",
+        "Type": "db_Alpha",
+        "Size": 10,
+        "DefaultValue": "1"
+      },
+      {
+        "Name": "NewDocs",
+        "Description": "Novos Docmentos",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "NFDebit",
+        "Description": "NF Debit",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "NFDebt",
+        "Description": "NF Debt",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "NFFilha",
+        "Description": "NF Filhas",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Nm_COF",
+        "Description": "Nome Imposto COF",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "Nm_Dump",
+        "Description": "Nome Anti-Dump",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "Nm_ICMS",
+        "Description": "Nome Imposto ICMS",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "Nm_II",
+        "Description": "Nome Imposto II",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "Nm_IPI",
+        "Description": "Nome Imposto IPI",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "Nm_PIS",
+        "Description": "Nome Imposto PIS",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "Nm_Scomex",
+        "Description": "Nome Imposto Siscomex",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "OverPC",
+        "Description": "OverPC",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "Y"
+      },
+      {
+        "Name": "Pathrpt",
+        "Description": "Caminho dos rpt",
+        "Type": "db_Alpha",
+        "Size": 250
+      },
+      {
+        "Name": "PerfilPU",
+        "Description": "Perfil PU",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "PesoPed",
+        "Description": "Peso na PO",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Precisao",
+        "Description": "Precisao",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10,
+        "DefaultValue": "0.01"
+      },
+      {
+        "Name": "ProgBar",
+        "Description": "Progress Bar",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "Y"
+      },
+      {
+        "Name": "RecolheAC",
+        "Description": "Recolher Imposto AC",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "RMClosePO",
+        "Description": "Fecha PO no GR",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "RmvDraft",
+        "Description": "Remover Draft",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "SepItemCodeDI",
+        "Description": "Separador Item Code DI",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "SeqName",
+        "Description": "Sequencia Sefaz",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "ServDesp",
+        "Description": "Servico Aduaneiro",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "StaticDate",
+        "Description": "Static Date",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "TaxCode",
+        "Description": "Sem Imposto",
+        "Type": "db_Alpha",
+        "Size": 16
+      },
+      {
+        "Name": "TaxOnly",
+        "Description": "Só Impostos",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Tp_COFM",
+        "Description": "Tipo Imposto COFM",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "Tp_PISM",
+        "Description": "Tipo Imposto PISM",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "TpSendAdu",
+        "Description": "Envio Aduaneiro",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "TravaRM",
+        "Description": "Trava Recebimento",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Usage",
+        "Description": "Utilizacao",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "UsageF",
+        "Description": "Util Transfer",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "UsageI",
+        "Description": "Util Impostos",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "UsageL",
+        "Description": "Util NFFilhas",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "UsageT",
+        "Description": "Util Trading",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "UsarRef2",
+        "Description": "Usar Ref2 em documentos contabeis",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "UsarWhsPedido",
+        "Description": "Usar deposito pedido",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Versao",
+        "Description": "Versao",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "VlrsDin",
+        "Description": "Valores Dinamicos",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "WhsCode",
+        "Description": "Estoque Padrão",
+        "Type": "db_Alpha",
+        "Size": 16
+      },
+      {
+        "Name": "WhsTCode",
+        "Description": "Estoque Transitorio",
+        "Type": "db_Alpha",
+        "Size": 16
+      }
+    ],
+    "ILAY": [
+      {
+        "Name": "BatchExplode",
+        "Description": "Explodir Lote",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "BatchNum",
+        "Description": "Lote",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Container",
+        "Description": "Container",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Default",
+        "Description": "Default",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "DocEntry",
+        "Description": "DocEntry",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "DocNum",
+        "Description": "DocNum",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "ExpDate",
+        "Description": "Validade",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "FilePath",
+        "Description": "FilePath",
+        "Type": "db_Alpha",
+        "Size": 200
+      },
+      {
+        "Name": "FileType",
+        "Description": "FileType",
+        "Type": "db_Numeric",
+        "Size": 10,
+        "DefaultValue": "1",
+        "ValidValuesMD": [
+          {
+            "Value": "1",
+            "Description": ".csv"
+          },
+          {
+            "Value": "2",
+            "Description": ".txt"
+          }
+        ]
+      },
+      {
+        "Name": "FirstLine",
+        "Description": "FirstLine",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Frete",
+        "Description": "Frete",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Invoice",
+        "Description": "Invoice",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "ItemCode",
+        "Description": "ItemCode",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "LayoutType",
+        "Description": "LayoutType",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "LineNum",
+        "Description": "LineNum",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "LineTotal",
+        "Description": "Valor Total",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "LineVisi",
+        "Description": "Linha Visivel",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Model",
+        "Description": "Model",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Order",
+        "Description": "Order",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "OrderItem",
+        "Description": "OrderItem",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "PartNumber",
+        "Description": "Part Number",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "PrdDate",
+        "Description": "Fabicação",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Price",
+        "Description": "Valor Unitario",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Quantity",
+        "Description": "Quantity",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Seguro",
+        "Description": "Seguro",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Serie",
+        "Description": "Serie",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "SetPeso",
+        "Description": "SetPeso",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "SetPrice",
+        "Description": "SetPrice",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Wheight",
+        "Description": "Peso Total",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "WheightU",
+        "Description": "Peso Unitario",
+        "Type": "db_Numeric",
+        "Size": 10
+      }
+    ],
+    "INV1": [
+      {
+        "Name": "BaseType",
+        "Description": "BaseType",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "CardCodeF",
+        "Description": "Fab Envio",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "CardPrevi",
+        "Description": "PN Previsao",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "Container",
+        "Description": "Container",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "CreateNF",
+        "Description": "Criar NF",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "DespName",
+        "Description": "Nome da Despesa",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "DocDspesa",
+        "Description": "DocDespesa",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "DocEntry",
+        "Description": "DocEntry",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Fabricante",
+        "Description": "Fabricante",
+        "Type": "db_Alpha",
+        "Size": 150
+      },
+      {
+        "Name": "Frete",
+        "Description": "Frete",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Invoice",
+        "Description": "Invoice",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "LineNum",
+        "Description": "LineNum",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Model",
+        "Description": "Model",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Origem",
+        "Description": "Origem",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "QtyInv",
+        "Description": "QtyInv",
+        "Type": "db_Float",
+        "SubType": "st_Quantity",
+        "Size": 10
+      },
+      {
+        "Name": "Seguro",
+        "Description": "Seguro",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "TpCalc",
+        "Description": "Tipo de Calculo",
+        "Type": "db_Alpha",
+        "Size": 2
+      }
+    ],
+    "INV4": [
+      {
+        "Name": "BloqSel",
+        "Description": "BloqSel",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "Sel",
+        "Description": "sel",
+        "Type": "db_Alpha",
+        "Size": 1
+      }
+    ],
+    "IPCH": [
+      {
+        "Name": "AccDesp",
+        "Description": "Conta Despesas",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Aduaneiro",
+        "Description": "Aduaneiro",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "AgentCode",
+        "Description": "Agente Cod",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "AgentName",
+        "Description": "Agente Nome",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "AntiDump",
+        "Description": "AntiDump",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "AtcEntry",
+        "Description": "Anexos",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "BLDate",
+        "Description": "BLDate",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "BLNum",
+        "Description": "BLNum",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "BloqAdp",
+        "Description": "BloqAdp",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "BloqAdu",
+        "Description": "BloqAdu",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "BloqCap",
+        "Description": "BloqCap",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "BloqCol",
+        "Description": "BloqCol",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "BloqOut",
+        "Description": "BloqOut",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "BloqSeg",
+        "Description": "BloqSeg",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "BloqSis",
+        "Description": "BloqSis",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "BondedWhs",
+        "Description": "BONDED WAREHOUSE",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "BPLId",
+        "Description": "Filial",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Canal",
+        "Description": "Canal",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Canceled",
+        "Description": "CANCELED",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "Capatazia",
+        "Description": "Capatazia",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ChaveAcesso",
+        "Description": "Chave Acesso",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "Collect",
+        "Description": "Collect",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Courrier",
+        "Description": "Courrier",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "CTRC",
+        "Description": "CTRC",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "CurrAdp",
+        "Description": "CurrAdp",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "CurrAdu",
+        "Description": "CurrAdu",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "CurrCol",
+        "Description": "CurrCol",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "CurrOut",
+        "Description": "CurrOut",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "CurrPre",
+        "Description": "CurrPre",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "CurrSeg",
+        "Description": "CurrSeg",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "DesovaDt",
+        "Description": "Dt Desova",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "DIDate",
+        "Description": "DIDate",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "DINum",
+        "Description": "DINum",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "DocDate",
+        "Description": "Data Lançamento",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "Dscrption",
+        "Description": "DESCRIPTION",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "DtCanal",
+        "Description": "DtCanal",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "DtChegFab",
+        "Description": "DtChegFab",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "DtDesenb",
+        "Description": "DtDesenb",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "DtLibera",
+        "Description": "DtLibera",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "DtPresen",
+        "Description": "DtPresen",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "Embal",
+        "Description": "Embalagem",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "EntrepDt",
+        "Description": "Dt Entreposto",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "Entrpost",
+        "Description": "Entreposto",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "FreightWdr",
+        "Description": "FREIGHT FORWARDER",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "fShipDate",
+        "Description": "Final Entrega",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "GLDate",
+        "Description": "GL DATE",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "GoodsType",
+        "Description": "GOODS TYPE",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ICMSPre",
+        "Description": "ICMS Presumido",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "IncCanc",
+        "Description": "Inclui Cancelados",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Incoterm",
+        "Description": "Incoterm",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "InFreInv",
+        "Description": "InFreInv",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "InOutInv",
+        "Description": "InOutInv",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "InSegInv",
+        "Description": "InSegInv",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "Invoices",
+        "Description": "Invoices",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "Issue",
+        "Description": "ISSUE",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "Layout",
+        "Description": "Layout",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "ManDate",
+        "Description": "ManDate",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "MetoAdp",
+        "Description": "MetoAdp",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Peso"
+      },
+      {
+        "Name": "MetoAdu",
+        "Description": "MetoAdu",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Valor"
+      },
+      {
+        "Name": "MetoCap",
+        "Description": "MetoCap",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Peso"
+      },
+      {
+        "Name": "MetoCol",
+        "Description": "MetoCol",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Peso"
+      },
+      {
+        "Name": "MetoOut",
+        "Description": "MetoOut",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Peso"
+      },
+      {
+        "Name": "MetoPre",
+        "Description": "MetoPre",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Peso"
+      },
+      {
+        "Name": "MetoSeg",
+        "Description": "MetoSeg",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Peso"
+      },
+      {
+        "Name": "MetoSis",
+        "Description": "MetoSis",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Valor"
+      },
+      {
+        "Name": "Modal",
+        "Description": "MODAL",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "NumPed",
+        "Description": "Nº do Pedido",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "Old",
+        "Description": "Version Old",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "OnHold",
+        "Description": "ON HOLD",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "Outros",
+        "Description": "Outros",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "PedPai",
+        "Description": "Pedido Pai",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "PendingGL",
+        "Description": "PENDING GL",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "PesoBto",
+        "Description": "PesoBto",
+        "Type": "db_Float",
+        "SubType": "st_Measurement",
+        "Size": 10
+      },
+      {
+        "Name": "PesoLiq",
+        "Description": "Peso Liquido",
+        "Type": "db_Float",
+        "SubType": "st_Measurement",
+        "Size": 10
+      },
+      {
+        "Name": "Prepaid",
+        "Description": "Prepaid",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ProcNum",
+        "Description": "Processo",
+        "Type": "db_Alpha",
+        "Size": 18
+      },
+      {
+        "Name": "Profit",
+        "Description": "Centro de custo",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "PvDtChega",
+        "Description": "PvDtChega",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "PvDtChgFa",
+        "Description": "PvDtChgFa",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "PvDtEmbar",
+        "Description": "PvDtEmbar",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "PvDtPres",
+        "Description": "PvDtPres",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "QdeVol",
+        "Description": "QdeVol",
+        "Type": "db_Numeric",
+        "SubType": "st_Quantity",
+        "Size": 10
+      },
+      {
+        "Name": "QtyBoad",
+        "Description": "QTY ON BOARD",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "RateDate",
+        "Description": "RateDate",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "RemaksShip",
+        "Description": "REMARKS SHIPMENT",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "RemoDeDt",
+        "Description": "Dt Remoção Desova",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "RemoEnDt",
+        "Description": "Dt Remoção Entrep",
+        "Type": "db_Date",
+        "Size": 1
+      },
+      {
+        "Name": "Seguro",
+        "Description": "Seguro",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "SelAdp",
+        "Description": "SelAdp",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "SelAdu",
+        "Description": "SelAdu",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "SelCap",
+        "Description": "SelCap",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "SelCol",
+        "Description": "SelCol",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "Selected",
+        "Description": "Selected",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "SelOut",
+        "Description": "SelOut",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "SelSeg",
+        "Description": "SelSeg",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "SelSis",
+        "Description": "SelSis",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "SemValor",
+        "Description": "Sem Valor",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "Service",
+        "Description": "SERVICE",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ShipDate",
+        "Description": "Data Entrega",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "ShipStatus",
+        "Description": "SHIPMENT STATUS",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "SisComex",
+        "Description": "SixComex",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "StatusLI",
+        "Description": "STATUS LI",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "StatusProc",
+        "Description": "Status Processo",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "TabPreCal",
+        "Description": "Tab. Pre Calculo",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "ToAdd",
+        "Description": "Total Acrescimo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToCBS",
+        "Description": "Total CBS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToCif",
+        "Description": "Total Cif",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToCifCurr",
+        "Description": "Total Cif Curr",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToCOF",
+        "Description": "Total COFINS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToCOFM",
+        "Description": "Total COFINSM",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToDeso",
+        "Description": "Total Desoneração",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToFob",
+        "Description": "Total Fob",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToFobCurr",
+        "Description": "Total Fob Curr",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToIBSMUN",
+        "Description": "Total IBSMUN",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToIBSUF",
+        "Description": "Total IBSUF",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToICMS",
+        "Description": "Total ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToICMSP",
+        "Description": "Total ICMS Presu",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToII",
+        "Description": "Total II",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToIPI",
+        "Description": "Total IPI",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToIS",
+        "Description": "Total IS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToPIS",
+        "Description": "Total PIS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "ToPISM",
+        "Description": "Total PISM",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "TpDI",
+        "Description": "Tipo Declaração",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "TpInterm",
+        "Description": "Tipo Intermedio",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "TpSendAdu",
+        "Description": "Envio Aduaneiro",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Trading",
+        "Description": "Trading",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "TToCOF",
+        "Description": "Total COFINS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "TToPIS",
+        "Description": "Total PIS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "URF",
+        "Description": "URF",
+        "Type": "db_Alpha",
+        "Size": 200
+      },
+      {
+        "Name": "URFUF",
+        "Description": "URFUF",
+        "Type": "db_Alpha",
+        "Size": 2
+      },
+      {
+        "Name": "Usage",
+        "Description": "Utilizacao",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "ViaTransp",
+        "Description": "Via Trasporte",
+        "Type": "db_Alpha",
+        "Size": 2
+      },
+      {
+        "Name": "Voo",
+        "Description": "Voo",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "VrDesp",
+        "Description": "Valor Despesas",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "IPF2": [
+      {
+        "Name": "BloqSel",
+        "Description": "BloqSel",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "CardCode",
+        "Description": "CardCode",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "DocEntry",
+        "Description": "DocEntry",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Sel",
+        "Description": "sel",
+        "Type": "db_Alpha",
+        "Size": 1
+      }
+    ],
+    "IPRV": [
+      {
+        "Name": "MetoRate",
+        "Description": "Metodo de Rateio",
+        "Type": "db_Alpha",
+        "Size": 20,
+        "DefaultValue": "Peso"
+      },
+      {
+        "Name": "ViaTransp",
+        "Description": "Via Trasporte",
+        "Type": "db_Alpha",
+        "Size": 2
+      }
+    ],
+    "JDT1": [
+      {
+        "Name": "DocEntry",
+        "Description": "DocEntry",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "LineNum",
+        "Description": "Line Num",
+        "Type": "db_Numeric",
+        "Size": 10
+      }
+    ],
+    "OALC": [
+      {
+        "Name": "DespCode",
+        "Description": "DespCode",
+        "Type": "db_Alpha",
+        "Size": 10
+      }
+    ],
+    "OBPL": [
+      {
+        "Name": "ClientId",
+        "Description": "Client-Id",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "ClientSecret",
+        "Description": "Client-Secret",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "SeqName",
+        "Description": "Sequencia Sefaz",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "WhsCode",
+        "Description": "Estoque Padrão",
+        "Type": "db_Alpha",
+        "Size": 16
+      },
+      {
+        "Name": "WhsTCode",
+        "Description": "Estoque Transitorio",
+        "Type": "db_Alpha",
+        "Size": 16
+      }
+    ],
+    "OCRN": [
+      {
+        "Name": "CurrSis",
+        "Description": "Moeda Sisxomex",
+        "Type": "db_Alpha",
+        "Size": 3
+      }
+    ],
+    "OINV": [
+      {
+        "Name": "CardCodeF",
+        "Description": "Filial Trasferencia",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "CardCodeT",
+        "Description": "Trading",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "ProcNum",
+        "Description": "Processo",
+        "Type": "db_Alpha",
+        "Size": 18,
+        "LinkedTable": "CPCH"
+      },
+      {
+        "Name": "Refresh",
+        "Description": "Refresh",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N",
+        "ValidValuesMD": [
+          {
+            "Value": "N",
+            "Description": "Não"
+          },
+          {
+            "Value": "Y",
+            "Description": "Sim"
+          }
+        ]
+      },
+      {
+        "Name": "UsarDesc",
+        "Description": "Usar Desconto",
+        "Type": "db_Numeric",
+        "Size": 1,
+        "DefaultValue": "1",
+        "ValidValuesMD": [
+          {
+            "Value": "0",
+            "Description": "Não"
+          },
+          {
+            "Value": "1",
+            "Description": "Sim"
+          }
+        ]
+      }
+    ],
+    "OITM": [
+      {
+        "Name": "Cod_Prod_SUF",
+        "Description": "Código do Produto SUFRAMA",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Control_SUF",
+        "Description": "Controlado pela SUFRAMA",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N",
+        "ValidValuesMD": [
+          {
+            "Value": "N",
+            "Description": "Não"
+          },
+          {
+            "Value": "Y",
+            "Description": "Sim"
+          }
+        ]
+      },
+      {
+        "Name": "CurrAdp",
+        "Description": "CurrAdp",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "DescTecnica",
+        "Description": "Descrição Técnica",
+        "Type": "db_Memo",
+        "Size": 254
+      },
+      {
+        "Name": "Dest_NCM",
+        "Description": "Destaque NCM",
+        "Type": "db_Numeric",
+        "Size": 4
+      },
+      {
+        "Name": "DEST_SUFRAMA",
+        "Description": "DESTAQUE SUFRAMA",
+        "Type": "db_Alpha",
+        "Size": 4
+      },
+      {
+        "Name": "DIDescricao",
+        "Description": "DI Descricao",
+        "Type": "db_Memo",
+        "Size": 254
+      },
+      {
+        "Name": "DINVE",
+        "Description": "DI NVE",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "Ex",
+        "Description": "Ex Tarifario",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "ExExp",
+        "Description": "Ex Tarifario Desp",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "QdeDropShip",
+        "Description": "Qde em Transito",
+        "Type": "db_Float",
+        "SubType": "st_Quantity",
+        "Size": 10
+      },
+      {
+        "Name": "UsarLI",
+        "Description": "Usar Li",
+        "Type": "db_Numeric",
+        "Size": 10,
+        "DefaultValue": "0",
+        "ValidValuesMD": [
+          {
+            "Value": "0",
+            "Description": "Não"
+          },
+          {
+            "Value": "1",
+            "Description": "Sim"
+          }
+        ]
+      },
+      {
+        "Name": "Utiliza_Mat",
+        "Description": "Utilização do Material",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "VrAntiDump",
+        "Description": "Valor Antidumping",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "OJDT": [
+      {
+        "Name": "B1ImportExibirNoRazao",
+        "Description": "B1ImportExibirNoRazao",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "Y"
+      },
+      {
+        "Name": "B1ImportProcDocEntry",
+        "Description": "B1ImportProcDocEntry",
+        "Type": "db_Numeric",
+        "Size": 11
+      },
+      {
+        "Name": "ProcNum",
+        "Description": "Processo",
+        "Type": "db_Alpha",
+        "Size": 18
+      }
+    ],
+    "OUSG": [
+      {
+        "Name": "Siscomex",
+        "Description": "Siscomex",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "WhsCode",
+        "Description": "Estoque Padrão",
+        "Type": "db_Alpha",
+        "Size": 16
+      },
+      {
+        "Name": "WhsTCode",
+        "Description": "Envio Direto",
+        "Type": "db_Alpha",
+        "Size": 16
+      }
+    ],
+    "OUSR": [
+      {
+        "Name": "ClientId",
+        "Description": "Client-Id",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "ClientSecret",
+        "Description": "Client-Secret",
+        "Type": "db_Alpha",
+        "Size": 100
+      }
+    ],
+    "PCH1": [
+      {
+        "Name": "Adicao",
+        "Description": "Adicao",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "Al_CBS",
+        "Description": "Aliquota CBS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_COF",
+        "Description": "Aliquota COFINS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_COFM",
+        "Description": "Aliquota COFINSM",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_Deso",
+        "Description": "Aliquota Deso",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_IBSMUN",
+        "Description": "Aliquota IBSMUN",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_IBSUF",
+        "Description": "Aliquota IBSUF",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_ICMS",
+        "Description": "Aliquota ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_II",
+        "Description": "Aliquota II",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_IPI",
+        "Description": "Aliquota IPI",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_IS",
+        "Description": "Aliquota IS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_PIS",
+        "Description": "Aliquota PIS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Al_PISM",
+        "Description": "Aliquota PISM",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_CBS",
+        "Description": "Base CBS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_COF",
+        "Description": "Base COFINS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_COFM",
+        "Description": "Base COFINSM",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_IBSMUN",
+        "Description": "Base IBSMUN",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_IBSUF",
+        "Description": "Base IBSUF",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_ICMS",
+        "Description": "Base ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_II",
+        "Description": "Base II",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_IPI",
+        "Description": "Base IPI",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_IS",
+        "Description": "Base IS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_PIS",
+        "Description": "Base PIS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Ba_PISM",
+        "Description": "Base PISM",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "CardCode",
+        "Description": "CardCode",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "CardName",
+        "Description": "Nome Fornecedor",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "Container",
+        "Description": "Container",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "DocEntry",
+        "Description": "DocEntry",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "DocNum",
+        "Description": "DocNum",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Draft",
+        "Description": "Draft",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Embalagem",
+        "Description": "Embalagem",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "EmbalForm",
+        "Description": "Embal. Formatada",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "ExTaxCode",
+        "Description": "Cod. Imposto Desp",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "Frete",
+        "Description": "Frete",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Invoice",
+        "Description": "Invoice",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "ItemCode",
+        "Description": "Nº do item",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "ItemName",
+        "Description": "Descrição",
+        "Type": "db_Alpha",
+        "Size": 200
+      },
+      {
+        "Name": "LiDtEmi",
+        "Description": "Data Emissão LI",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "LiDtVal",
+        "Description": "Data Validade LI",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "LineNum",
+        "Description": "LineNum",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "LiNum",
+        "Description": "Numero da LI",
+        "Type": "db_Alpha",
+        "Size": 30
+      },
+      {
+        "Name": "Model",
+        "Description": "Model",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Multa",
+        "Description": "Multa",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "NCMCode",
+        "Description": "NCMCode",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "PesoTo",
+        "Description": "Peso Total",
+        "Type": "db_Float",
+        "SubType": "st_Measurement",
+        "Size": 10
+      },
+      {
+        "Name": "Price",
+        "Description": "Preço",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "PriceCurr",
+        "Description": "Preço Moeda",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "PriceTotal",
+        "Description": "Preco Total",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Quantity",
+        "Description": "Quantidade",
+        "Type": "db_Float",
+        "SubType": "st_Quantity",
+        "Size": 10
+      },
+      {
+        "Name": "Re_Ba_COF",
+        "Description": "Redução Base COF",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Re_Ba_ICMS",
+        "Description": "Redução Base ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Re_Ba_II",
+        "Description": "Redução Base II",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Re_Ba_IPI",
+        "Description": "Redução Base IPI",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Re_Ba_PIS",
+        "Description": "Redução Base PIS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Re_ICMS",
+        "Description": "Redução ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Reducao1",
+        "Description": "Red 1 Base ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Reducao2",
+        "Description": "Redução 2 ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      },
+      {
+        "Name": "Seguro",
+        "Description": "Seguro",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Sel",
+        "Description": "Select",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "Seq",
+        "Description": "Seq Ad",
+        "Type": "db_Alpha",
+        "Size": 10
+      },
+      {
+        "Name": "SerialNum",
+        "Description": "Seriais Numbers  ",
+        "Type": "db_Memo",
+        "Size": 10
+      },
+      {
+        "Name": "SuppCatNum",
+        "Description": "Numero Catalogo Fornecedor",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "TaxCode",
+        "Description": "Cod. Imposto",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "TotalCurr",
+        "Description": "Total Moeda",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "TradeTaxCode",
+        "Description": "Cod. Imposto Trade",
+        "Type": "db_Alpha",
+        "Size": 8
+      },
+      {
+        "Name": "Usage",
+        "Description": "Utilizacao",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "UsageT",
+        "Description": "Utilizacao Trade",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_Add",
+        "Description": "Acrescimo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_Adp",
+        "Description": "Valor AntiDump",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_CBS",
+        "Description": "Valor CBS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_COF",
+        "Description": "Valor COFINS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_COFM",
+        "Description": "Valor COFINSM",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_Deso",
+        "Description": "ICMS Desonerado",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_IBSMUN",
+        "Description": "Valor IBSMUN",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_IBSUF",
+        "Description": "Valor IBSUF",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_ICMS",
+        "Description": "Valor ICMS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_II",
+        "Description": "Valor II",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_IPI",
+        "Description": "Valor IPI",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_IS",
+        "Description": "Valor IS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_PIS",
+        "Description": "Valor PIS",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_PISM",
+        "Description": "Valor PISM",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_TxAdu",
+        "Description": "Taxa Aduaneira",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_TxOut",
+        "Description": "Taxa Outros",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "Vr_TxUtil",
+        "Description": "Taxa Utilização",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "PCH2": [
+      {
+        "Name": "CurrCode",
+        "Description": "Codigo",
+        "Type": "db_Alpha",
+        "Size": 3
+      },
+      {
+        "Name": "CurrName",
+        "Description": "Moeda",
+        "Type": "db_Alpha",
+        "Size": 20
+      },
+      {
+        "Name": "Rate",
+        "Description": "Taxa",
+        "Type": "db_Float",
+        "SubType": "st_Rate",
+        "Size": 10
+      }
+    ],
+    "PCH3": [
+      {
+        "Name": "DespaCode",
+        "Description": "Código",
+        "Type": "db_Alpha",
+        "Size": 2
+      },
+      {
+        "Name": "DespaName",
+        "Description": "Nome",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "DespaNum",
+        "Description": "Numero",
+        "Type": "db_Alpha",
+        "Size": 50
+      }
+    ],
+    "PCH4": [
+      {
+        "Name": "AgNavega",
+        "Description": "Agente Navegação",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "BloqSel",
+        "Description": "BloqSel",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "ContNum",
+        "Description": "Numero Container",
+        "Type": "db_Alpha",
+        "Size": 30
+      },
+      {
+        "Name": "DayDemur",
+        "Description": "Dias Demurrage",
+        "Type": "db_Numeric",
+        "SubType": "st_Quantity",
+        "Size": 10
+      },
+      {
+        "Name": "DespaCode",
+        "Description": "Código",
+        "Type": "db_Alpha",
+        "Size": 2
+      },
+      {
+        "Name": "DtContDev",
+        "Description": "Data Devolução",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "DtPgDemur",
+        "Description": "Data Pg Demurrage",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "FreeTime",
+        "Description": "FreeTime",
+        "Type": "db_Numeric",
+        "SubType": "st_Quantity",
+        "Size": 10
+      },
+      {
+        "Name": "Navio",
+        "Description": "nome Navio",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "TotDemur",
+        "Description": "Total Demurrage",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VlrDemur",
+        "Description": "Valor Demurrage",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "PCH5": [
+      {
+        "Name": "CardCode",
+        "Description": "CardCode",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "CardName",
+        "Description": "CardName",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "CreateNF",
+        "Description": "Criar NF",
+        "Type": "db_Alpha",
+        "Size": 1
+      },
+      {
+        "Name": "Currency",
+        "Description": "Currency",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "DesBase",
+        "Description": "Despesa Base",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "DespCode",
+        "Description": "Código Despesa",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "DespName",
+        "Description": "Nome da Despesa",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ItemCode",
+        "Description": "ItemCode",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ItemName",
+        "Description": "ItemName",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "PerDesp",
+        "Description": "% Despesa",
+        "Type": "db_Float",
+        "SubType": "st_Percentage",
+        "Size": 10
+      },
+      {
+        "Name": "QdeDias",
+        "Description": "Qde Dias",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "TpCalc",
+        "Description": "Tipo de Calculo",
+        "Type": "db_Alpha",
+        "Size": 2
+      },
+      {
+        "Name": "VrDesp",
+        "Description": "Valor Despesas",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VrMax",
+        "Description": "Valor Máximo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VrMim",
+        "Description": "Valor Mínimo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VrPrevisa",
+        "Description": "Valor Previsão",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "PCH6": [
+      {
+        "Name": "BaseNum",
+        "Description": "LineNum",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "BatchNum",
+        "Description": "Lote",
+        "Type": "db_Alpha",
+        "Size": 36
+      },
+      {
+        "Name": "ExpDate",
+        "Description": "Data Validade",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "ItemCode",
+        "Description": "ItemCode",
+        "Type": "db_Alpha",
+        "Size": 40
+      },
+      {
+        "Name": "PrdDate",
+        "Description": "Data Fabricação",
+        "Type": "db_Date",
+        "Size": 10
+      },
+      {
+        "Name": "Quantity",
+        "Description": "Quantity",
+        "Type": "db_Float",
+        "SubType": "st_Quantity",
+        "Size": 10
+      },
+      {
+        "Name": "SL",
+        "Description": "Serial ou Lote",
+        "Type": "db_Alpha",
+        "Size": 1
+      }
+    ],
+    "PRV1": [
+      {
+        "Name": "CardCode",
+        "Description": "CardCode",
+        "Type": "db_Alpha",
+        "Size": 15
+      },
+      {
+        "Name": "CardName",
+        "Description": "CardName",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "CreateNF",
+        "Description": "Criar NF",
+        "Type": "db_Alpha",
+        "Size": 1,
+        "DefaultValue": "N"
+      },
+      {
+        "Name": "Currency",
+        "Description": "Currency",
+        "Type": "db_Alpha",
+        "Size": 6,
+        "DefaultValue": ""
+      },
+      {
+        "Name": "DesBase",
+        "Description": "Despesa Base",
+        "Type": "db_Alpha",
+        "Size": 254
+      },
+      {
+        "Name": "DespCode",
+        "Description": "Código Despesa",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "DespName",
+        "Description": "Nome da Despesa",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ItemCode",
+        "Description": "ItemCode",
+        "Type": "db_Alpha",
+        "Size": 50
+      },
+      {
+        "Name": "ItemName",
+        "Description": "ItemName",
+        "Type": "db_Alpha",
+        "Size": 100
+      },
+      {
+        "Name": "PerDesp",
+        "Description": "% Despesa",
+        "Type": "db_Float",
+        "SubType": "st_Percentage",
+        "Size": 10
+      },
+      {
+        "Name": "QdeDias",
+        "Description": "Qde Dias",
+        "Type": "db_Numeric",
+        "Size": 10
+      },
+      {
+        "Name": "TpCalc",
+        "Description": "Tipo de Calculo",
+        "Type": "db_Alpha",
+        "Size": 2
+      },
+      {
+        "Name": "VrDesp",
+        "Description": "Valor Despesas",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VrMax",
+        "Description": "Valor Máximo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      },
+      {
+        "Name": "VrMim",
+        "Description": "Valor Mínimo",
+        "Type": "db_Float",
+        "SubType": "st_Price",
+        "Size": 10
+      }
+    ],
+    "SELNUMERARIOS": [
+      {
+        "Name": "Sel",
+        "Description": "Sel Numerarios",
+        "Type": "db_Alpha",
+        "Size": 1
+      }
+    ]
+  },
+  "udos": {
+    "UDO_CONFIG": {
+      "Code": "IMPICFG",
+      "Name": "Comex Config",
+      "ObjectType": "boud_MasterData",
+      "TableName": "ICFG",
+      "CanFind": "tNO",
+      "CanDelete": "tNO",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO"
+    },
+    "UDO_COMEX": {
+      "Code": "IMPPCH",
+      "Name": "Comex",
+      "ObjectType": "boud_Document",
+      "TableName": "IPCH",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tYES",
+      "ChildTables": [
+        "PCH1",
+        "PCH2",
+        "PCH3",
+        "PCH4",
+        "PCH5",
+        "PCH6"
+      ],
+      "FindColumns": [
+        "U_ProcNum",
+        "U_DINum"
+      ]
+    },
+    "UDO_NF_CFL": {
+      "Code": "CFLNFS",
+      "Name": "CFL NFS",
+      "ObjectType": "boud_MasterData",
+      "TableName": "CNFS",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO",
+      "FindColumns": [
+        "Code",
+        "Name",
+        "U_Serial",
+        "U_CardName",
+        "U_DocDate",
+        "U_DocTotal",
+        "U_Comments"
+      ]
+    },
+    "UDO_PEDIDO_CFL": {
+      "Code": "CFLPOR",
+      "Name": "CFL Pedido",
+      "ObjectType": "boud_MasterData",
+      "TableName": "CPOR",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO",
+      "FindColumns": [
+        "Code",
+        "Name",
+        "U_CardName",
+        "U_DocDate",
+        "U_DocTotal",
+        "U_Comments",
+        "U_QdeItens"
+      ]
+    },
+    "UDO_CHAVES_DUIMP_CFL": {
+      "Code": "CFLDUIMP",
+      "Name": "CFL DUIMPS",
+      "ObjectType": "boud_MasterData",
+      "TableName": "CDUIMP",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO",
+      "FindColumns": [
+        "Code",
+        "Name",
+        "U_ChaveAcesso",
+        "U_Numero",
+        "U_URL"
+      ]
+    },
+    "UDO_DESP_CFL": {
+      "Code": "CFLDESP",
+      "Name": "CFL Despesas",
+      "ObjectType": "boud_MasterData",
+      "TableName": "CDES",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO",
+      "FindColumns": [
+        "Code",
+        "Name"
+      ]
+    },
+    "UDO_LAYOUT": {
+      "Code": "IMPLAY",
+      "Name": "Layout",
+      "ObjectType": "boud_MasterData",
+      "TableName": "ILAY",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tYES",
+      "CanYearTransfer": "tYES",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO",
+      "FindColumns": [
+        "Code",
+        "Name"
+      ]
+    },
+    "UDO_IPRV": {
+      "Code": "IMPIPRV",
+      "Name": "Tabela Previsao",
+      "ObjectType": "boud_MasterData",
+      "TableName": "IPRV",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO",
+      "FindColumns": [
+        "Code",
+        "Name"
+      ],
+      "ChildTables": [
+        "PRV1"
+      ]
+    },
+    "UDO_PROCESSO_CFL": {
+      "Code": "CFLPCH",
+      "Name": "CFL Processo",
+      "ObjectType": "boud_MasterData",
+      "TableName": "CPCH",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tNO",
+      "CanYearTransfer": "tNO",
+      "CanCreateDefaultForm": "tNO",
+      "CanLog": "tYES",
+      "CanClose": "tNO",
+      "FindColumns": [
+        "Code",
+        "Name",
+        "U_DocDate"
+      ]
+    },
+    "UDO_DPRV": {
+      "Code": "IMPDPRV",
+      "Name": "Despesas Previsao",
+      "ObjectType": "boud_MasterData",
+      "TableName": "DPRV",
+      "CanFind": "tYES",
+      "CanDelete": "tYES",
+      "CanCancel": "tYES",
+      "CanYearTransfer": "tYES",
+      "CanCreateDefaultForm": "tYES",
+      "CanLog": "tNO",
+      "CanClose": "tYES",
+      "FindColumns": [
+        "Code",
+        "Name"
+      ]
+    }
+  }
+}

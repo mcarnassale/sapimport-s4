@@ -1,0 +1,10 @@
+[
+  {
+    "WarehouseCode": "TRANS",
+    "WarehouseName": "Depósito Trânsito"
+  },
+  {
+    "WarehouseCode": "01",
+    "WarehouseName": "Depósito Principal"
+  }
+]

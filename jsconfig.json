@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "es2020",
+        "allowJs": true,
+        "checkJs": false,
+        "types": ["@sapui5/types"]
+    },
+    "include": [
+        "webapp/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

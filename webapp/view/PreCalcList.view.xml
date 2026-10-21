@@ -1,0 +1,22 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.PreCalcList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="preCalcListPage" title="{i18n>preCalcListTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <Button id="preCalcListAddButton" text="{i18n>preCalcListAdd}" icon="sap-icon://add" press="onAdd"/>
+        </headerContent>
+        <content>
+            <List id="preCalcList"
+                items="{path: '/YY1_ACX_IMPIPRV', sorter: {path: 'Code'}}"
+                noDataText="{i18n>preCalcListNoData}">
+                <items>
+                    <StandardListItem id="preCalcListItem"
+                        title="{Code}"
+                        description="{Name}"
+                        type="Navigation"
+                        press="onOpen"/>
+                </items>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

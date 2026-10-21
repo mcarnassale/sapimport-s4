@@ -1,0 +1,14 @@
+# Configuração local do Claude Code (permissões desta máquina; já guardou credencial em comando)
+.claude/
+# Prints de teste soltos na raiz
+/*.png
+node_modules/
+dist/
+.scp/
+.env
+Makefile*.mta
+mta_archives
+mta-*
+resources
+archive.zip
+.*_mta_build_tmp

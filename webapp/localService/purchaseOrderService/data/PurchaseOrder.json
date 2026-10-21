@@ -1,0 +1,50 @@
+[
+  {
+    "PurchaseOrder": "4500000001",
+    "PurchaseOrderType": "NB",
+    "CompanyCode": "1410",
+    "PurchasingOrganization": "1410",
+    "PurchasingGroup": "001",
+    "Supplier": "F00002",
+    "PurchaseOrderDate": "2026-08-15",
+    "DocumentCurrency": "USD",
+    "ExchangeRate": 5,
+    "PurchaseOrderDeletionCode": ""
+  },
+  {
+    "PurchaseOrder": "4500000002",
+    "PurchaseOrderType": "NB",
+    "CompanyCode": "1410",
+    "PurchasingOrganization": "1410",
+    "PurchasingGroup": "001",
+    "Supplier": "F00001",
+    "PurchaseOrderDate": "2026-08-20",
+    "DocumentCurrency": "USD",
+    "ExchangeRate": 5,
+    "PurchaseOrderDeletionCode": ""
+  },
+  {
+    "PurchaseOrder": "4500000003",
+    "PurchaseOrderType": "NB",
+    "CompanyCode": "1410",
+    "PurchasingOrganization": "1410",
+    "PurchasingGroup": "001",
+    "Supplier": "F00002",
+    "PurchaseOrderDate": "2026-08-22",
+    "DocumentCurrency": "BRL",
+    "ExchangeRate": 1,
+    "PurchaseOrderDeletionCode": ""
+  },
+  {
+    "PurchaseOrder": "4500000004",
+    "PurchaseOrderType": "NB",
+    "CompanyCode": "1410",
+    "PurchasingOrganization": "1410",
+    "PurchasingGroup": "001",
+    "Supplier": "F00002",
+    "PurchaseOrderDate": "2026-07-01",
+    "DocumentCurrency": "USD",
+    "ExchangeRate": 5,
+    "PurchaseOrderDeletionCode": "L"
+  }
+]

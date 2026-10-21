@@ -1,0 +1,10 @@
+{
+  "name": "ui5-middleware-pucomex",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local (unpublished) UI5 server-middleware: runs the real Portal Único Siscomex DUIMP/produto lookup calls from the dev-server's own Node process instead of the browser (same CORS/x-csrf-token rejection reason as ../sapimport (B1)'s packages/ui5-middleware-pucomex, which this is adapted from — only the /duimp and /produtos routes PO2DI's DUIMP branch needs, /chaves-acesso wasn't ported since onDIChaveDuimp isn't a feature in this project).",
+  "main": "pucomex-middleware.js",
+  "ui5": {
+    "dependencies": []
+  }
+}

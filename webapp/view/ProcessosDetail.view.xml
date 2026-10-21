@@ -1,0 +1,870 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.ProcessosDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:table="sap.ui.table"
+    xmlns:rowmodes="sap.ui.table.rowmodes"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="procDetailPage" title="{i18n>procDetailTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <Toolbar id="procHeaderToolbar1">
+                <MenuButton id="btnInsert" text="{i18n>procInsert}" icon="sap-icon://add">
+                    <menu>
+                        <Menu id="btnInsertMenu">
+                            <MenuItem id="miInsertPedidos" text="{i18n>procInsertPedidos}" press="onInsertPedidos"/>
+                            <MenuItem id="miInsertProcessos" text="{i18n>procInsertProcessos}" press="onNotImplemented"/>
+                            <MenuItem id="miInsertInvoices" text="{i18n>procInsertInvoices}" press="onNotImplemented"/>
+                            <MenuItem id="miInsertArquivo" text="{i18n>procInsertArquivo}" press="onNotImplemented"/>
+                        </Menu>
+                    </menu>
+                </MenuButton>
+                <Label id="lProcNum" text="{i18n>procProcNum}"/>
+                <Input id="iProcNum" value="{ProcNum}" editable="{detailView>/newMode}" width="10rem" class="sapUiTinyMarginEnd"/>
+                <Label id="lDINum" text="{i18n>procDINum}"/>
+                <Input id="iDINum" value="{DINum}" width="10rem" class="sapUiTinyMarginEnd" change="onDINumChange"/>
+
+                <ToolbarSpacer id="procHeaderToolbar1Spacer"/>
+                <Label id="lShipDate" text="{i18n>procShipDate}" width="7rem"/>
+                <DatePicker id="iShipDate" width="10rem" value="{path: 'ShipDate', type: 'sap.ui.model.odata.type.Date'}"/>
+                <Label id="lFShipDate" text="{i18n>procFShipDate}" width="7rem"/>
+                <DatePicker id="iFShipDate" width="10rem" value="{path: 'fShipDate', type: 'sap.ui.model.odata.type.Date'}"/>
+            </Toolbar>
+            <Toolbar id="procSelectedLineToolbar">
+                <Label id="lSelCardCode" text="{= ${detailView>/selectedCardName} ? ${detailView>/selectedCardName} : ${i18n>procSelCardCode} }"/>
+                <Select id="tSelCardCode" width="20rem"
+                    selectedKey="{detailView>/filterCardCode}"
+                    items="{detailView>/foreignSuppliers}">
+                    <core:Item id="itSelCardCode" key="{detailView>CardCode}" text="{detailView>CardName}"/>
+                </Select>
+            </Toolbar>
+            <Toolbar id="procHeaderToolbar2">
+                <Label id="lAgentCode" text="{i18n>procAgentCode}" width="7rem"/>
+                <Input id="iAgentCode" value="{AgentCode}" showValueHelp="true" valueHelpRequest="onValueHelp" description="{AgentName}">
+                    <customData>
+                        <core:CustomData key="vhEntity" value="BusinessPartners"/>
+                        <core:CustomData key="vhTitleField" value="CardCode"/>
+                        <core:CustomData key="vhDescField" value="CardName"/>
+                        <core:CustomData key="vhProperty" value="AgentCode"/>
+                        <core:CustomData key="vhDescProperty" value="AgentName"/>
+                    </customData>
+                </Input>
+
+                <ToolbarSpacer id="procHeaderToolbar2Spacer"/>
+                <Label id="lLayout" text="{i18n>procLayout}" width="5rem"/>
+                <Input id="iLayout" value="{Layout}" showValueHelp="true" valueHelpRequest="onValueHelp" width="15rem">
+                    <customData>
+                        <core:CustomData key="vhEntity" value="IMPLAY"/>
+                        <core:CustomData key="vhTitleField" value="Code"/>
+                        <core:CustomData key="vhDescField" value="Name"/>
+                        <core:CustomData key="vhProperty" value="Layout"/>
+                    </customData>
+                </Input>
+            </Toolbar>
+            <Toolbar id="procHeaderToolbar3">
+                <Label id="lBPLId" text="{i18n>procBPLId}" width="4rem"/>
+                <Input id="iBPLId" value="{path: 'BPLId', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" width="6rem" textAlign="End"/>
+
+                <ToolbarSpacer id="procHeaderToolbar3Spacer"/>
+                <Label id="lStatusProc" text="{i18n>procStatusProc}"/>
+                <Input id="iStatusProc" value="{StatusProc}" width="15rem"/>
+                <MenuButton id="btnLayout" text="{i18n>procLayoutMenu}" class="sapUiTinyMarginBegin">
+                    <menu>
+                        <Menu id="btnLayoutMenu">
+                            <MenuItem id="miLayoutImportData" text="{i18n>procLayoutImportData}" press="onNotImplemented"/>
+                            <MenuItem id="miLayoutExportLayout" text="{i18n>procLayoutExportLayout}" press="onNotImplemented"/>
+                        </Menu>
+                    </menu>
+                </MenuButton>
+            </Toolbar>
+            <IconTabBar id="procTabBar">
+                <items>
+                    <IconTabFilter id="procTabItemsFilter" text="{i18n>procTabItems}">
+                        <Toolbar id="procLinesToolbar">
+                            <Button id="procAddLineButton" text="{i18n>procAddLine}" icon="sap-icon://add" press="onAddLine"/>
+                            <Button id="procDeleteLineButton" text="{i18n>procDeleteLine}" icon="sap-icon://less" press="onDeleteLine"/>
+                        </Toolbar>
+                        <Toolbar id="procLinkedDocsToolbar">
+                            <Button id="lLinkedInv" text="{i18n>procLinkedInv}" type="Emphasized" press="onNotImplemented"/>
+                            <Button id="lLinkedNfn" text="{i18n>procLinkedNfn}" type="Emphasized" press="onNotImplemented"/>
+                            <Button id="lLinkedNfr" text="{i18n>procLinkedNfr}" type="Emphasized" press="onNotImplemented"/>
+                            <Button id="lLinkedRm" text="{i18n>procLinkedRm}" type="Emphasized" press="onNotImplemented"/>
+                            <Button id="lLinkedRmt" text="{i18n>procLinkedRmt}" type="Emphasized" press="onNotImplemented"/>
+                        </Toolbar>
+                        <table:Table id="itemsTable"
+                            rows="{to_Itens}"
+                            selectionMode="MultiToggle"
+                            rowSelectionChange="onItemsRowSelectionChange">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="itemsTableRowMode" rowCount="8"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colLineId" width="4rem"><Label id="lC01" text="{i18n>procColLineId}"/><table:template><Text id="tC01" text="{path: 'LineId', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}"/></table:template></table:Column>
+                                <table:Column id="colSel" width="4rem" hAlign="Center"><Label id="lC02" text="{i18n>procColSel}"/><table:template><CheckBox id="tC02" selected="{path: 'Sel', type: 'acx.sapimport.s4.model.YesNoType'}"/></table:template></table:Column>
+                                <table:Column id="colItemCode" width="8rem"><Label id="lC03" text="{i18n>procColItemCode}"/><table:template><Link id="tC03" text="{ItemCode}" press="onNotImplemented"/></table:template></table:Column>
+                                <table:Column id="colItemName" width="12rem"><Label id="lC04" text="{i18n>procColItemName}"/><table:template><Text id="tC04" text="{ItemName}"/></table:template></table:Column>
+                                <table:Column id="colDocNum" width="6rem"><Label id="lC06" text="{i18n>procColDocNum}"/><table:template><Text id="tC06" text="{DocNum}"/></table:template></table:Column>
+                                <table:Column id="colDocEntry" width="6rem"><Label id="lC07" text="{i18n>procColUDocEntry}"/><table:template><Link id="tC07" text="{DocEntry}" press="onNotImplemented"/></table:template></table:Column>
+                                <table:Column id="colLineNum" width="5rem"><Label id="lC08" text="{i18n>procColLineNum}"/><table:template><Text id="tC08" text="{path: 'LineNum', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}"/></table:template></table:Column>
+                                <table:Column id="colPeso" width="7rem" hAlign="End"><Label id="lC09" text="{i18n>procColPeso}"/><table:template><Text id="tC09" text="{path: 'PesoTo', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colQde" width="7rem" hAlign="End"><Label id="lC10" text="{i18n>procColQde}"/><table:template><Input id="tC10" value="{path: 'Quantity', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colPriceCurr" width="7rem" hAlign="End"><Label id="lC11" text="{i18n>procColPriceCurr}"/><table:template><Text id="tC11" text="{path: 'PriceCurr', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colTotalCurr" width="7rem" hAlign="End"><Label id="lC12" text="{i18n>procColTotalCurr}"/><table:template><Text id="tC12" text="{path: 'TotalCurr', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colVrFob" width="7rem" hAlign="End"><Label id="lC13" text="{i18n>procColVrFob}"/><table:template><Text id="tC13" text="{path: 'Price', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colVrCif" width="7rem" hAlign="End"><Label id="lC14" text="{i18n>procColVrCif}"/><table:template><Text id="tC14" text="{path: 'PriceTotal', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colAdicao" width="6rem"><Label id="lC15" text="{i18n>procColAdicao}"/><table:template><Input id="tC15" value="{Adicao}"/></table:template></table:Column>
+                                <table:Column id="colSeq" width="5rem"><Label id="lC16" text="{i18n>procColSeq}"/><table:template><Input id="tC16" value="{Seq}"/></table:template></table:Column>
+                                <table:Column id="colInvoice" width="7rem"><Label id="lC17" text="{i18n>procColInvoice}"/><table:template><Input id="tC17" value="{Invoice}"/></table:template></table:Column>
+                                <table:Column id="colContainer" width="7rem"><Label id="lC18" text="{i18n>procColContainer}"/><table:template><Input id="tC18" value="{Container}"/></table:template></table:Column>
+                                <table:Column id="colDraft" width="6rem"><Label id="lC19" text="{i18n>procColDraft}"/><table:template><Text id="tC19" text="{path: 'Draft', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}"/></table:template></table:Column>
+                                <table:Column id="colNCMCode" width="6rem"><Label id="lC20" text="{i18n>procColNCMCode}"/><table:template><Text id="tC20" text="{NCMCode}"/></table:template></table:Column>
+                                <table:Column id="colVrAdd" width="7rem" hAlign="End"><Label id="lC21" text="{i18n>procColVrAdd}"/><table:template><Input id="tC21" value="{path: 'Vr_Add', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrTxUtil" width="7rem" hAlign="End"><Label id="lC22" text="{i18n>procColVrTxUtil}"/><table:template><Text id="tC22" text="{path: 'Vr_TxUtil', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colVrTxAdu" width="7rem" hAlign="End"><Label id="lC23" text="{i18n>procColVrTxAdu}"/><table:template><Text id="tC23" text="{path: 'Vr_TxAdu', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colVrTxOut" width="7rem" hAlign="End"><Label id="lC24" text="{i18n>procColVrTxOut}"/><table:template><Text id="tC24" text="{path: 'Vr_TxOut', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colVrAdp" width="7rem" hAlign="End"><Label id="lC25" text="{i18n>procColVrAdp}"/><table:template><Text id="tC25" text="{path: 'Vr_Adp', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colFrete" width="7rem" hAlign="End"><Label id="lC26" text="{i18n>procColFrete}"/><table:template><Input id="tC26" value="{path: 'Frete', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colSeguro" width="7rem" hAlign="End"><Label id="lC27" text="{i18n>procColSeguro}"/><table:template><Input id="tC27" value="{path: 'Seguro', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colModel" width="7rem"><Label id="lC28" text="{i18n>procColModel}"/><table:template><Input id="tC28" value="{Model}"/></table:template></table:Column>
+                                <table:Column id="colBaII" width="7rem" hAlign="End"><Label id="lC29" text="{i18n>procColBaII}"/><table:template><Input id="tC29" value="{path: 'Ba_II', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlII" width="7rem" hAlign="End"><Label id="lC30" text="{i18n>procColAlII}"/><table:template><Input id="tC30" value="{path: 'Al_II', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrII" width="7rem" hAlign="End"><Label id="lC31" text="{i18n>procColVrII}"/><table:template><Input id="tC31" value="{path: 'Vr_II', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaPIS" width="7rem" hAlign="End"><Label id="lC32" text="{i18n>procColBaPIS}"/><table:template><Input id="tC32" value="{path: 'Ba_PIS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlPIS" width="7rem" hAlign="End"><Label id="lC33" text="{i18n>procColAlPIS}"/><table:template><Input id="tC33" value="{path: 'Al_PIS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrPIS" width="7rem" hAlign="End"><Label id="lC34" text="{i18n>procColVrPIS}"/><table:template><Input id="tC34" value="{path: 'Vr_PIS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaPISM" width="7rem" hAlign="End"><Label id="lC35" text="{i18n>procColBaPISM}"/><table:template><Input id="tC35" value="{path: 'Ba_PISM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlPISM" width="7rem" hAlign="End"><Label id="lC36" text="{i18n>procColAlPISM}"/><table:template><Input id="tC36" value="{path: 'Al_PISM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrPISM" width="7rem" hAlign="End"><Label id="lC37" text="{i18n>procColVrPISM}"/><table:template><Input id="tC37" value="{path: 'Vr_PISM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaCOF" width="7rem" hAlign="End"><Label id="lC38" text="{i18n>procColBaCOF}"/><table:template><Input id="tC38" value="{path: 'Ba_COF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlCOF" width="7rem" hAlign="End"><Label id="lC39" text="{i18n>procColAlCOF}"/><table:template><Input id="tC39" value="{path: 'Al_COF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrCOF" width="7rem" hAlign="End"><Label id="lC40" text="{i18n>procColVrCOF}"/><table:template><Input id="tC40" value="{path: 'Vr_COF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaCOFM" width="7rem" hAlign="End"><Label id="lC41" text="{i18n>procColBaCOFM}"/><table:template><Input id="tC41" value="{path: 'Ba_COFM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlCOFM" width="7rem" hAlign="End"><Label id="lC42" text="{i18n>procColAlCOFM}"/><table:template><Input id="tC42" value="{path: 'Al_COFM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrCOFM" width="7rem" hAlign="End"><Label id="lC43" text="{i18n>procColVrCOFM}"/><table:template><Input id="tC43" value="{path: 'Vr_COFM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaIPI" width="7rem" hAlign="End"><Label id="lC44" text="{i18n>procColBaIPI}"/><table:template><Input id="tC44" value="{path: 'Ba_IPI', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlIPI" width="7rem" hAlign="End"><Label id="lC45" text="{i18n>procColAlIPI}"/><table:template><Input id="tC45" value="{path: 'Al_IPI', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrIPI" width="7rem" hAlign="End"><Label id="lC46" text="{i18n>procColVrIPI}"/><table:template><Input id="tC46" value="{path: 'Vr_IPI', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaICMS" width="7rem" hAlign="End"><Label id="lC47" text="{i18n>procColBaICMS}"/><table:template><Input id="tC47" value="{path: 'Ba_ICMS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlICMS" width="7rem" hAlign="End"><Label id="lC48" text="{i18n>procColAlICMS}"/><table:template><Input id="tC48" value="{path: 'Al_ICMS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colRedBaICMS" width="7rem" hAlign="End"><Label id="lC49" text="{i18n>procColRedBaICMS}"/><table:template><Input id="tC49" value="{path: 'Re_Ba_ICMS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colRedICMS" width="7rem" hAlign="End"><Label id="lC50" text="{i18n>procColRedICMS}"/><table:template><Input id="tC50" value="{path: 'Re_ICMS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colReducao1" width="7rem" hAlign="End"><Label id="lC51" text="{i18n>procColReducao1}"/><table:template><Input id="tC51" value="{path: 'Reducao1', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colReducao2" width="7rem" hAlign="End"><Label id="lC52" text="{i18n>procColReducao2}"/><table:template><Input id="tC52" value="{path: 'Reducao2', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrICMS" width="7rem" hAlign="End"><Label id="lC53" text="{i18n>procColVrICMS}"/><table:template><Input id="tC53" value="{path: 'Vr_ICMS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colLiNum" width="7rem"><Label id="lC54" text="{i18n>procColLiNum}"/><table:template><Input id="tC54" value="{LiNum}"/></table:template></table:Column>
+                                <table:Column id="colLiDtEmi" width="9rem"><Label id="lC55" text="{i18n>procColLiDtEmi}"/><table:template><DatePicker id="tC55" value="{path: 'LiDtEmi', type: 'sap.ui.model.odata.type.Date'}"/></table:template></table:Column>
+                                <table:Column id="colLiDtVal" width="9rem"><Label id="lC56" text="{i18n>procColLiDtVal}"/><table:template><DatePicker id="tC56" value="{path: 'LiDtVal', type: 'sap.ui.model.odata.type.Date'}"/></table:template></table:Column>
+                                <table:Column id="colSerialNum" width="7rem"><Label id="lC57" text="{i18n>procColSerialNum}"/><table:template><Input id="tC57" value="{SerialNum}"/></table:template></table:Column>
+                                <table:Column id="colEmb" width="7rem"><Label id="lC58" text="{i18n>procColEmb}"/><table:template><Input id="tC58" value="{Embalagem}"/></table:template></table:Column>
+                                <table:Column id="colEmbForm" width="9rem"><Label id="lC59" text="{i18n>procColEmbForm}"/><table:template><Input id="tC59" value="{EmbalForm}"/></table:template></table:Column>
+                                <table:Column id="colCardCode" width="7rem"><Label id="lC60" text="{i18n>procColCardCode}"/><table:template><Text id="tC60" text="{CardCode}"/></table:template></table:Column>
+                                <table:Column id="colCardName" width="10rem"><Label id="lC61" text="{i18n>procColCardName}"/><table:template><Text id="tC61" text="{CardName}"/></table:template></table:Column>
+                                <table:Column id="colTaxCode" width="7rem"><Label id="lC62" text="{i18n>procColTaxCode}"/><table:template><Text id="tC62" text="{TaxCode}"/></table:template></table:Column>
+                                <table:Column id="colExTaxCode" width="7rem"><Label id="lC63" text="{i18n>procColExTaxCode}"/><table:template><Text id="tC63" text="{ExTaxCode}"/></table:template></table:Column>
+                                <table:Column id="colMulta" width="7rem" hAlign="End"><Label id="lC64" text="{i18n>procColMulta}"/><table:template><Input id="tC64" value="{path: 'Multa', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colSuppCat" width="8rem"><Label id="lC65" text="{i18n>procColSuppCat}"/><table:template><Text id="tC65" text="{SuppCatNum}"/></table:template></table:Column>
+                                <table:Column id="colBaIS" width="7rem" hAlign="End"><Label id="lC66" text="{i18n>procColBaIS}"/><table:template><Input id="tC66" value="{path: 'Ba_IS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlIS" width="7rem" hAlign="End"><Label id="lC67" text="{i18n>procColAlIS}"/><table:template><Input id="tC67" value="{path: 'Al_IS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrIS" width="7rem" hAlign="End"><Label id="lC68" text="{i18n>procColVrIS}"/><table:template><Input id="tC68" value="{path: 'Vr_IS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaIBSMUN" width="7rem" hAlign="End"><Label id="lC69" text="{i18n>procColBaIBSMun}"/><table:template><Input id="tC69" value="{path: 'Ba_IBSMUN', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlIBSMUN" width="7rem" hAlign="End"><Label id="lC70" text="{i18n>procColAlIBSMun}"/><table:template><Input id="tC70" value="{path: 'Al_IBSMUN', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrIBSMUN" width="7rem" hAlign="End"><Label id="lC71" text="{i18n>procColVrIBSMun}"/><table:template><Input id="tC71" value="{path: 'Vr_IBSMUN', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaIBSUF" width="7rem" hAlign="End"><Label id="lC72" text="{i18n>procColBaIBSUf}"/><table:template><Input id="tC72" value="{path: 'Ba_IBSUF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlIBSUF" width="7rem" hAlign="End"><Label id="lC73" text="{i18n>procColAlIBSUf}"/><table:template><Input id="tC73" value="{path: 'Al_IBSUF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrIBSUF" width="7rem" hAlign="End"><Label id="lC74" text="{i18n>procColVrIBSUf}"/><table:template><Input id="tC74" value="{path: 'Vr_IBSUF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colBaCBS" width="7rem" hAlign="End"><Label id="lC75" text="{i18n>procColBaCBS}"/><table:template><Input id="tC75" value="{path: 'Ba_CBS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colAlCBS" width="7rem" hAlign="End"><Label id="lC76" text="{i18n>procColAlCBS}"/><table:template><Input id="tC76" value="{path: 'Al_CBS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colVrCBS" width="7rem" hAlign="End"><Label id="lC77" text="{i18n>procColVrCBS}"/><table:template><Input id="tC77" value="{path: 'Vr_CBS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="procTabTaxasFilter" text="{i18n>procTabTaxas}">
+                        <form:SimpleForm id="procTaxasForm" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <core:Title id="titExpenses" text="{i18n>procSecExpenses}"/>
+
+                                <Label id="lSisComex" text="{i18n>procSisComex}"/>
+                                <Input id="iSisComex" value="{path: 'SisComex', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMetoSis" text="{i18n>procMetoSis}"/>
+                                <Select id="sMetoSis" selectedKey="{MetoSis}">
+                                    <core:Item id="itMetoSis1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoSis2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoSis3" key="Valor" text="Valor"/>
+                                </Select>
+
+                                <Label id="lCapatazia" text="{i18n>procCapatazia}"/>
+                                <Input id="iCapatazia" value="{path: 'Capatazia', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMetoCap" text="{i18n>procMetoCap}"/>
+                                <Select id="sMetoCap" selectedKey="{MetoCap}">
+                                    <core:Item id="itMetoCap1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoCap2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoCap3" key="Valor" text="Valor"/>
+                                </Select>
+
+                                <Label id="lPrepaid" text="{i18n>procPrepaid}"/>
+                                <Input id="iPrepaid" value="{path: 'Prepaid', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMetoPre" text="{i18n>procMetoPre}"/>
+                                <Select id="sMetoPre" selectedKey="{MetoPre}">
+                                    <core:Item id="itMetoPre1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoPre2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoPre3" key="Valor" text="Valor"/>
+                                </Select>
+                                <Label id="lCurrPre" text="{i18n>procCurrPre}"/>
+                                <Input id="iCurrPre" value="{CurrPre}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Currencies"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="CurrPre"/>
+                                    </customData>
+                                </Input>
+
+                                <Label id="lCollect" text="{i18n>procCollect}"/>
+                                <Input id="iCollect" value="{path: 'Collect', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMetoCol" text="{i18n>procMetoCol}"/>
+                                <Select id="sMetoCol" selectedKey="{MetoCol}">
+                                    <core:Item id="itMetoCol1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoCol2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoCol3" key="Valor" text="Valor"/>
+                                </Select>
+                                <Label id="lCurrCol" text="{i18n>procCurrCol}"/>
+                                <Input id="iCurrCol" value="{CurrCol}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Currencies"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="CurrCol"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lInFreInv" text="{i18n>procInFreInv}"/>
+                                <CheckBox id="cInFreInv" selected="{path: 'InFreInv', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                                <Label id="lSeguro" text="{i18n>procSeguro}"/>
+                                <Input id="iSeguro" value="{path: 'Seguro', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMetoSeg" text="{i18n>procMetoSeg}"/>
+                                <Select id="sMetoSeg" selectedKey="{MetoSeg}">
+                                    <core:Item id="itMetoSeg1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoSeg2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoSeg3" key="Valor" text="Valor"/>
+                                </Select>
+                                <Label id="lCurrSeg" text="{i18n>procCurrSeg}"/>
+                                <Input id="iCurrSeg" value="{CurrSeg}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Currencies"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="CurrSeg"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lInSegInv" text="{i18n>procInSegInv}"/>
+                                <CheckBox id="cInSegInv" selected="{path: 'InSegInv', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                                <Label id="lAduaneiro" text="{i18n>procAduaneiro}"/>
+                                <Input id="iAduaneiro" value="{path: 'Aduaneiro', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMetoAdu" text="{i18n>procMetoAdu}"/>
+                                <Select id="sMetoAdu" selectedKey="{MetoAdu}">
+                                    <core:Item id="itMetoAdu1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoAdu2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoAdu3" key="Valor" text="Valor"/>
+                                </Select>
+                                <Label id="lCurrAdu" text="{i18n>procCurrAdu}"/>
+                                <Input id="iCurrAdu" value="{CurrAdu}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Currencies"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="CurrAdu"/>
+                                    </customData>
+                                </Input>
+
+                                <Label id="lOutros" text="{i18n>procOutros}"/>
+                                <Input id="iOutros" value="{path: 'Outros', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMetoOut" text="{i18n>procMetoOut}"/>
+                                <Select id="sMetoOut" selectedKey="{MetoOut}">
+                                    <core:Item id="itMetoOut1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoOut2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoOut3" key="Valor" text="Valor"/>
+                                </Select>
+                                <Label id="lCurrOut" text="{i18n>procCurrOut}"/>
+                                <Input id="iCurrOut" value="{CurrOut}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Currencies"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="CurrOut"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lInOutInv" text="{i18n>procInOutInv}"/>
+                                <CheckBox id="cInOutInv" selected="{path: 'InOutInv', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                                <Label id="lAntiDump" text="{i18n>procAntiDump}"/>
+                                <Text id="tAntiDump" text="{path: 'AntiDump', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lMetoAdp" text="{i18n>procMetoAdp}"/>
+                                <Select id="sMetoAdp" selectedKey="{MetoAdp}">
+                                    <core:Item id="itMetoAdp1" key="Adição" text="Adição"/>
+                                    <core:Item id="itMetoAdp2" key="Peso" text="Peso"/>
+                                    <core:Item id="itMetoAdp3" key="Valor" text="Valor"/>
+                                </Select>
+                                <Label id="lCurrAdp" text="{i18n>procCurrAdp}"/>
+                                <Input id="iCurrAdp" value="{CurrAdp}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Currencies"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="CurrAdp"/>
+                                    </customData>
+                                </Input>
+
+                                <core:Title id="titOptions" text="{i18n>procSecOptions}"/>
+                                <Label id="lCourrier" text="{i18n>procCourrier}"/>
+                                <CheckBox id="cCourrier" selected="{path: 'Courrier', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lTrading" text="{i18n>procTrading}"/>
+                                <CheckBox id="cTrading" selected="{path: 'Trading', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lPedPai" text="{i18n>procPedPai}"/>
+                                <CheckBox id="cPedPai" selected="{path: 'PedPai', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lICMSPre" text="{i18n>procICMSPre}"/>
+                                <CheckBox id="cICMSPre" selected="{path: 'ICMSPre', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lTpSendAdu" text="{i18n>procTpSendAdu}"/>
+                                <Select id="sTpSendAdu" selectedKey="{TpSendAdu}">
+                                    <core:Item id="itAdu01" key="01" text="Padrão CSV 1"/>
+                                    <core:Item id="itAdu02" key="02" text="Ellas"/>
+                                    <core:Item id="itAdu03" key="03" text="Bysoft"/>
+                                    <core:Item id="itAdu04" key="04" text="afill"/>
+                                    <core:Item id="itAdu05" key="05" text="SISCEX v.2.34"/>
+                                    <core:Item id="itAdu06" key="06" text="Padrao CSV 2"/>
+                                    <core:Item id="itAdu07" key="07" text="Padrao CSV 3"/>
+                                    <core:Item id="itAdu08" key="08" text="Roland DG"/>
+                                    <core:Item id="itAdu09" key="09" text="Transire csv"/>
+                                    <core:Item id="itAdu10" key="10" text="Transire xml"/>
+                                </Select>
+                                <Label id="lCanal" text="{i18n>procCanal}"/>
+                                <Select id="sCanal" selectedKey="{Canal}">
+                                    <core:Item id="itCanal1" key="01" text="Verde"/>
+                                    <core:Item id="itCanal2" key="02" text="Amarelo"/>
+                                    <core:Item id="itCanal3" key="03" text="Vermelho"/>
+                                </Select>
+                                <Label id="lUsage" text="{i18n>procUsage}"/>
+                                <Input id="iUsage" value="{path: 'UsageCode', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="NotaFiscalUsage"/>
+                                        <core:CustomData key="vhTitleField" value="ID"/>
+                                        <core:CustomData key="vhDescField" value="Usage"/>
+                                        <core:CustomData key="vhProperty" value="UsageCode"/>
+                                        <core:CustomData key="vhIntKey" value="true"/>
+                                    </customData>
+                                </Input>
+
+                                <Label id="lRecalc" text=""/>
+                                <HBox id="hboxRecalc">
+                                    <Button id="btnRecalcFob" text="{i18n>procBtnRecalcFob}" press="onRecalcularFob" class="sapUiTinyMarginEnd"/>
+                                    <Button id="btnRecalcCif" text="{i18n>procBtnRecalcCif}" press="onRecalcularCif"/>
+                                </HBox>
+
+                                <core:Title id="titLocation" text="{i18n>procSecLocation}"/>
+                                <Label id="lURF" text="{i18n>procURF}"/>
+                                <Input id="iURF" value="{URF}"/>
+                                <Label id="lURFUF" text="{i18n>procURFUF}"/>
+                                <Input id="iURFUF" value="{URFUF}"/>
+                                <Label id="lEmbal" text="{i18n>procEmbal}"/>
+                                <Input id="iEmbal" value="{Embal}"/>
+                                <Label id="lCTRC" text="{i18n>procCTRC}"/>
+                                <Input id="iCTRC" value="{CTRC}"/>
+                                <Label id="lBLNum" text="{i18n>procBLNum}"/>
+                                <Input id="iBLNum" value="{BLNum}"/>
+                                <Label id="lVoo" text="{i18n>procVoo}"/>
+                                <Input id="iVoo" value="{Voo}"/>
+                                <Label id="lIncoterm" text="{i18n>procIncoterm}"/>
+                                <Text id="tIncoterm" text="{Incoterm}"/>
+                                <Label id="lDtCanal" text="{i18n>procDtCanal}"/>
+                                <DatePicker id="iDtCanal" value="{path: 'DtCanal', type: 'sap.ui.model.odata.type.Date'}"/>
+                                <Label id="lQdeVol" text="{i18n>procQdeVol}"/>
+                                <Input id="iQdeVol" value="{path: 'QdeVol', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End"/>
+
+                                <core:Title id="titDates" text="{i18n>procSecDates}"/>
+                                <Label id="lDIDate" text="{i18n>procDIDate}"/>
+                                <DatePicker id="iDIDate" value="{path: 'DIDate', type: 'sap.ui.model.odata.type.Date'}"/>
+                                <Label id="lBLDate" text="{i18n>procBLDate}"/>
+                                <DatePicker id="iBLDate" value="{path: 'BLDate', type: 'sap.ui.model.odata.type.Date'}"/>
+                                <Label id="lManDate" text="{i18n>procManDate}"/>
+                                <DatePicker id="iManDate" value="{path: 'ManDate', type: 'sap.ui.model.odata.type.Date'}"/>
+                                <Label id="lDtPresen" text="{i18n>procDtPresen}"/>
+                                <DatePicker id="iDtPresen" value="{path: 'DtPresen', type: 'sap.ui.model.odata.type.Date'}"/>
+                                <Label id="lDtChegFab" text="{i18n>procDtChegFab}"/>
+                                <DatePicker id="iDtChegFab" value="{path: 'DtChegFab', type: 'sap.ui.model.odata.type.Date'}"/>
+                                <Label id="lDtDesenb" text="{i18n>procDtDesenb}"/>
+                                <DatePicker id="iDtDesenb" value="{path: 'DtDesenb', type: 'sap.ui.model.odata.type.Date'}"/>
+                                <Label id="lDtLibera" text="{i18n>procDtLibera}"/>
+                                <DatePicker id="iDtLibera" value="{path: 'DtLibera', type: 'sap.ui.model.odata.type.Date'}"/>
+
+                                <core:Title id="titTotals" text="{i18n>procSecTotals}"/>
+                                <Label id="lToAdd" text="{i18n>procToAdd}"/>
+                                <Text id="tToAdd" text="{path: 'ToAdd', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToII" text="{i18n>procToII}"/>
+                                <Text id="tToII" text="{path: 'ToII', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToIPI" text="{i18n>procToIPI}"/>
+                                <Text id="tToIPI" text="{path: 'ToIPI', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToPIS" text="{i18n>procToPIS}"/>
+                                <Text id="tToPIS" text="{path: 'ToPIS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToPISM" text="{i18n>procToPISM}"/>
+                                <Text id="tToPISM" text="{path: 'ToPISM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToCOF" text="{i18n>procToCOF}"/>
+                                <Text id="tToCOF" text="{path: 'ToCOF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToCOFM" text="{i18n>procToCOFM}"/>
+                                <Text id="tToCOFM" text="{path: 'ToCOFM', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToICMS" text="{i18n>procToICMS}"/>
+                                <Text id="tToICMS" text="{path: 'ToICMS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lTToPIS" text="{i18n>procTToPIS}"/>
+                                <Text id="tTToPIS" text="{path: 'TToPIS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lTToCOF" text="{i18n>procTToCOF}"/>
+                                <Text id="tTToCOF" text="{path: 'TToCOF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToIS" text="{i18n>procToIS}"/>
+                                <Text id="tToIS" text="{path: 'ToIS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToIBSMUN" text="{i18n>procToIBSMUN}"/>
+                                <Text id="tToIBSMUN" text="{path: 'ToIBSMUN', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToIBSUF" text="{i18n>procToIBSUF}"/>
+                                <Text id="tToIBSUF" text="{path: 'ToIBSUF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                                <Label id="lToCBS" text="{i18n>procToCBS}"/>
+                                <Text id="tToCBS" text="{path: 'ToCBS', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+                            </form:content>
+                        </form:SimpleForm>
+
+                        <Toolbar id="procCurrToolbar">
+                            <Title id="titCurrencies" text="{i18n>procSecCurrencies}"/>
+                            <ToolbarSpacer id="procCurrToolbarSpacer"/>
+                            <Button id="procAddCurrButton" text="{i18n>procAddLine}" icon="sap-icon://add" press="onAddCurrency"/>
+                            <Button id="procDeleteCurrButton" text="{i18n>procDeleteLine}" icon="sap-icon://less" press="onDeleteCurrency"/>
+                        </Toolbar>
+                        <table:Table id="currTable"
+                            rows="{to_Moeda}"
+                            selectionMode="MultiToggle">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="currTableRowMode" rowCount="4"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colCurrLineId" width="4rem"><Label id="lCC01" text="{i18n>procColLineId}"/><table:template><Text id="tCC01" text="{path: 'LineId', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}"/></table:template></table:Column>
+                                <table:Column id="colCurrCode" width="8rem"><Label id="lCC02" text="{i18n>procColCurrCode}"/><table:template><Input id="tCC02" value="{CurrCode}" showValueHelp="true" valueHelpRequest="onValueHelp"><customData><core:CustomData key="vhEntity" value="Currencies"/><core:CustomData key="vhTitleField" value="Code"/><core:CustomData key="vhDescField" value="Name"/><core:CustomData key="vhProperty" value="CurrCode"/><core:CustomData key="vhDescProperty" value="CurrName"/></customData></Input></table:template></table:Column>
+                                <table:Column id="colCurrName" width="10rem"><Label id="lCC03" text="{i18n>procColCurrName}"/><table:template><Text id="tCC03" text="{CurrName}"/></table:template></table:Column>
+                                <table:Column id="colCurrRate" width="7rem" hAlign="End"><Label id="lCC04" text="{i18n>procColRate}"/><table:template><Input id="tCC04" value="{path: 'Rate', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="procTabDadosDIFilter" text="{i18n>procTabDadosDI}">
+                        <form:SimpleForm id="procDadosDIForm" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lViaTransp" text="{i18n>procViaTransp}"/>
+                                <Select id="sViaTransp" selectedKey="{ViaTransp}">
+                                    <core:Item id="itVia00" key="" text=""/>
+                                    <core:Item id="itVia01" key="01" text="MARITIMA"/>
+                                    <core:Item id="itVia02" key="02" text="FLUVIAL"/>
+                                    <core:Item id="itVia03" key="03" text="LACUSTRE"/>
+                                    <core:Item id="itVia04" key="04" text="AEREA"/>
+                                    <core:Item id="itVia05" key="05" text="POSTAL"/>
+                                    <core:Item id="itVia06" key="06" text="FERROVIARIA"/>
+                                    <core:Item id="itVia07" key="07" text="RODOVIARIA"/>
+                                    <core:Item id="itVia08" key="08" text="CONDUTO / REDE TRANSMISSÃO"/>
+                                    <core:Item id="itVia09" key="09" text="MEIOS PROPRIOS"/>
+                                    <core:Item id="itVia10" key="10" text="ENTRADA/SAIDA FICTA"/>
+                                    <core:Item id="itVia11" key="11" text="COURIER"/>
+                                </Select>
+
+                                <Label id="lTpInterm" text="{i18n>procTpInterm}"/>
+                                <Select id="sTpInterm" selectedKey="{TpInterm}">
+                                    <core:Item id="itInt0" key="" text=""/>
+                                    <core:Item id="itInt1" key="1" text="Importação por conta própria"/>
+                                    <core:Item id="itInt2" key="2" text="Importação por conta e ordem"/>
+                                    <core:Item id="itInt3" key="3" text="Importação por encomenda"/>
+                                </Select>
+
+                                <Label id="lTpDI" text="{i18n>procTpDI}"/>
+                                <Select id="sTpDI" selectedKey="{TpDI}">
+                                    <core:Item id="itDI0" key="0" text="Declaração de Importação"/>
+                                    <core:Item id="itDI1" key="1" text="Declaração Simplificada de Importação"/>
+                                </Select>
+
+                                <Label id="lPvDtChega" text="{i18n>procPvDtChega}"/>
+                                <DatePicker id="iPvDtChega" value="{path: 'PvDtChega', type: 'sap.ui.model.odata.type.Date'}"/>
+
+                                <Label id="lPvDtEmbar" text="{i18n>procPvDtEmbar}"/>
+                                <DatePicker id="iPvDtEmbar" value="{path: 'PvDtEmbar', type: 'sap.ui.model.odata.type.Date'}"/>
+
+                                <Label id="lPvDtPres" text="{i18n>procPvDtPres}"/>
+                                <DatePicker id="iPvDtPres" value="{path: 'PvDtPres', type: 'sap.ui.model.odata.type.Date'}"/>
+
+                                <Label id="lPvDtChgFa" text="{i18n>procPvDtChgFa}"/>
+                                <DatePicker id="iPvDtChgFa" value="{path: 'PvDtChgFa', type: 'sap.ui.model.odata.type.Date'}"/>
+
+                                <Label id="lEntrpost" text="{i18n>procEntrpost}"/>
+                                <CheckBox id="cEntrpost" selected="{path: 'Entrpost', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+
+                                <Label id="lDesovaDt" text="{i18n>procDesovaDt}"/>
+                                <DatePicker id="iDesovaDt" value="{path: 'DesovaDt', type: 'sap.ui.model.odata.type.Date'}"/>
+
+                                <Label id="lRemoEnDt" text="{i18n>procRemoEnDt}"/>
+                                <DatePicker id="iRemoEnDt" value="{path: 'RemoEnDt', type: 'sap.ui.model.odata.type.Date'}"/>
+                            </form:content>
+                        </form:SimpleForm>
+
+                        <Toolbar id="procDespaToolbar">
+                            <Title id="titDespa" text="{i18n>procSecDespa}"/>
+                            <ToolbarSpacer id="procDespaToolbarSpacer"/>
+                            <Button id="procAddDespaButton" text="{i18n>procAddLine}" icon="sap-icon://add" press="onAddDespaLine"/>
+                            <Button id="procDeleteDespaButton" text="{i18n>procDeleteLine}" icon="sap-icon://less" press="onDeleteDespaLine"/>
+                        </Toolbar>
+                        <table:Table id="despaTable"
+                            rows="{to_Despacho}"
+                            selectionMode="MultiToggle">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="despaTableRowMode" rowCount="4"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colDespaLineId" width="4rem"><Label id="lDP01" text="{i18n>procColLineId}"/><table:template><Text id="tDP01" text="{path: 'LineId', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}"/></table:template></table:Column>
+                                <table:Column id="colDespaCode" width="8rem"><Label id="lDP02" text="{i18n>procColDespaCode}"/><table:template><Input id="tDP02" value="{DespaCode}"/></table:template></table:Column>
+                                <table:Column id="colDespaName" width="14rem"><Label id="lDP03" text="{i18n>procColDespaName}"/><table:template><Input id="tDP03" value="{DespaName}"/></table:template></table:Column>
+                                <table:Column id="colDespaNum" width="12rem"><Label id="lDP04" text="{i18n>procColDespaNum}"/><table:template><Input id="tDP04" value="{DespaNum}"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+
+                        <Toolbar id="procDemurToolbar">
+                            <Title id="titDemur" text="{i18n>procSecDemur}"/>
+                            <ToolbarSpacer id="procDemurToolbarSpacer"/>
+                            <Button id="procAddDemurButton" text="{i18n>procAddLine}" icon="sap-icon://add" press="onAddDemurLine"/>
+                            <Button id="procDeleteDemurButton" text="{i18n>procDeleteLine}" icon="sap-icon://less" press="onDeleteDemurLine"/>
+                        </Toolbar>
+                        <table:Table id="demurTable"
+                            rows="{to_Demurrage}"
+                            selectionMode="MultiToggle">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="demurTableRowMode" rowCount="4"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colDemurLineId" width="4rem"><Label id="lDM01" text="{i18n>procColLineId}"/><table:template><Text id="tDM01" text="{path: 'LineId', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}"/></table:template></table:Column>
+                                <table:Column id="colDemurDespaCode" width="8rem"><Label id="lDM02" text="{i18n>procColDespaCode}"/><table:template><Input id="tDM02" value="{DespaCode}"/></table:template></table:Column>
+                                <table:Column id="colDemurContNum" width="8rem"><Label id="lDM03" text="{i18n>procColContNum}"/><table:template><Input id="tDM03" value="{ContNum}"/></table:template></table:Column>
+                                <table:Column id="colDemurNavio" width="8rem"><Label id="lDM04" text="{i18n>procColNavio}"/><table:template><Input id="tDM04" value="{Navio}"/></table:template></table:Column>
+                                <table:Column id="colDemurAgNavega" width="9rem"><Label id="lDM05" text="{i18n>procColAgNavega}"/><table:template><Input id="tDM05" value="{AgNavega}"/></table:template></table:Column>
+                                <table:Column id="colDemurDtContDev" width="9rem"><Label id="lDM06" text="{i18n>procColDtContDev}"/><table:template><DatePicker id="tDM06" value="{path: 'DtContDev', type: 'sap.ui.model.odata.type.Date'}"/></table:template></table:Column>
+                                <table:Column id="colDemurFreeTime" width="6rem" hAlign="End"><Label id="lDM07" text="{i18n>procColFreeTime}"/><table:template><Input id="tDM07" value="{path: 'FreeTime', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colDemurDayDemur" width="7rem" hAlign="End"><Label id="lDM08" text="{i18n>procColDayDemur}"/><table:template><Input id="tDM08" value="{path: 'DayDemur', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colDemurVlrDemur" width="8rem" hAlign="End"><Label id="lDM09" text="{i18n>procColVlrDemur}"/><table:template><Input id="tDM09" value="{path: 'VlrDemur', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colDemurTotDemur" width="8rem" hAlign="End"><Label id="lDM10" text="{i18n>procColTotDemur}"/><table:template><Text id="tDM10" text="{path: 'TotDemur', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/></table:template></table:Column>
+                                <table:Column id="colDemurDtPgDemur" width="9rem"><Label id="lDM11" text="{i18n>procColDtPgDemur}"/><table:template><DatePicker id="tDM11" value="{path: 'DtPgDemur', type: 'sap.ui.model.odata.type.Date'}"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="procTabPrevisoesFilter" text="{i18n>procTabPrevisoes}">
+                        <Toolbar id="procPrevisaoToolbar">
+                            <MenuButton id="btcImpPTax" text="{i18n>procImpPTax}" class="sapUiTinyMarginEnd">
+                                <menu>
+                                    <Menu id="btcImpPTaxMenu">
+                                        <MenuItem id="miImpPTax" text="{i18n>procImpPTax}" press="onNotImplemented"/>
+                                        <MenuItem id="miAtuaValor" text="{i18n>procAtuaValor}" press="onNotImplemented"/>
+                                    </Menu>
+                                </menu>
+                            </MenuButton>
+                            <Button id="btnRatearPeso" text="{i18n>procBtnRatearPeso}" press="onNotImplemented" class="sapUiTinyMarginEnd"/>
+                            <Button id="btnCriarTax" text="{i18n>procBtnCriarTax}" press="onNotImplemented" class="sapUiTinyMarginEnd"/>
+                            <MenuButton id="btnDeterminacao" text="{i18n>procBtnDeterminacao}" class="sapUiTinyMarginEnd">
+                                <menu>
+                                    <Menu id="btnDeterminacaoMenu">
+                                        <MenuItem id="miDeterminacao" text="{i18n>procBtnDeterminacao}" press="onNotImplemented"/>
+                                        <MenuItem id="miDeterminacaoAntiga" text="{i18n>procBtnDeterminacaoAntiga}" press="onNotImplemented"/>
+                                    </Menu>
+                                </menu>
+                            </MenuButton>
+                        </Toolbar>
+                        <table:Table id="previsaoTable"
+                            rows="{detailView>/previsaoRows}"
+                            selectionMode="MultiToggle">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="previsaoTableRowMode" rowCount="8"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colPrev01" width="7rem"><Label id="lPV01" text="{i18n>procColAdicao}"/><table:template><Input id="tPV01" value="{detailView>adicao}"/></table:template></table:Column>
+                                <table:Column id="colPrev04" width="7rem"><Label id="lPV04" text="{i18n>procColNCMCode}"/><table:template><Input id="tPV04" value="{detailView>ncm}"/></table:template></table:Column>
+                                <table:Column id="colPrev05" width="7rem"><Label id="lPV05" text="{i18n>procColTaxCode}"/><table:template><Input id="tPV05" value="{detailView>imposto}"/></table:template></table:Column>
+                                <table:Column id="colPrev06" width="7rem"><Label id="lPV06" text="{i18n>procColExTaxCode}"/><table:template><Input id="tPV06" value="{detailView>despesa}"/></table:template></table:Column>
+                                <table:Column id="colPrev45" width="7rem" hAlign="End"><Label id="lPV45" text="{i18n>procColAlIS}"/><table:template><Input id="tPV45" value="{path: 'detailView>alIS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev47" width="7rem" hAlign="End"><Label id="lPV47" text="{i18n>procColAlIBSMun}"/><table:template><Input id="tPV47" value="{path: 'detailView>alIBSMUN'}"/></table:template></table:Column>
+                                <table:Column id="colPrev49" width="7rem" hAlign="End"><Label id="lPV49" text="{i18n>procColAlIBSUf}"/><table:template><Input id="tPV49" value="{path: 'detailView>alIBSUF'}"/></table:template></table:Column>
+                                <table:Column id="colPrev51" width="7rem" hAlign="End"><Label id="lPV51" text="{i18n>procColAlCBS}"/><table:template><Input id="tPV51" value="{path: 'detailView>alCBS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev07" width="7rem" hAlign="End"><Label id="lPV07" text="{i18n>procColAlII}"/><table:template><Input id="tPV07" value="{path: 'detailView>alII'}"/></table:template></table:Column>
+                                <table:Column id="colPrev08" width="7rem" hAlign="End"><Label id="lPV08" text="{i18n>procPrevBaOutrasII}"/><table:template><Input id="tPV08" value="{path: 'detailView>baOutrasII'}"/></table:template></table:Column>
+                                <table:Column id="colPrev09" width="7rem" hAlign="End"><Label id="lPV09" text="{i18n>procColAlIPI}"/><table:template><Input id="tPV09" value="{path: 'detailView>alIPI'}"/></table:template></table:Column>
+                                <table:Column id="colPrev10" width="7rem" hAlign="End"><Label id="lPV10" text="{i18n>procPrevBaOutrasIPI}"/><table:template><Input id="tPV10" value="{path: 'detailView>baOutrasIPI'}"/></table:template></table:Column>
+                                <table:Column id="colPrev11" width="7rem" hAlign="End"><Label id="lPV11" text="{i18n>procColAlICMS}"/><table:template><Input id="tPV11" value="{path: 'detailView>alICMS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev12" width="7rem" hAlign="End"><Label id="lPV12" text="{i18n>procColRedICMS}"/><table:template><Input id="tPV12" value="{path: 'detailView>redICMS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev13" width="7rem" hAlign="End"><Label id="lPV13" text="{i18n>procColRedBaICMS}"/><table:template><Input id="tPV13" value="{path: 'detailView>baOutrasICMS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev14" width="7rem" hAlign="End"><Label id="lPV14" text="{i18n>procColReducao1}"/><table:template><Input id="tPV14" value="{path: 'detailView>baseReduzida1'}"/></table:template></table:Column>
+                                <table:Column id="colPrev15" width="7rem" hAlign="End"><Label id="lPV15" text="{i18n>procColReducao2}"/><table:template><Input id="tPV15" value="{path: 'detailView>baseReduzida2'}"/></table:template></table:Column>
+                                <table:Column id="colPrev16" width="7rem" hAlign="End"><Label id="lPV16" text="{i18n>procColAlPIS}"/><table:template><Input id="tPV16" value="{path: 'detailView>alPIS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev17" width="7rem" hAlign="End"><Label id="lPV17" text="{i18n>procColAlPISM}"/><table:template><Input id="tPV17" value="{path: 'detailView>alPISM'}"/></table:template></table:Column>
+                                <table:Column id="colPrev18" width="7rem" hAlign="End"><Label id="lPV18" text="{i18n>procPrevBaOutrasPIS}"/><table:template><Input id="tPV18" value="{path: 'detailView>baOutrasPIS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev19" width="7rem" hAlign="End"><Label id="lPV19" text="{i18n>procColAlCOF}"/><table:template><Input id="tPV19" value="{path: 'detailView>alCOF'}"/></table:template></table:Column>
+                                <table:Column id="colPrev20" width="7rem" hAlign="End"><Label id="lPV20" text="{i18n>procColAlCOFM}"/><table:template><Input id="tPV20" value="{path: 'detailView>alCOFM'}"/></table:template></table:Column>
+                                <table:Column id="colPrev21" width="7rem" hAlign="End"><Label id="lPV21" text="{i18n>procPrevBaOutrasCOF}"/><table:template><Input id="tPV21" value="{path: 'detailView>baOutrasCOF'}"/></table:template></table:Column>
+                                <table:Column id="colPrev22" width="7rem" hAlign="End"><Label id="lPV22" text="{i18n>procColPeso}"/><table:template><Input id="tPV22" value="{path: 'detailView>peso'}"/></table:template></table:Column>
+                                <table:Column id="colPrev23" width="7rem" hAlign="End"><Label id="lPV23" text="{i18n>procColQde}"/><table:template><Input id="tPV23" value="{path: 'detailView>qde'}"/></table:template></table:Column>
+                                <table:Column id="colPrev24" width="7rem" hAlign="End"><Label id="lPV24" text="{i18n>procSisComex}"/><table:template><Input id="tPV24" value="{path: 'detailView>siscomex'}"/></table:template></table:Column>
+                                <table:Column id="colPrev25" width="7rem" hAlign="End"><Label id="lPV25" text="{i18n>procAduaneiro}"/><table:template><Input id="tPV25" value="{path: 'detailView>txAduaneira'}"/></table:template></table:Column>
+                                <table:Column id="colPrev26" width="7rem" hAlign="End"><Label id="lPV26" text="{i18n>procPrevVrAntiDump}"/><table:template><Input id="tPV26" value="{path: 'detailView>vrAntiDump'}"/></table:template></table:Column>
+                                <table:Column id="colPrev27" width="7rem" hAlign="End"><Label id="lPV27" text="{i18n>procPrevFobDesc}"/><table:template><Input id="tPV27" value="{path: 'detailView>fobDesc'}"/></table:template></table:Column>
+                                <table:Column id="colPrev28" width="7rem" hAlign="End"><Label id="lPV28" text="{i18n>procColVrFob}"/><table:template><Input id="tPV28" value="{path: 'detailView>fob'}"/></table:template></table:Column>
+                                <table:Column id="colPrev29" width="7rem" hAlign="End"><Label id="lPV29" text="{i18n>procColVrAdd}"/><table:template><Input id="tPV29" value="{path: 'detailView>acrescimo'}"/></table:template></table:Column>
+                                <table:Column id="colPrev30" width="7rem" hAlign="End"><Label id="lPV30" text="{i18n>procColVrCif}"/><table:template><Input id="tPV30" value="{path: 'detailView>cif'}"/></table:template></table:Column>
+                                <table:Column id="colPrev46" width="7rem" hAlign="End"><Label id="lPV46" text="{i18n>procColVrIS}"/><table:template><Input id="tPV46" value="{path: 'detailView>vrIS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev48" width="7rem" hAlign="End"><Label id="lPV48" text="{i18n>procColVrIBSMun}"/><table:template><Input id="tPV48" value="{path: 'detailView>vrIBSMUN'}"/></table:template></table:Column>
+                                <table:Column id="colPrev50" width="7rem" hAlign="End"><Label id="lPV50" text="{i18n>procColVrIBSUf}"/><table:template><Input id="tPV50" value="{path: 'detailView>vrIBSUF'}"/></table:template></table:Column>
+                                <table:Column id="colPrev52" width="7rem" hAlign="End"><Label id="lPV52" text="{i18n>procColVrCBS}"/><table:template><Input id="tPV52" value="{path: 'detailView>vrCBS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev31" width="7rem" hAlign="End"><Label id="lPV31" text="{i18n>procColVrII}"/><table:template><Input id="tPV31" value="{path: 'detailView>vrII'}"/></table:template></table:Column>
+                                <table:Column id="colPrev32" width="7rem" hAlign="End"><Label id="lPV32" text="{i18n>procColVrIPI}"/><table:template><Input id="tPV32" value="{path: 'detailView>vrIPI'}"/></table:template></table:Column>
+                                <table:Column id="colPrev33" width="7rem" hAlign="End"><Label id="lPV33" text="{i18n>procColVrICMS}"/><table:template><Input id="tPV33" value="{path: 'detailView>vrICMS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev34" width="7rem" hAlign="End"><Label id="lPV34" text="{i18n>procColVrPIS}"/><table:template><Input id="tPV34" value="{path: 'detailView>vrPIS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev35" width="7rem" hAlign="End"><Label id="lPV35" text="{i18n>procColVrPISM}"/><table:template><Input id="tPV35" value="{path: 'detailView>vrPISM'}"/></table:template></table:Column>
+                                <table:Column id="colPrev36" width="7rem" hAlign="End"><Label id="lPV36" text="{i18n>procColVrCOF}"/><table:template><Input id="tPV36" value="{path: 'detailView>vrCOF'}"/></table:template></table:Column>
+                                <table:Column id="colPrev37" width="7rem" hAlign="End"><Label id="lPV37" text="{i18n>procColVrCOFM}"/><table:template><Input id="tPV37" value="{path: 'detailView>vrCOFM'}"/></table:template></table:Column>
+                                <table:Column id="colPrev38" width="7rem" hAlign="End"><Label id="lPV38" text="{i18n>procColBaII}"/><table:template><Input id="tPV38" value="{path: 'detailView>baII'}"/></table:template></table:Column>
+                                <table:Column id="colPrev39" width="7rem" hAlign="End"><Label id="lPV39" text="{i18n>procColBaIPI}"/><table:template><Input id="tPV39" value="{path: 'detailView>baIPI'}"/></table:template></table:Column>
+                                <table:Column id="colPrev40" width="7rem" hAlign="End"><Label id="lPV40" text="{i18n>procColBaICMS}"/><table:template><Input id="tPV40" value="{path: 'detailView>baICMS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev41" width="7rem" hAlign="End"><Label id="lPV41" text="{i18n>procColBaPIS}"/><table:template><Input id="tPV41" value="{path: 'detailView>baPIS'}"/></table:template></table:Column>
+                                <table:Column id="colPrev42" width="7rem" hAlign="End"><Label id="lPV42" text="{i18n>procColBaPISM}"/><table:template><Input id="tPV42" value="{path: 'detailView>baPISM'}"/></table:template></table:Column>
+                                <table:Column id="colPrev43" width="7rem" hAlign="End"><Label id="lPV43" text="{i18n>procColBaCOF}"/><table:template><Input id="tPV43" value="{path: 'detailView>baCOF'}"/></table:template></table:Column>
+                                <table:Column id="colPrev44" width="7rem" hAlign="End"><Label id="lPV44" text="{i18n>procColBaCOFM}"/><table:template><Input id="tPV44" value="{path: 'detailView>baCOFM'}"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="procTabPreCalcFilter" text="{i18n>procTabPreCalc}">
+                        <form:SimpleForm id="procPreCalcHeaderForm" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lTabPreCal" text="{i18n>procTabPreCalField}"/>
+                                <Input id="iTabPreCal" value="{TabPreCal}" showValueHelp="true" valueHelpRequest="onNotImplemented"/>
+                            </form:content>
+                        </form:SimpleForm>
+
+                        <Toolbar id="procPreCalcToolbar">
+                            <Button id="procAddPreCalcButton" text="{i18n>procAddLine}" icon="sap-icon://add" press="onAddPreCalcLine"/>
+                            <Button id="procDeletePreCalcButton" text="{i18n>procDeleteLine}" icon="sap-icon://less" press="onDeletePreCalcLine"/>
+                        </Toolbar>
+                        <table:Table id="preCalcTable"
+                            rows="{to_Previsao}"
+                            selectionMode="MultiToggle">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="preCalcTableRowMode" rowCount="8"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colPCLineId" width="4rem"><Label id="lPC01" text="{i18n>procColLineId}"/><table:template><Text id="tPC01" text="{path: 'LineId', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}"/></table:template></table:Column>
+                                <table:Column id="colPCDesp" width="8rem"><Label id="lPC02" text="{i18n>procPCDesp}"/><table:template><Input id="tPC02" value="{DespCode}" showValueHelp="true" valueHelpRequest="onValueHelp"><customData><core:CustomData key="vhEntity" value="AdditionalExpenses"/><core:CustomData key="vhTitleField" value="ExpensCode"/><core:CustomData key="vhDescField" value="Name"/><core:CustomData key="vhProperty" value="DespCode"/><core:CustomData key="vhDescProperty" value="DespName"/></customData></Input></table:template></table:Column>
+                                <table:Column id="colPCDespName" width="10rem"><Label id="lPC03" text="{i18n>procPCDespName}"/><table:template><Input id="tPC03" value="{DespName}"/></table:template></table:Column>
+                                <table:Column id="colPCTpCalc" width="9rem"><Label id="lPC04" text="{i18n>procPCTpCalc}"/><table:template>
+                                    <Select id="tPC04" selectedKey="{TpCalc}" width="100%">
+                                        <core:Item id="itPC00" key="" text=""/>
+                                        <core:Item id="itPC01" key="01" text="Siscomex"/>
+                                        <core:Item id="itPC02" key="02" text="Capatazia"/>
+                                        <core:Item id="itPC03" key="03" text="Prepaid"/>
+                                        <core:Item id="itPC04" key="04" text="Collect"/>
+                                        <core:Item id="itPC05" key="05" text="Seguro"/>
+                                        <core:Item id="itPC06" key="06" text="TxAduaneira"/>
+                                        <core:Item id="itPC07" key="07" text="Outros"/>
+                                        <core:Item id="itPC08" key="08" text="Fob"/>
+                                        <core:Item id="itPC09" key="09" text="Cif"/>
+                                        <core:Item id="itPC10" key="10" text="Dumping"/>
+                                        <core:Item id="itPC20" key="20" text="II"/>
+                                        <core:Item id="itPC21" key="21" text="IPI"/>
+                                        <core:Item id="itPC22" key="22" text="PIS"/>
+                                        <core:Item id="itPC23" key="23" text="COFINS"/>
+                                        <core:Item id="itPC24" key="24" text="ICMS"/>
+                                        <core:Item id="itPC25" key="25" text="PIS MAJ"/>
+                                        <core:Item id="itPC26" key="26" text="COFINS MAJ"/>
+                                        <core:Item id="itPC30" key="30" text="Despesa"/>
+                                        <core:Item id="itPC31" key="31" text="Calculo"/>
+                                        <core:Item id="itPC32" key="32" text="Peso Liquido"/>
+                                    </Select>
+                                </table:template></table:Column>
+                                <table:Column id="colPCCurrency" width="7rem"><Label id="lPC05" text="{i18n>procPCCurrency}"/><table:template><Input id="tPC05" value="{Currency}" showValueHelp="true" valueHelpRequest="onValueHelp"><customData><core:CustomData key="vhEntity" value="Currencies"/><core:CustomData key="vhTitleField" value="Code"/><core:CustomData key="vhDescField" value="Name"/><core:CustomData key="vhProperty" value="Currency"/></customData></Input></table:template></table:Column>
+                                <table:Column id="colPCPerDesp" width="7rem" hAlign="End"><Label id="lPC06" text="{i18n>procPCPerDesp}"/><table:template><Input id="tPC06" value="{path: 'PerDesp', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colPCDesBase" width="9rem"><Label id="lPC07" text="{i18n>procPCDesBase}"/><table:template><Input id="tPC07" value="{DesBase}"/></table:template></table:Column>
+                                <table:Column id="colPCValue" width="7rem" hAlign="End"><Label id="lPC08" text="{i18n>procPCValue}"/><table:template><Input id="tPC08" value="{path: 'VrDesp', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colPCDays" width="6rem" hAlign="End"><Label id="lPC09" text="{i18n>procPCDays}"/><table:template><Input id="tPC09" value="{path: 'QdeDias', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colPCMax" width="7rem" hAlign="End"><Label id="lPC10" text="{i18n>procPCMax}"/><table:template><Input id="tPC10" value="{path: 'VrMax', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colPCMin" width="7rem" hAlign="End"><Label id="lPC11" text="{i18n>procPCMin}"/><table:template><Input id="tPC11" value="{path: 'VrMim', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colPCVrPrevisa" width="8rem" hAlign="End"><Label id="lPC12" text="{i18n>procPCVrPrevisa}"/><table:template><Input id="tPC12" value="{path: 'VrPrevisa', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/></table:template></table:Column>
+                                <table:Column id="colPCCardCode" width="8rem"><Label id="lPC13" text="{i18n>procPCCard}"/><table:template><Input id="tPC13" value="{CardCode}" showValueHelp="true" valueHelpRequest="onValueHelp"><customData><core:CustomData key="vhEntity" value="BusinessPartners"/><core:CustomData key="vhTitleField" value="CardCode"/><core:CustomData key="vhDescField" value="CardName"/><core:CustomData key="vhProperty" value="CardCode"/><core:CustomData key="vhDescProperty" value="CardName"/></customData></Input></table:template></table:Column>
+                                <table:Column id="colPCCardName" width="10rem"><Label id="lPC14" text=" "/><table:template><Text id="tPC14" text="{CardName}"/></table:template></table:Column>
+                                <table:Column id="colPCItemCode" width="8rem"><Label id="lPC15" text="{i18n>procPCItem}"/><table:template><Input id="tPC15" value="{ItemCode}" showValueHelp="true" valueHelpRequest="onValueHelp"><customData><core:CustomData key="vhEntity" value="Items"/><core:CustomData key="vhTitleField" value="ItemCode"/><core:CustomData key="vhDescField" value="ItemName"/><core:CustomData key="vhProperty" value="ItemCode"/><core:CustomData key="vhDescProperty" value="ItemName"/></customData></Input></table:template></table:Column>
+                                <table:Column id="colPCItemName" width="10rem"><Label id="lPC16" text=" "/><table:template><Text id="tPC16" text="{ItemName}"/></table:template></table:Column>
+                                <table:Column id="colPCCreateNF" width="6rem" hAlign="Center"><Label id="lPC17" text="{i18n>procPCCreateNF}"/><table:template><CheckBox id="tPC17" selected="{path: 'CreateNF', type: 'acx.sapimport.s4.model.YesNoType'}"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="procTabNumerariosFilter" text="{i18n>procTabNumerarios}">
+                        <Toolbar id="procNumerariosToolbar">
+                            <MenuButton id="btnNumAcerto" text="{i18n>procNumAcerto}">
+                                <menu>
+                                    <Menu id="btnNumAcertoMenu">
+                                        <MenuItem id="miNumAcertoNF" text="{i18n>procNumAcertoNF}" press="onNotImplemented"/>
+                                        <MenuItem id="miNumAcertoDespesas" text="{i18n>procNumAcertoDespesas}" press="onNotImplemented"/>
+                                    </Menu>
+                                </menu>
+                            </MenuButton>
+                            <Button id="btnNumAdiantamento" text="{i18n>procNumAdiantamento}" press="onNotImplemented"/>
+                            <Button id="btnNumAjusteDespesas" text="{i18n>procNumAjusteDespesas}" press="onNotImplemented"/>
+                            <Button id="btnNumAtividades" text="{i18n>procNumAtividades}" press="onNotImplemented"/>
+                            <ToolbarSpacer id="procNumerariosToolbarSpacer"/>
+                            <MenuButton id="btnNumRazao" text="{i18n>procNumRazao}">
+                                <menu>
+                                    <Menu id="btnNumRazaoMenu">
+                                        <MenuItem id="miNumRazao" text="{i18n>procNumRazaoOpt}" press="onNotImplemented"/>
+                                        <MenuItem id="miNumRazaoCancelados" text="{i18n>procNumRazaoCancelados}" press="onNotImplemented"/>
+                                    </Menu>
+                                </menu>
+                            </MenuButton>
+                        </Toolbar>
+                        <table:Table id="numerariosTable"
+                            rows="{detailView>/numerarios}"
+                            selectionMode="None">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="numerariosTableRowMode" rowCount="8"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colNumTax" width="10rem"><Label id="lNum01" text="{i18n>procNumTax}"/><table:template><Text id="tNum01" text="{detailView>Tax}"/></table:template></table:Column>
+                                <table:Column id="colNumTransId" width="6rem"><Label id="lNum02" text="{i18n>procNumTransId}"/><table:template><Link id="tNum02" text="{detailView>TransId}" press="onNotImplemented"/></table:template></table:Column>
+                                <table:Column id="colNumActId" width="8rem"><Label id="lNum03" text="{i18n>procNumActId}"/><table:template><Text id="tNum03" text="{detailView>ActId}"/></table:template></table:Column>
+                                <table:Column id="colNumAcctName" width="12rem"><Label id="lNum04" text="{i18n>procNumAcctName}"/><table:template><Text id="tNum04" text="{detailView>AcctName}"/></table:template></table:Column>
+                                <table:Column id="colNumTaxDate" width="7rem"><Label id="lNum05" text="{i18n>procNumTaxDate}"/><table:template><Text id="tNum05" text="{path: 'detailView>TaxDate', type: 'sap.ui.model.odata.type.Date', formatOptions: {style: 'medium'}}"/></table:template></table:Column>
+                                <table:Column id="colNumDebit" width="7rem" hAlign="End"><Label id="lNum06" text="{i18n>procNumDebit}"/><table:template><Text id="tNum06" text="{path: 'detailView>Debit'}"/></table:template></table:Column>
+                                <table:Column id="colNumCredit" width="7rem" hAlign="End"><Label id="lNum07" text="{i18n>procNumCredit}"/><table:template><Text id="tNum07" text="{path: 'detailView>Credit'}"/></table:template></table:Column>
+                                <table:Column id="colNumSel" width="4rem" hAlign="Center"><Label id="lNum08" text="{i18n>procNumSel}"/><table:template><CheckBox id="tNum08" selected="{path: 'detailView>Sel', type: 'acx.sapimport.s4.model.YesNoType'}" select="onNumSelChange"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+                        <Toolbar id="procNumerariosTotaisToolbar">
+                            <ToolbarSpacer id="procNumerariosTotaisSpacer"/>
+                            <Label id="lNumTotalDebit" text="{i18n>procNumTotalDebit}" class="sapUiTinyMarginEnd"/>
+                            <Text id="tNumTotalDebit" text="{path: 'detailView>/numerariosTotalDebit'}" class="sapUiMediumMarginEnd"/>
+                            <Label id="lNumTotalCredit" text="{i18n>procNumTotalCredit}" class="sapUiTinyMarginEnd"/>
+                            <Text id="tNumTotalCredit" text="{path: 'detailView>/numerariosTotalCredit'}"/>
+                        </Toolbar>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="procTabAnexosFilter" text="{i18n>procTabAnexos}">
+                        <form:SimpleForm id="procAnexoCamposForm" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="3" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lAnexoShipStatus" text="{i18n>procAnexoShipStatus}"/>
+                                <Input id="iAnexoShipStatus" value="{ShipStatus}"/>
+
+                                <Label id="lAnexoGLDate" text="{i18n>procAnexoGLDate}"/>
+                                <Input id="iAnexoGLDate" value="{GLDate}"/>
+
+                                <Label id="lAnexoRemakShip" text="{i18n>procAnexoRemakShip}"/>
+                                <Input id="iAnexoRemakShip" value="{RemaksShip}"/>
+
+                                <Label id="lAnexoDscrption" text="{i18n>procAnexoDscrption}"/>
+                                <Input id="iAnexoDscrption" value="{Dscrption}"/>
+
+                                <Label id="lAnexoModal" text="{i18n>procAnexoModal}"/>
+                                <Input id="iAnexoModal" value="{Modal}"/>
+
+                                <Label id="lAnexoPendingGL" text="{i18n>procAnexoPendingGL}"/>
+                                <Input id="iAnexoPendingGL" value="{PendingGL}"/>
+
+                                <Label id="lAnexoQtyBoad" text="{i18n>procAnexoQtyBoad}"/>
+                                <Input id="iAnexoQtyBoad" value="{QtyBoad}"/>
+
+                                <Label id="lAnexoService" text="{i18n>procAnexoService}"/>
+                                <Input id="iAnexoService" value="{Service}"/>
+
+                                <Label id="lAnexoIssue" text="{i18n>procAnexoIssue}"/>
+                                <Input id="iAnexoIssue" value="{Issue}"/>
+
+                                <Label id="lAnexoGoodsType" text="{i18n>procAnexoGoodsType}"/>
+                                <Input id="iAnexoGoodsType" value="{GoodsType}"/>
+
+                                <Label id="lAnexoBondedWhs" text="{i18n>procAnexoBondedWhs}"/>
+                                <Input id="iAnexoBondedWhs" value="{BondedWhs}"/>
+
+                                <Label id="lAnexoOnHold" text="{i18n>procAnexoOnHold}"/>
+                                <Input id="iAnexoOnHold" value="{OnHold}"/>
+
+                                <Label id="lAnexoStatusLI" text="{i18n>procAnexoStatusLI}"/>
+                                <Input id="iAnexoStatusLI" value="{StatusLI}"/>
+
+                                <Label id="lAnexoFreighWdr" text="{i18n>procAnexoFreighWdr}"/>
+                                <Input id="iAnexoFreighWdr" value="{FreightWdr}"/>
+
+                                <Label id="lAnexoCanceled" text="{i18n>procAnexoCanceled}"/>
+                                <Input id="iAnexoCanceled" value="{Canceled}"/>
+
+                                <Label id="lAnexoProfit" text="{i18n>procAnexoProfit}"/>
+                                <Input id="iAnexoProfit" value="{Profit}"/>
+                            </form:content>
+                        </form:SimpleForm>
+
+                        <Toolbar id="procAnexosToolbar">
+                            <Button id="btnAnexoAnexar" text="{i18n>procAnexoAnexar}" icon="sap-icon://add" press="onNotImplemented"/>
+                            <Button id="btnAnexoBaixar" text="{i18n>procAnexoBaixar}" icon="sap-icon://download" press="onNotImplemented"/>
+                            <Button id="btnAnexoExcluir" text="{i18n>procAnexoExcluir}" icon="sap-icon://less" press="onNotImplemented"/>
+                        </Toolbar>
+                        <table:Table id="anexosTable"
+                            rows="{detailView>/anexos}"
+                            selectionMode="MultiToggle">
+                            <table:rowMode>
+                                <rowmodes:Fixed id="anexosTableRowMode" rowCount="8"/>
+                            </table:rowMode>
+                            <table:columns>
+                                <table:Column id="colAnexoFileName" width="20rem"><Label id="lAnexo01" text="{i18n>procAnexoFileName}"/><table:template><Text id="tAnexo01" text="{detailView>FileNameFull}"/></table:template></table:Column>
+                                <table:Column id="colAnexoDate" width="10rem"><Label id="lAnexo02" text="{i18n>procAnexoDate}"/><table:template><Text id="tAnexo02" text="{path: 'detailView>AttachmentDate', type: 'sap.ui.model.odata.type.Date', formatOptions: {style: 'medium'}}"/></table:template></table:Column>
+                                <table:Column id="colAnexoUser" width="8rem"><Label id="lAnexo03" text="{i18n>procAnexoUser}"/><table:template><Text id="tAnexo03" text="{detailView>UserID}"/></table:template></table:Column>
+                            </table:columns>
+                        </table:Table>
+                        <Toolbar id="procAnexoPOToolbar">
+                            <Button id="btnAnexoCCPO" text="{i18n>procAnexoCCPO}" press="onNotImplemented"/>
+                            <Button id="btnAnexoPO2DI" text="{i18n>procAnexoPO2DI}" press="onAnexoPO2DI"/>
+                        </Toolbar>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+        <footer>
+            <Toolbar id="procFooterToolbar">
+                <Button id="procOkButton" text="{= ${detailView>/newMode} ? ${i18n>procAdd} : ( ${detailView>/isDirty} ? ${i18n>procUpdate} : ${i18n>procOk} ) }" type="Emphasized" press="onSave"/>
+                <Button id="procCancelButton" text="{i18n>procCancel}" press="onCancel"/>
+                <MenuButton id="btnDI" text="{i18n>procDI}">
+                    <menu>
+                        <Menu id="btnDIMenu">
+                            <MenuItem id="miDIImportar" text="{i18n>procDIImportar}" press="onNotImplemented"/>
+                            <MenuItem id="miDIComparar" text="{i18n>procDIComparar}" press="onNotImplemented"/>
+                            <MenuItem id="miDILoteSerie" text="{i18n>procDILoteSerie}" press="onNotImplemented"/>
+                            <MenuItem id="miDIVerSerieLote" text="{i18n>procDIVerSerieLote}" press="onNotImplemented"/>
+                            <MenuItem id="miDIChaveDuimp" text="{i18n>procDIChaveDuimp}" press="onNotImplemented"/>
+                            <MenuItem id="miDIVerAntidumping" text="{i18n>procDIVerAntidumping}" press="onNotImplemented"/>
+                            <MenuItem id="miDIImportarAntidumping" text="{i18n>procDIImportarAntidumping}" press="onNotImplemented"/>
+                        </Menu>
+                    </menu>
+                </MenuButton>
+                <ToolbarSpacer id="procFooterToolbarSpacer"/>
+                <Label id="lFooterPesoBto" text="{i18n>procPesoBto}"/>
+                <Input id="iFooterPesoBto" value="{path: 'PesoBto', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End" width="7rem" class="sapUiTinyMarginEnd"/>
+                <Label id="lFooterPesoLiq" text="{i18n>procPesoLiq}"/>
+                <Text id="tFooterPesoLiq" text="{path: 'PesoLiq', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" class="sapUiTinyMarginEnd"/>
+                <Label id="lFooterToFob" text="{i18n>procToFob}"/>
+                <Text id="tFooterToFob" text="{path: 'ToFob', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" class="sapUiTinyMarginEnd"/>
+                <Label id="lFooterToCif" text="{i18n>procToCif}"/>
+                <Text id="tFooterToCif" text="{path: 'ToCif', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"/>
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

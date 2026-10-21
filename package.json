@@ -1,0 +1,40 @@
+{
+  "name": "sapimport-s4",
+  "version": "0.0.1",
+  "description": "sapimport, replicated against SAP S/4HANA Cloud (Public Edition) instead of SAP Business One. See docs/cbo-design.md for the data-model design this phase produced.",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "main": "webapp/index.html",
+  "devDependencies": {
+    "@sap-ux/eslint-plugin-fiori-tools": "^10.0.0",
+    "@sap-ux/ui5-middleware-fe-mockserver": "2",
+    "@sap/ux-ui5-tooling": "1",
+    "@sapui5/types": "^1.151.0",
+    "@ui5/cli": "^4.0.66",
+    "eslint": "^10",
+    "playwright": "^1.48.0",
+    "ui5-middleware-pucomex": "file:packages/ui5-middleware-pucomex",
+    "ui5-middleware-pucomex-mock": "file:packages/ui5-middleware-pucomex-mock",
+    "ui5-middleware-s4-api-proxy": "file:packages/ui5-middleware-s4-api-proxy"
+  },
+  "scripts": {
+    "start": "fiori run --open \"/index.html\"",
+    "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",
+    "lint": "eslint ./",
+    "start-mock": "fiori run --config ./ui5-mock.yaml --open \"/index.html\"",
+    "start-rap": "node scripts/start-rap.mjs",
+    "start-s4": "fiori run --config ./ui5-s4.yaml --open \"/index.html\"",
+    "fetch-po-metadata": "node scripts/fetch-po-metadata.mjs",
+    "fetch-cbo-metadata": "node scripts/fetch-cbo-metadata.mjs",
+    "extract-schema": "node scripts/extract-schema.js",
+    "generate-mock": "node scripts/generate-mock.js",
+    "generate-abap": "node scripts/generate-abap.js",
+    "deploy-abap": "node scripts/abap/deploy.mjs",
+    "cbo-browser": "node scripts/cbo/browser.mjs",
+    "create-cbos": "node scripts/cbo/create-cbos.mjs"
+  },
+  "sapuxLayer": "CUSTOMER_BASE"
+}

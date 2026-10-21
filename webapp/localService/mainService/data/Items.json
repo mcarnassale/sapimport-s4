@@ -1,0 +1,30 @@
+[
+  {
+    "ItemCode": "SERV-ADU",
+    "ItemName": "Serviço Aduaneiro",
+    "PurchaseUnitWeight1": 0,
+    "PurchaseWeightUnit1": 0,
+    "NCMCode": ""
+  },
+  {
+    "ItemCode": "SERV-DESP",
+    "ItemName": "Despesas Diversas",
+    "PurchaseUnitWeight1": 0,
+    "PurchaseWeightUnit1": 0,
+    "NCMCode": ""
+  },
+  {
+    "ItemCode": "ITEM-001",
+    "ItemName": "Componente Eletrônico",
+    "PurchaseUnitWeight1": 2500,
+    "PurchaseWeightUnit1": 2,
+    "NCMCode": "85171231"
+  },
+  {
+    "ItemCode": "ITEM-002",
+    "ItemName": "Peça Industrial",
+    "PurchaseUnitWeight1": 15,
+    "PurchaseWeightUnit1": 3,
+    "NCMCode": "84713012"
+  }
+]

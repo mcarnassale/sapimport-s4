@@ -1,0 +1,524 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.Configs"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="configsPage" title="{i18n>configsTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <IconTabBar id="configsTabBar">
+                <items>
+                    <IconTabFilter id="tabGeneral" text="{i18n>cfgTabGeneral}">
+                        <form:SimpleForm id="formGeneral" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lCode" text="{i18n>cfgCode}"/>
+                                <Text id="tCode" text="{Code}"/>
+                                <Label id="lName" text="{i18n>cfgName}"/>
+                                <Text id="tName" text="{Name}"/>
+                                <Label id="lVersao" text="{i18n>cfgVersao}"/>
+                                <Text id="tVersao" text="{Versao}"/>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabExpenses" text="{i18n>cfgTabExpenses}">
+                        <form:SimpleForm id="formExpenses" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lCombImp" text="{i18n>cfgCombImp}"/>
+                                <Input id="iCombImp" value="{CombImp}"/>
+                                <Label id="lCombDi" text="{i18n>cfgCombDi}"/>
+                                <Input id="iCombDi" value="{CombDi}"/>
+                                <Label id="lDSiscomex" text="{i18n>cfgDSiscomex}"/>
+                                <Input id="iDSiscomex" value="{DSiscomex}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="AdditionalExpenses"/>
+                                        <core:CustomData key="vhTitleField" value="ExpensCode"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="DSiscomex"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lDAduaneir" text="{i18n>cfgDAduaneir}"/>
+                                <Input id="iDAduaneir" value="{DAduaneir}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="AdditionalExpenses"/>
+                                        <core:CustomData key="vhTitleField" value="ExpensCode"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="DAduaneir"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lDOutros" text="{i18n>cfgDOutros}"/>
+                                <Input id="iDOutros" value="{DOutros}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="AdditionalExpenses"/>
+                                        <core:CustomData key="vhTitleField" value="ExpensCode"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="DOutros"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lDImpostos" text="{i18n>cfgDImpostos}"/>
+                                <Input id="iDImpostos" value="{DImpostos}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="AdditionalExpenses"/>
+                                        <core:CustomData key="vhTitleField" value="ExpensCode"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="DImpostos"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lDispOrderComb" text="{i18n>cfgDispOrderComb}"/>
+                                <Select id="sDispOrderComb" selectedKey="{DispOrderComb}">
+                                    <core:Item id="itDispNone" key="-1" text="Sem Reforma"/>
+                                    <core:Item id="itDisp1" key="1" text="IS-MUN-UF-CBS"/>
+                                    <core:Item id="itDisp2" key="2" text="IS-CBS-UF-MUN"/>
+                                    <core:Item id="itDisp3" key="3" text="CBS-UF-IS-MUN"/>
+                                </Select>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabUsage" text="{i18n>cfgTabUsage}">
+                        <form:SimpleForm id="formUsage" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lUsage" text="{i18n>cfgUsage}"/>
+                                <Input id="iUsage" value="{path: 'UsageCode', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="NotaFiscalUsage"/>
+                                        <core:CustomData key="vhTitleField" value="ID"/>
+                                        <core:CustomData key="vhDescField" value="Usage"/>
+                                        <core:CustomData key="vhProperty" value="UsageCode"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lUsageT" text="{i18n>cfgUsageT}"/>
+                                <Input id="iUsageT" value="{path: 'UsageT', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="NotaFiscalUsage"/>
+                                        <core:CustomData key="vhTitleField" value="ID"/>
+                                        <core:CustomData key="vhDescField" value="Usage"/>
+                                        <core:CustomData key="vhProperty" value="UsageT"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lUsageF" text="{i18n>cfgUsageF}"/>
+                                <Input id="iUsageF" value="{path: 'UsageF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="NotaFiscalUsage"/>
+                                        <core:CustomData key="vhTitleField" value="ID"/>
+                                        <core:CustomData key="vhDescField" value="Usage"/>
+                                        <core:CustomData key="vhProperty" value="UsageF"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lUsageI" text="{i18n>cfgUsageI}"/>
+                                <Input id="iUsageI" value="{path: 'UsageI', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="NotaFiscalUsage"/>
+                                        <core:CustomData key="vhTitleField" value="ID"/>
+                                        <core:CustomData key="vhDescField" value="Usage"/>
+                                        <core:CustomData key="vhProperty" value="UsageI"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lUsageL" text="{i18n>cfgUsageL}"/>
+                                <Input id="iUsageL" value="{path: 'UsageL', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="NotaFiscalUsage"/>
+                                        <core:CustomData key="vhTitleField" value="ID"/>
+                                        <core:CustomData key="vhDescField" value="Usage"/>
+                                        <core:CustomData key="vhProperty" value="UsageL"/>
+                                    </customData>
+                                </Input>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabPartners" text="{i18n>cfgTabPartners}">
+                        <form:SimpleForm id="formPartners" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lCardRecFe" text="{i18n>cfgCardRecFe}"/>
+                                <Input id="iCardRecFe" value="{CardRecFe}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="BusinessPartners"/>
+                                        <core:CustomData key="vhTitleField" value="CardCode"/>
+                                        <core:CustomData key="vhDescField" value="CardName"/>
+                                        <core:CustomData key="vhProperty" value="CardRecFe"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lCardRecEs" text="{i18n>cfgCardRecEs}"/>
+                                <Input id="iCardRecEs" value="{CardRecEs}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="BusinessPartners"/>
+                                        <core:CustomData key="vhTitleField" value="CardCode"/>
+                                        <core:CustomData key="vhDescField" value="CardName"/>
+                                        <core:CustomData key="vhProperty" value="CardRecEs"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lCardPrevi" text="{i18n>cfgCardPrevi}"/>
+                                <Input id="iCardPrevi" value="{CardPrevi}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="BusinessPartners"/>
+                                        <core:CustomData key="vhTitleField" value="CardCode"/>
+                                        <core:CustomData key="vhDescField" value="CardName"/>
+                                        <core:CustomData key="vhProperty" value="CardPrevi"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lTaxCode" text="{i18n>cfgTaxCode}"/>
+                                <Input id="iTaxCode" value="{TaxCode}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="SalesTaxCodes"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="TaxCode"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lCourrier" text="{i18n>cfgCourrier}"/>
+                                <Input id="iCourrier" value="{Courrier}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="SalesTaxCodes"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="Courrier"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lAccAdiant" text="{i18n>cfgAccAdiant}"/>
+                                <Input id="iAccAdiant" value="{AccAdiant}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="ChartOfAccounts"/>
+                                        <core:CustomData key="vhTitleField" value="Code"/>
+                                        <core:CustomData key="vhDescField" value="Name"/>
+                                        <core:CustomData key="vhProperty" value="AccAdiant"/>
+                                    </customData>
+                                </Input>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabTaxItems" text="{i18n>cfgTabTaxItems}">
+                        <form:SimpleForm id="formTaxItems" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lNmII" text="{i18n>cfgNmII}"/>
+                                <Input id="iNmII" value="{Nm_II}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="Nm_II"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lNmPIS" text="{i18n>cfgNmPIS}"/>
+                                <Input id="iNmPIS" value="{Nm_PIS}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="Nm_PIS"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lNmCOF" text="{i18n>cfgNmCOF}"/>
+                                <Input id="iNmCOF" value="{Nm_COF}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="Nm_COF"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lNmIPI" text="{i18n>cfgNmIPI}"/>
+                                <Input id="iNmIPI" value="{Nm_IPI}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="Nm_IPI"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lNmICMS" text="{i18n>cfgNmICMS}"/>
+                                <Input id="iNmICMS" value="{Nm_ICMS}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="Nm_ICMS"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lNmScomex" text="{i18n>cfgNmScomex}"/>
+                                <Input id="iNmScomex" value="{Nm_Scomex}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="Nm_Scomex"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lNmDump" text="{i18n>cfgNmDump}"/>
+                                <Input id="iNmDump" value="{Nm_Dump}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="Nm_Dump"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lServDesp" text="{i18n>cfgServDesp}"/>
+                                <Input id="iServDesp" value="{ServDesp}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="ServDesp"/>
+                                    </customData>
+                                </Input>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabExpenseItems" text="{i18n>cfgTabExpenseItems}">
+                        <form:SimpleForm id="formExpenseItems" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lItemDebit" text="{i18n>cfgItemDebit}"/>
+                                <Input id="iItemDebit" value="{ItemDebit}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="ItemDebit"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lItemSeguro" text="{i18n>cfgItemSeguro}"/>
+                                <Input id="iItemSeguro" value="{ItemSeguro}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="ItemSeguro"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lItemFrete" text="{i18n>cfgItemFrete}"/>
+                                <Input id="iItemFrete" value="{ItemFrete}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="ItemFrete"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lItemPedPrev" text="{i18n>cfgItemPedPrev}"/>
+                                <Input id="iItemPedPrev" value="{ItemPedPrev}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Items"/>
+                                        <core:CustomData key="vhTitleField" value="ItemCode"/>
+                                        <core:CustomData key="vhDescField" value="ItemName"/>
+                                        <core:CustomData key="vhProperty" value="ItemPedPrev"/>
+                                    </customData>
+                                </Input>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabWarehouse" text="{i18n>cfgTabWarehouse}">
+                        <form:SimpleForm id="formWarehouse" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lWhsTCode" text="{i18n>cfgWhsTCode}"/>
+                                <Input id="iWhsTCode" value="{WhsTCode}" showValueHelp="true" valueHelpRequest="onValueHelp">
+                                    <customData>
+                                        <core:CustomData key="vhEntity" value="Warehouses"/>
+                                        <core:CustomData key="vhTitleField" value="WarehouseCode"/>
+                                        <core:CustomData key="vhDescField" value="WarehouseName"/>
+                                        <core:CustomData key="vhProperty" value="WhsTCode"/>
+                                    </customData>
+                                </Input>
+                                <Label id="lSeqName" text="{i18n>cfgSeqName}"/>
+                                <Input id="iSeqName" value="{SeqName}"/>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabMenus" text="{i18n>cfgTabMenus}">
+                        <form:SimpleForm id="formMenus" layout="ResponsiveGridLayout"
+                            labelSpanXL="8" labelSpanL="8" labelSpanM="8" labelSpanS="10"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="1" columnsL="1" columnsM="1">
+                            <form:content>
+                                <Label id="lVlrsDin" text="{i18n>cfgVlrsDin}"/>
+                                <CheckBox id="cVlrsDin" selected="{path: 'VlrsDin', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lIntS4Hana" text="{i18n>cfgIntS4Hana}"/>
+                                <CheckBox id="cIntS4Hana" selected="{path: 'IntS4Hana', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lNFFilha" text="{i18n>cfgNFFilha}"/>
+                                <CheckBox id="cNFFilha" selected="{path: 'NFFilha', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lNFDebit" text="{i18n>cfgNFDebit}"/>
+                                <CheckBox id="cNFDebit" selected="{path: 'NFDebit', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabOptions" text="{i18n>cfgTabOptions}">
+                        <form:SimpleForm id="formOptions" layout="ResponsiveGridLayout"
+                            labelSpanXL="8" labelSpanL="8" labelSpanM="8" labelSpanS="10"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lExpenses" text="{i18n>cfgExpenses}"/>
+                                <CheckBox id="cExpenses" selected="{path: 'Expenses', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lMeprev" text="{i18n>cfgMeprev}"/>
+                                <CheckBox id="cMeprev" selected="{path: 'Meprev', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lOverPC" text="{i18n>cfgOverPC}"/>
+                                <CheckBox id="cOverPC" selected="{path: 'OverPC', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lDespPrev" text="{i18n>cfgDespPrev}"/>
+                                <CheckBox id="cDespPrev" selected="{path: 'DespPrev', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lCustoCOFM" text="{i18n>cfgCustoCOFM}"/>
+                                <CheckBox id="cCustoCOFM" selected="{path: 'CustoCOFM', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lDIItem" text="{i18n>cfgDIItem}"/>
+                                <CheckBox id="cDIItem" selected="{path: 'DIItem', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lByPrice" text="{i18n>cfgByPrice}"/>
+                                <CheckBox id="cByPrice" selected="{path: 'ByPrice', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lCardVar" text="{i18n>cfgCardVar}"/>
+                                <CheckBox id="cCardVar" selected="{path: 'CardVar', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lPesoPed" text="{i18n>cfgPesoPed}"/>
+                                <CheckBox id="cPesoPed" selected="{path: 'PesoPed', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lFreteSeg" text="{i18n>cfgFreteSeg}"/>
+                                <CheckBox id="cFreteSeg" selected="{path: 'FreteSeg', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lProgBar" text="{i18n>cfgProgBar}"/>
+                                <CheckBox id="cProgBar" selected="{path: 'ProgBar', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lAlterQde" text="{i18n>cfgAlterQde}"/>
+                                <CheckBox id="cAlterQde" selected="{path: 'AlterQde', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lRMClosePO" text="{i18n>cfgRMClosePO}"/>
+                                <CheckBox id="cRMClosePO" selected="{path: 'RMClosePO', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lEverKg" text="{i18n>cfgEverKg}"/>
+                                <CheckBox id="cEverKg" selected="{path: 'EverKg', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lIsUsage" text="{i18n>cfgIsUsage}"/>
+                                <CheckBox id="cIsUsage" selected="{path: 'IsUsage', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lTravaRM" text="{i18n>cfgTravaRM}"/>
+                                <CheckBox id="cTravaRM" selected="{path: 'TravaRM', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lDespaCNPJ" text="{i18n>cfgDespaCNPJ}"/>
+                                <CheckBox id="cDespaCNPJ" selected="{path: 'DespaCNPJ', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lLcrPrsmd" text="{i18n>cfgLcrPrsmd}"/>
+                                <CheckBox id="cLcrPrsmd" selected="{path: 'LcrPrsmd', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lInvNoRm" text="{i18n>cfgInvNoRm}"/>
+                                <CheckBox id="cInvNoRm" selected="{path: 'InvNoRm', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lINVNFRF" text="{i18n>cfgINVNFRF}"/>
+                                <CheckBox id="cINVNFRF" selected="{path: 'INVNFRF', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lLoteFreeTextNFN" text="{i18n>cfgLoteFreeTextNFN}"/>
+                                <CheckBox id="cLoteFreeTextNFN" selected="{path: 'LoteFreeTextNFN', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lUsarWhsPedido" text="{i18n>cfgUsarWhsPedido}"/>
+                                <CheckBox id="cUsarWhsPedido" selected="{path: 'UsarWhsPedido', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lInverterActCambio" text="{i18n>cfgInverterActCambio}"/>
+                                <CheckBox id="cInverterActCambio" selected="{path: 'InverterActCambio', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lEverTN" text="{i18n>cfgEverTN}"/>
+                                <CheckBox id="cEverTN" selected="{path: 'EverTN', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                                <Label id="lUsarRef2" text="{i18n>cfgUsarRef2}"/>
+                                <CheckBox id="cUsarRef2" selected="{path: 'UsarRef2', type: 'acx.sapimport.s4.model.YesNoType'}"/>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabOther" text="{i18n>cfgTabOther}">
+                        <form:SimpleForm id="formOther" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lPrecisao" text="{i18n>cfgPrecisao}"/>
+                                <!-- Ported off acx.sapimport.model.SapNumberType (B1 admin-info-driven
+                                     decimal/separator formatting) to a plain OData Decimal type — see
+                                     Decision 3 in docs/configs-port-notes.md. -->
+                                <Input id="iPrecisao" value="{path: 'Precisao', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}" textAlign="End"/>
+                                <Label id="lMaxItemNF" text="{i18n>cfgMaxItemNF}"/>
+                                <Input id="iMaxItemNF" value="{path: 'MaxItemNF', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 10, scale: 0}}" textAlign="End"/>
+                                <Label id="lFinancial" text="{i18n>cfgFinancial}"/>
+                                <Select id="sFinancial" selectedKey="{Financial}">
+                                    <core:Item id="itFin01" key="01" text="SAP"/>
+                                    <core:Item id="itFin02" key="02" text="Invent"/>
+                                    <core:Item id="itFin03" key="03" text="Skill"/>
+                                    <core:Item id="itFin04" key="04" text="AGL"/>
+                                    <core:Item id="itFin05" key="05" text="Mastersaf"/>
+                                    <core:Item id="itFin06" key="06" text="4Tax"/>
+                                </Select>
+                                <Label id="lTpSendAdu" text="{i18n>cfgTpSendAdu}"/>
+                                <Select id="sTpSendAdu" selectedKey="{TpSendAdu}">
+                                    <core:Item id="itAdu01" key="01" text="Padrão CSV 1"/>
+                                    <core:Item id="itAdu02" key="02" text="Ellas"/>
+                                    <core:Item id="itAdu03" key="03" text="Bysoft"/>
+                                    <core:Item id="itAdu04" key="04" text="afill"/>
+                                    <core:Item id="itAdu05" key="05" text="SISCEX v.2.34"/>
+                                    <core:Item id="itAdu06" key="06" text="Padrao CSV 2"/>
+                                    <core:Item id="itAdu07" key="07" text="Padrao CSV 3"/>
+                                    <core:Item id="itAdu08" key="08" text="Roland DG"/>
+                                    <core:Item id="itAdu09" key="09" text="Transire csv"/>
+                                    <core:Item id="itAdu10" key="10" text="Transire xml"/>
+                                </Select>
+                                <Label id="lSepItemCodeDI" text="{i18n>cfgSepItemCodeDI}"/>
+                                <Select id="sSepItemCodeDI" selectedKey="{SepItemCodeDI}">
+                                    <core:Item id="itSep1" key="1" text="( espaço traço espaço )"/>
+                                    <core:Item id="itSep2" key="2" text="traço"/>
+                                </Select>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter id="tabPortal" text="{i18n>cfgTabPortal}">
+                        <!-- ClientId/Secret + "Save PU Credentials" dropped this pass — see
+                             Decision 2 in docs/configs-port-notes.md (needs a real credential
+                             store design, not a blind port). Ambiente/MetodoBuscaItem/PerfilPU
+                             are plain ICFG-bound Selects, kept as-is. -->
+                        <form:SimpleForm id="formPortal" layout="ResponsiveGridLayout"
+                            labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="2" columnsL="2" columnsM="1">
+                            <form:content>
+                                <Label id="lAmbientePU" text="{i18n>cfgAmbientePU}"/>
+                                <Select id="sAmbientePU" selectedKey="{AmbientePU}">
+                                    <core:Item id="itAmbVal" key="https://val.portalunico.siscomex.gov.br" text="Validação"/>
+                                    <core:Item id="itAmbProd" key="https://portalunico.siscomex.gov.br" text="Produção"/>
+                                </Select>
+                                <Label id="lMetodoBuscaItem" text="{i18n>cfgMetodoBuscaItem}"/>
+                                <Select id="sMetodoBuscaItem" selectedKey="{MetodoBuscaItem}">
+                                    <core:Item id="itMet1" key="1" text="Com paralelismo"/>
+                                    <core:Item id="itMet2" key="2" text="Sem paralelismo"/>
+                                    <core:Item id="itMet3" key="3" text="Catálogo"/>
+                                </Select>
+                                <Label id="lPerfilPU" text="{i18n>cfgPerfilPU}"/>
+                                <Select id="sPerfilPU" selectedKey="{PerfilPU}">
+                                    <core:Item id="itPerf1" key="IMPEXP" text="Declarante importador/exportador"/>
+                                    <core:Item id="itPerf2" key="DEPOSIT" text="Depositário"/>
+                                    <core:Item id="itPerf3" key="OPERPORT" text="Operador Portuário"/>
+                                    <core:Item id="itPerf4" key="TRANSPORT" text="Transportador"/>
+                                    <core:Item id="itPerf5" key="TRANSPEST" text="PF - Representante de TETI"/>
+                                    <core:Item id="itPerf6" key="AGECARGA" text="Agente de Carga"/>
+                                    <core:Item id="itPerf7" key="AGEREMESS" text="Remessa Expressa/Correio"/>
+                                    <core:Item id="itPerf8" key="AJUDESPAC" text="Ajudante de Despachante"/>
+                                    <core:Item id="itPerf9" key="INSTFINANC" text="Instituição Financeira"/>
+                                    <core:Item id="itPerf10" key="CONTATOOEA" text="Ponto de Contato OEA"/>
+                                    <core:Item id="itPerf11" key="RESPLEGAL" text="Responsável Legal OE"/>
+                                    <core:Item id="itPerf12" key="HABILITAD" text="Receita Federal (Habilitado)"/>
+                                    <core:Item id="itPerf13" key="RFB" text="Receita Federal (RFB)"/>
+                                </Select>
+                            </form:content>
+                        </form:SimpleForm>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+        <footer>
+            <Toolbar id="configsFooterToolbar">
+                <ToolbarSpacer id="configsFooterToolbarSpacer"/>
+                <Button id="configsOkButton" text="{i18n>configsOk}" type="Emphasized" press="onSave"/>
+                <Button id="configsCancelButton" text="{i18n>configsCancel}" press="onCancel"/>
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

@@ -1,0 +1,488 @@
+<title>Purchase Order Schema</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F2F5F7;
+    --surface: #FFFFFF;
+    --surface-2: #E9EEF2;
+    --ink: #151B23;
+    --ink-soft: #4E5A66;
+    --ink-faint: #8492A0;
+    --border: #D7DFE6;
+    --accent: #2C5F8A;
+    --accent-soft: #DCE8F1;
+    --verified: #1F8F63;
+    --verified-soft: #DFF3E9;
+    --mockonly: #B4741B;
+    --mockonly-soft: #F5E7D0;
+    --notmodeled: #8A94A3;
+    --notmodeled-soft: #EAEDF1;
+    --shadow: 0 1px 2px rgba(21,27,35,.06), 0 8px 24px -12px rgba(21,27,35,.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1417;
+      --surface: #171E23;
+      --surface-2: #1E262C;
+      --ink: #E7ECEF;
+      --ink-soft: #A3AFB9;
+      --ink-faint: #6D7982;
+      --border: #2A343C;
+      --accent: #7AB1DE;
+      --accent-soft: #1E313E;
+      --verified: #52D69B;
+      --verified-soft: #16332A;
+      --mockonly: #E7A85B;
+      --mockonly-soft: #3A2C18;
+      --notmodeled: #7C8894;
+      --notmodeled-soft: #222A30;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1417;
+    --surface: #171E23;
+    --surface-2: #1E262C;
+    --ink: #E7ECEF;
+    --ink-soft: #A3AFB9;
+    --ink-faint: #6D7982;
+    --border: #2A343C;
+    --accent: #7AB1DE;
+    --accent-soft: #1E313E;
+    --verified: #52D69B;
+    --verified-soft: #16332A;
+    --mockonly: #E7A85B;
+    --mockonly-soft: #3A2C18;
+    --notmodeled: #7C8894;
+    --notmodeled-soft: #222A30;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    padding: 0 20px;
+    padding-block: 40px 64px;
+  }
+  code, .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+
+  .wrap { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; }
+
+  /* ---- Header ---- */
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: .06em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin: 0 0 10px;
+  }
+  h1 { font-size: clamp(28px, 4vw, 38px); line-height: 1.15; margin: 0 0 12px; text-wrap: balance; font-weight: 700; }
+  .dek { color: var(--ink-soft); font-size: 15.5px; line-height: 1.6; max-width: 68ch; margin: 0; }
+  .dek b { color: var(--ink); font-weight: 600; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; box-shadow: var(--shadow);
+  }
+  .stat .n { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stat .l { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* ---- Legend + filter ---- */
+  .toolbar { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; justify-content: space-between; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--ink-soft); }
+  .legend .item { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .dot.used { background: var(--verified); }
+  .dot.real { background: var(--ink-faint); }
+  .diamond { width: 8px; height: 8px; background: var(--mockonly); transform: rotate(45deg); flex: none; }
+
+  #filter {
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+    background: var(--surface); border: 1px solid var(--border); color: var(--ink);
+    border-radius: 8px; padding: 9px 12px 9px 32px; width: 240px; max-width: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238492A0' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: 10px center;
+  }
+  #filter:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  /* ---- Diagram ---- */
+  .diagram {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 32px 24px 26px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+  }
+  .node {
+    border-radius: 10px; padding: 12px 18px; text-align: center; min-width: 190px;
+  }
+  .node .oname { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 14px; }
+  .node .olabel { font-size: 12px; margin-top: 2px; }
+  .node.core { background: var(--accent-soft); border: 1.5px solid var(--accent); }
+  .node.core .oname { color: var(--accent); }
+  .node.core .olabel { color: var(--ink-soft); }
+  .node.dim { background: var(--notmodeled-soft); border: 1.5px dashed var(--notmodeled); }
+  .node.dim .oname { color: var(--ink-soft); }
+  .node.dim .olabel { color: var(--ink-faint); }
+
+  .stub { width: 2px; height: 22px; background: var(--border); position: relative; }
+  .card-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-faint);
+    background: var(--surface); padding: 0 6px; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); white-space: nowrap;
+  }
+  .bar-wrap { width: 100%; max-width: 640px; display: flex; flex-direction: column; align-items: center; }
+  .bar { width: 100%; height: 2px; background: var(--border); margin-bottom: 0; }
+  .children { width: 100%; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 22px; }
+  .children .branch { display: flex; flex-direction: column; align-items: center; gap: 0; flex: 1 1 190px; }
+  .children .stub { height: 22px; margin-top: -22px; }
+
+  /* ---- Entity cards ---- */
+  .entity {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); overflow: hidden;
+  }
+  .entity[hidden] { display: none; }
+  .ehead {
+    padding: 18px 22px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ehead .oname { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16px; color: var(--accent); }
+  .ehead .label { font-size: 14px; color: var(--ink-soft); }
+  .ehead .count { margin-left: auto; font-size: 12px; color: var(--ink-faint); font-family: 'IBM Plex Mono', monospace; }
+  .badge {
+    font-size: 11px; font-family: 'IBM Plex Mono', monospace; padding: 2px 8px; border-radius: 20px;
+    letter-spacing: .01em;
+  }
+  .badge.notmodeled { background: var(--notmodeled-soft); color: var(--ink-soft); }
+  .badge.used-count { background: var(--verified-soft); color: var(--verified); }
+
+  .fields {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    padding: 6px 14px 14px;
+  }
+  .field { display: grid; grid-template-columns: 12px 1fr auto; align-items: center; gap: 7px; padding: 5px 8px; border-radius: 6px; }
+  .field[hidden] { display: none; }
+  .field:hover { background: var(--surface-2); }
+  .field .key { color: var(--accent); font-size: 13px; text-align: center; line-height: 1; }
+  .field .fname { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; }
+  .field .fname.iskey { font-weight: 600; }
+  .field .ftype { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--ink-faint); white-space: nowrap; }
+  .field.plain { grid-template-columns: 12px 1fr auto; }
+
+  .mockpanel {
+    margin: 4px 22px 20px; padding: 14px 16px; border-radius: 10px;
+    background: var(--mockonly-soft); border: 1px dashed var(--mockonly);
+  }
+  .mockpanel .mtitle {
+    font-size: 12px; color: var(--mockonly); font-weight: 600; margin: 0 0 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mockpanel .mfields { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 4px 14px; }
+  .mockpanel .mfield { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink); }
+  .mockpanel .mfield[hidden] { display: none; }
+  .mockpanel .mfield .note { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; color: var(--ink-soft); }
+
+  #empty { display: none; text-align: center; padding: 40px 0; color: var(--ink-faint); font-size: 14px; }
+  #empty.show { display: block; }
+
+  footer {
+    border-top: 1px solid var(--border); padding-top: 22px;
+    font-size: 12.5px; color: var(--ink-faint); line-height: 1.7;
+  }
+  footer b { color: var(--ink-soft); }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .node { min-width: 0; width: 100%; }
+    .diagram { padding: 24px 14px 20px; }
+    .ehead .count { margin-left: 0; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div>
+    <p class="eyebrow">SAP S/4HANA Cloud · API_PURCHASEORDER_PROCESS_SRV</p>
+    <h1>Estrutura do Pedido de Compras (Purchase Order)</h1>
+    <p class="dek">
+      As 5 entidades reais do serviço OData <b>API_PURCHASEORDER_PROCESS_SRV</b>, campo a campo —
+      cruzadas com o que o mock do <b>sapimport-s4</b> (<code>PurchaseOrders</code>/
+      <code>PurchaseOrderLines</code>) de fato usa em <a href="../webapp/controller/ProcessosDetail.controller.js">ProcessosDetail</a>'s
+      "Inserir Pedidos". Fonte: o VDM gerado (<code>@sap/cloud-sdk-vdm-purchase-order-service</code>),
+      não a página do API Business Hub — ver nota no rodapé.
+    </p>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="toolbar">
+    <div class="legend">
+      <span class="item"><span class="dot used"></span> usado no mock do sapimport-s4</span>
+      <span class="item"><span class="dot real"></span> campo real, não modelado aqui</span>
+      <span class="item"><span class="diamond"></span> só existe no mock (não é campo real da API)</span>
+    </div>
+    <input id="filter" type="text" placeholder="Filtrar campo…" autocomplete="off" />
+  </div>
+
+  <div class="diagram">
+    <div class="node core"><div class="oname">A_PurchaseOrder</div><div class="olabel">Pedido · header</div></div>
+    <div class="stub"><span class="card-label">1 : N</span></div>
+    <div class="node core"><div class="oname">A_PurchaseOrderItem</div><div class="olabel">Item</div></div>
+    <div class="bar-wrap">
+      <div class="stub"><span class="card-label">1 : N</span></div>
+      <div class="bar"></div>
+      <div class="children">
+        <div class="branch">
+          <div class="stub"></div>
+          <div class="node dim"><div class="oname">PurOrdPricingElement</div><div class="olabel">Condições de preço</div></div>
+        </div>
+        <div class="branch">
+          <div class="stub"></div>
+          <div class="node dim"><div class="oname">PurOrdAccountAssignment</div><div class="olabel">Rateio contábil</div></div>
+        </div>
+        <div class="branch">
+          <div class="stub"></div>
+          <div class="node dim"><div class="oname">PurchaseOrderScheduleLine</div><div class="olabel">Linha de programação</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="entities" style="display:flex; flex-direction:column; gap:20px;"></div>
+  <div id="empty">Nenhum campo corresponde ao filtro.</div>
+
+  <footer>
+    <b>Fonte:</b> arquivos <code>.d.ts</code> do pacote npm <code>@sap/cloud-sdk-vdm-purchase-order-service</code>
+    (o VDM gerado a partir do metadata real do <code>API_PURCHASEORDER_PROCESS_SRV</code>), lidos via unpkg —
+    a página do próprio <a href="https://api.sap.com/api/API_PURCHASEORDER_PROCESS_SRV/overview">SAP API Business Hub</a>
+    é uma SPA renderizada em cliente e não devolve conteúdo a um fetch simples.<br/>
+    <b>Nome OData:</b> derivado programaticamente capitalizando a primeira letra do nome camelCase do VDM
+    (convenção confirmada nos campos que este projeto já usa — ex. <code>documentCurrency</code> →
+    <code>DocumentCurrency</code> — e assumida para o restante).<br/>
+    <b>Nota:</b> a SAP sinalizou o <code>API_PURCHASEORDER_PROCESS_SRV</code> (OData V2) para depreciação
+    em favor de um sucessor OData V4 — ainda não confirmado qual, nem se este projeto deveria migrar para ele.<br/>
+    <b>Achado desta sessão:</b> <code>NetAmount</code>/<code>NetAmountInCoCodeCrcy</code> em
+    <code>PurchaseOrderLines</code> foram corrigidos de "campo real" para "só no mock" — ver
+    <a href="insert-pedidos-port-notes.md">insert-pedidos-port-notes.md</a>.
+  </footer>
+
+</div>
+
+<script>
+  const T = (t) => 'Edm.' + t;
+  // [camelCaseName, EdmType, isKey]
+  const DATA = {
+    PurchaseOrder: {
+      label: 'Pedido (header)', core: true,
+      used: new Set(['purchaseOrder','companyCode','purchasingDocumentDeletionCode','supplier','purchaseOrderDate','documentCurrency']),
+      fields: [
+        ['purchaseOrder','String',true],['companyCode','String'],['purchaseOrderType','String'],
+        ['purchasingDocumentDeletionCode','String'],['purchasingProcessingStatus','String'],['createdByUser','String'],
+        ['creationDate','DateTime'],['lastChangeDateTime','DateTimeOffset'],['supplier','String'],
+        ['purchaseOrderSubtype','String'],['language','String'],['paymentTerms','String'],
+        ['cashDiscount1Days','Decimal'],['cashDiscount2Days','Decimal'],['netPaymentDays','Decimal'],
+        ['cashDiscount1Percent','Decimal'],['cashDiscount2Percent','Decimal'],['purchasingOrganization','String'],
+        ['purchasingDocumentOrigin','String'],['purchasingGroup','String'],['purchaseOrderDate','DateTime'],
+        ['documentCurrency','String'],['exchangeRate','String'],['exchangeRateIsFixed','Boolean'],
+        ['validityStartDate','DateTime'],['validityEndDate','DateTime'],['supplierQuotationExternalId','String'],
+        ['supplierRespSalesPersonName','String'],['supplierPhoneNumber','String'],['supplyingSupplier','String'],
+        ['supplyingPlant','String'],['incotermsClassification','String'],['correspncExternalReference','String'],
+        ['correspncInternalReference','String'],['invoicingParty','String'],['releaseIsNotCompleted','Boolean'],
+        ['purchasingCompletenessStatus','Boolean'],['incotermsVersion','String'],['incotermsLocation1','String'],
+        ['incotermsLocation2','String'],['manualSupplierAddressId','String'],['isEndOfPurposeBlocked','String'],
+        ['addressCityName','String'],['addressFaxNumber','String'],['addressHouseNumber','String'],
+        ['addressName','String'],['addressPostalCode','String'],['addressStreetName','String'],
+        ['addressPhoneNumber','String'],['addressRegion','String'],['addressCountry','String'],
+        ['addressCorrespondenceLanguage','String'],['purgAggrgdProdCmplncSuplrSts','String'],
+        ['purgAggrgdProdMarketabilitySts','String'],['purgAggrgdSftyDataSheetStatus','String'],
+        ['purgProdCmplncTotDngrsGoodsSts','String'],
+      ],
+      mockOnly: [
+        ['SupplierName','denormalizado de $expand=to_Supplier'],['SupplierCountry','idem'],
+        ['NetAmount','agregado calculado (soma dos itens)'],['OpenItemCount','agregado calculado'],
+      ],
+    },
+    PurchaseOrderItem: {
+      label: 'Item', core: true,
+      used: new Set(['purchaseOrder','purchaseOrderItem','material','purchaseOrderItemText','plant','orderQuantity','purchaseOrderQuantityUnit','netPriceAmount','documentCurrency','purchasingDocumentDeletionCode','supplierMaterialNumber']),
+      fields: [
+        ['purchaseOrder','String',true],['purchaseOrderItem','String',true],['purchasingDocumentDeletionCode','String'],
+        ['purchaseOrderItemText','String'],['plant','String'],['storageLocation','String'],['materialGroup','String'],
+        ['purchasingInfoRecord','String'],['supplierMaterialNumber','String'],['orderQuantity','Decimal'],
+        ['purchaseOrderQuantityUnit','String'],['orderPriceUnit','String'],['orderPriceUnitToOrderUnitNmrtr','Decimal'],
+        ['ordPriceUnitToOrderUnitDnmntr','Decimal'],['documentCurrency','String'],['netPriceAmount','Decimal'],
+        ['netPriceQuantity','Decimal'],['taxCode','String'],['shippingInstruction','String'],
+        ['taxDeterminationDate','DateTime'],['taxCountry','String'],['priceIsToBePrinted','Boolean'],
+        ['overdelivTolrtdLmtRatioInPct','Decimal'],['unlimitedOverdeliveryIsAllowed','Boolean'],
+        ['underdelivTolrtdLmtRatioInPct','Decimal'],['valuationType','String'],['isCompletelyDelivered','Boolean'],
+        ['isFinallyInvoiced','Boolean'],['purchaseOrderItemCategory','String'],['accountAssignmentCategory','String'],
+        ['multipleAcctAssgmtDistribution','String'],['partialInvoiceDistribution','String'],
+        ['goodsReceiptIsExpected','Boolean'],['goodsReceiptIsNonValuated','Boolean'],['invoiceIsExpected','Boolean'],
+        ['invoiceIsGoodsReceiptBased','Boolean'],['purchaseContract','String'],['purchaseContractItem','String'],
+        ['customer','String'],['subcontractor','String'],['supplierIsSubcontractor','Boolean'],
+        ['itemNetWeight','Decimal'],['itemWeightUnit','String'],['taxJurisdiction','String'],
+        ['pricingDateControl','String'],['itemVolume','Decimal'],['itemVolumeUnit','String'],
+        ['supplierConfirmationControlKey','String'],['incotermsClassification','String'],
+        ['incotermsTransferLocation','String'],['evaldRcptSettlmtIsAllowed','Boolean'],['purchaseRequisition','String'],
+        ['purchaseRequisitionItem','String'],['isReturnsItem','Boolean'],['requisitionerName','String'],
+        ['servicePackage','String'],['earmarkedFunds','String'],['earmarkedFundsDocument','String'],
+        ['earmarkedFundsItem','String'],['earmarkedFundsDocumentItem','String'],['incotermsLocation1','String'],
+        ['incotermsLocation2','String'],['material','String'],['internationalArticleNumber','String'],
+        ['manufacturerMaterial','String'],['servicePerformer','String'],['productType','String'],
+        ['expectedOverallLimitAmount','Decimal'],['overallLimitAmount','Decimal'],['purContractForOverallLimit','String'],
+        ['purchasingParentItem','String'],['purgConfigurableItemNumber','String'],['purgDocAggrgdSubitemCategory','String'],
+        ['purgDocSubitemCategory','String'],['purgExternalSortNumber','String'],['referenceDeliveryAddressId','String'],
+        ['deliveryAddressId','String'],['deliveryAddressName','String'],['deliveryAddressName2','String'],
+        ['deliveryAddressFullName','String'],['deliveryAddressStreetName','String'],['deliveryAddressHouseNumber','String'],
+        ['deliveryAddressCityName','String'],['deliveryAddressPostalCode','String'],['deliveryAddressRegion','String'],
+        ['deliveryAddressCountry','String'],['deliveryAddressDistrictName','String'],['downPaymentType','String'],
+        ['downPaymentPercentageOfTotAmt','Decimal'],['downPaymentAmount','Decimal'],['downPaymentDueDate','DateTime'],
+        ['brMaterialUsage','String'],['brMaterialOrigin','String'],['brCfopCategory','String'],
+        ['brIsProducedInHouse','Boolean'],['consumptionTaxCtrlCode','String'],['purgProdCmplncSupplierStatus','String'],
+        ['purgProductMarketabilityStatus','String'],['purgSafetyDataSheetStatus','String'],
+        ['purgProdCmplncDngrsGoodsStatus','String'],
+      ],
+      mockOnly: [
+        ['NetAmount','agregado (preço × qtd) — corrigido nesta sessão'],['NetAmountInCoCodeCrcy','idem, moeda da empresa'],
+        ['OpenQuantity','sem GR/IR history modelado'],['InvoicedQuantity','idem'],
+        ['Container','Custom Field (UDF Frete/Seguro/etc.)'],['FreightAmount','Custom Field'],
+        ['InsuranceAmount','Custom Field'],['UsageCode','Custom Field'],['InvoiceReference','Custom Field'],
+      ],
+    },
+    PurOrdPricingElement: {
+      label: 'Condição de preço do item', core: false,
+      used: new Set(),
+      fields: [
+        ['purchaseOrder','String',true],['purchaseOrderItem','String',true],['pricingDocument','String',true],
+        ['pricingDocumentItem','String',true],['pricingProcedureStep','String',true],['pricingProcedureCounter','String',true],
+        ['conditionType','String'],['conditionRateValue','Decimal'],['conditionCurrency','String'],
+        ['priceDetnExchangeRate','String'],['transactionCurrency','String'],['conditionAmount','Decimal'],
+        ['conditionQuantityUnit','String'],['conditionQuantity','Decimal'],['conditionApplication','String'],
+        ['pricingDateTime','String'],['conditionCalculationType','String'],['conditionBaseValue','Decimal'],
+        ['conditionToBaseQtyNmrtr','Decimal'],['conditionToBaseQtyDnmntr','Decimal'],['conditionCategory','String'],
+        ['conditionIsForStatistics','Boolean'],['pricingScaleType','String'],['isRelevantForAccrual','Boolean'],
+        ['cndnIsRelevantForInvoiceList','String'],['conditionOrigin','String'],['isGroupCondition','String'],
+        ['cndnIsRelevantForLimitValue','Boolean'],['conditionSequentialNumber','String'],['conditionControl','String'],
+        ['conditionInactiveReason','String'],['conditionClass','String'],['factorForConditionBasisValue','Double'],
+        ['pricingScaleBasis','String'],['conditionScaleBasisValue','Decimal'],['conditionScaleBasisCurrency','String'],
+        ['conditionScaleBasisUnit','String'],['cndnIsRelevantForIntcoBilling','Boolean'],
+        ['conditionIsForConfiguration','Boolean'],['conditionIsManuallyChanged','Boolean'],['conditionRecord','String'],
+        ['accessNumberOfAccessSequence','String'],
+      ],
+      mockOnly: [],
+    },
+    PurOrdAccountAssignment: {
+      label: 'Rateio contábil do item', core: false,
+      used: new Set(),
+      fields: [
+        ['purchaseOrder','String',true],['purchaseOrderItem','String',true],['accountAssignmentNumber','String',true],
+        ['isDeleted','Boolean'],['purchaseOrderQuantityUnit','String'],['quantity','Decimal'],
+        ['multipleAcctAssgmtDistrPercent','Decimal'],['documentCurrency','String'],['purgDocNetAmount','Decimal'],
+        ['glAccount','String'],['businessArea','String'],['costCenter','String'],['salesOrder','String'],
+        ['salesOrderItem','String'],['salesOrderScheduleLine','String'],['masterFixedAsset','String'],
+        ['fixedAsset','String'],['goodsRecipientName','String'],['unloadingPointName','String'],
+        ['controllingArea','String'],['costObject','String'],['orderId','String'],['profitCenter','String'],
+        ['wbsElementInternalId','String'],['wbsElement','String'],['wbsElementExternalId','String'],
+        ['projectNetwork','String'],['realEstateObject','String'],['partnerAccountNumber','String'],
+        ['commitmentItem','String'],['jointVentureRecoveryCode','String'],['fundsCenter','String'],['fund','String'],
+        ['functionalArea','String'],['settlementReferenceDate','DateTime'],['taxCode','String'],
+        ['taxJurisdiction','String'],['costCtrActivityType','String'],['businessProcess','String'],
+        ['earmarkedFundsDocument','String'],['grantId','String'],['budgetPeriod','String'],
+      ],
+      mockOnly: [],
+    },
+    PurchaseOrderScheduleLine: {
+      label: 'Linha de programação', core: false,
+      used: new Set(),
+      fields: [
+        ['purchasingDocument','String',true],['purchasingDocumentItem','String',true],['scheduleLine','String',true],
+        ['delivDateCategory','String'],['scheduleLineDeliveryDate','DateTime'],['purchaseOrderQuantityUnit','String'],
+        ['scheduleLineOrderQuantity','Decimal'],['scheduleLineDeliveryTime','Time'],['schedLineStscDeliveryDate','DateTime'],
+        ['purchaseRequisition','String'],['purchaseRequisitionItem','String'],['scheduleLineCommittedQuantity','Decimal'],
+        ['performancePeriodStartDate','DateTime'],['performancePeriodEndDate','DateTime'],
+      ],
+      mockOnly: [],
+    },
+  };
+
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+  const entitiesEl = document.getElementById('entities');
+  let totalFields = 0, totalUsed = 0, entitiesModeled = 0;
+
+  Object.entries(DATA).forEach(([odataEntity, def]) => {
+    totalFields += def.fields.length;
+    totalUsed += def.used.size;
+    if (def.core) entitiesModeled++;
+
+    const card = document.createElement('div');
+    card.className = 'entity';
+    card.id = 'e-' + odataEntity;
+
+    const usedBadge = def.used.size
+      ? `<span class="badge used-count">${def.used.size} usados no mock</span>` : '';
+    const notModeledBadge = !def.core
+      ? `<span class="badge notmodeled">não modelado no sapimport-s4</span>` : '';
+
+    const fieldsHtml = def.fields.map(([name, type, isKey]) => {
+      const oname = cap(name);
+      const used = def.used.has(name);
+      const dot = def.core
+        ? `<span class="ftype ${used ? '' : ''}" style="color:${used ? 'var(--verified)' : 'var(--ink-faint)'}">${used ? '●' : '○'}</span>`
+        : '';
+      return `<div class="field" data-n="${oname.toLowerCase()}">
+        <span class="key">${isKey ? '🔑' : ''}</span>
+        <span class="fname${isKey ? ' iskey' : ''}">${oname}</span>
+        <span class="ftype">${T(type)}</span>
+      </div>`;
+    }).join('');
+
+    const mockHtml = def.mockOnly.length ? `
+      <div class="mockpanel">
+        <p class="mtitle"><span class="diamond"></span> só existem no mock (não são campos reais da API)</p>
+        <div class="mfields">
+          ${def.mockOnly.map(([n, note]) => `<div class="mfield" data-n="${n.toLowerCase()}">${n} <span class="note">— ${note}</span></div>`).join('')}
+        </div>
+      </div>` : '';
+
+    card.innerHTML = `
+      <div class="ehead">
+        <span class="oname">A_${odataEntity}</span>
+        <span class="label">${def.label}</span>
+        ${usedBadge}${notModeledBadge}
+        <span class="count">${def.fields.length} campos</span>
+      </div>
+      <div class="fields">${fieldsHtml}</div>
+      ${mockHtml}
+    `;
+    entitiesEl.appendChild(card);
+  });
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="n">${totalFields}</div><div class="l">campos reais na API (5 entidades)</div></div>
+    <div class="stat"><div class="n">${totalUsed}</div><div class="l">usados no mock do sapimport-s4</div></div>
+    <div class="stat"><div class="n">${entitiesModeled} / 5</div><div class="l">entidades modeladas neste projeto</div></div>
+  `;
+
+  const filterEl = document.getElementById('filter');
+  const emptyEl = document.getElementById('empty');
+  filterEl.addEventListener('input', () => {
+    const q = filterEl.value.trim().toLowerCase();
+    let anyVisible = false;
+    document.querySelectorAll('.entity').forEach((card) => {
+      let cardHasMatch = false;
+      card.querySelectorAll('.field, .mfield').forEach((row) => {
+        const match = !q || row.dataset.n.includes(q);
+        row.hidden = !match;
+        if (match) cardHasMatch = true;
+      });
+      card.hidden = !cardHasMatch;
+      if (cardHasMatch) anyVisible = true;
+    });
+    emptyEl.classList.toggle('show', !anyVisible);
+  });
+</script>

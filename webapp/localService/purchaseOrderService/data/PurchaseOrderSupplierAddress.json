@@ -1,0 +1,26 @@
+[
+  {
+    "SupplierAddressID": "90001",
+    "PurchaseOrder": "4500000001",
+    "OrganizationName1": "Fornecedor Previsão Ltda",
+    "Country": "US"
+  },
+  {
+    "SupplierAddressID": "90002",
+    "PurchaseOrder": "4500000002",
+    "OrganizationName1": "Despachante Exemplo Ltda",
+    "Country": "CN"
+  },
+  {
+    "SupplierAddressID": "90003",
+    "PurchaseOrder": "4500000003",
+    "OrganizationName1": "Fornecedor Previsão Ltda",
+    "Country": "BR"
+  },
+  {
+    "SupplierAddressID": "90004",
+    "PurchaseOrder": "4500000004",
+    "OrganizationName1": "Fornecedor Previsão Ltda",
+    "Country": "US"
+  }
+]

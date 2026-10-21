@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "4.0"
+metadata:
+  name: acx.sapimport.s4
+type: application
+# NOTE: sem backend aqui. Para desenvolver use ui5-mock.yaml (tudo mock), ui5-s4.yaml (pedidos do
+# tenant S/4 real my404561, resto mock) ou ui5-rap.yaml (+ RAP no ABAP Trial) — ver
+# docs/s4-purchase-order-api.md.
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertErrors: false
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        flp:
+          theme: sap_horizon
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**

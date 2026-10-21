@@ -1,0 +1,108 @@
+managed implementation in class zbp_r_imppch unique;
+strict ( 2 );
+
+define behavior for ZR_IMPPCH alias IMPPCH
+persistent table zimppch
+lock master
+authorization master ( global )
+etag master LocalLastChanged
+{
+  create;
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) DocEntry, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  determination SetDocEntry on modify { create; }
+  validation CheckDocEntry on save { create; }
+  association Itens { create; }
+  association Moeda { create; }
+  association Despacho { create; }
+  association Demurrage { create; }
+  association Previsao { create; }
+  association LoteSerie { create; }
+  mapping for zimppch corresponding;
+}
+
+define behavior for ZR_IMPPCH_PCH1 alias PCH1
+persistent table zimppch_pch1
+lock dependent by _Parent
+authorization dependent by _Parent
+etag master LocalLastChanged
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) SAP_ParentUUID, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association _Parent;
+  mapping for zimppch_pch1 corresponding;
+}
+
+define behavior for ZR_IMPPCH_PCH2 alias PCH2
+persistent table zimppch_pch2
+lock dependent by _Parent
+authorization dependent by _Parent
+etag master LocalLastChanged
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) SAP_ParentUUID, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association _Parent;
+  mapping for zimppch_pch2 corresponding;
+}
+
+define behavior for ZR_IMPPCH_PCH3 alias PCH3
+persistent table zimppch_pch3
+lock dependent by _Parent
+authorization dependent by _Parent
+etag master LocalLastChanged
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) SAP_ParentUUID, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association _Parent;
+  mapping for zimppch_pch3 corresponding;
+}
+
+define behavior for ZR_IMPPCH_PCH4 alias PCH4
+persistent table zimppch_pch4
+lock dependent by _Parent
+authorization dependent by _Parent
+etag master LocalLastChanged
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) SAP_ParentUUID, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association _Parent;
+  mapping for zimppch_pch4 corresponding;
+}
+
+define behavior for ZR_IMPPCH_PCH5 alias PCH5
+persistent table zimppch_pch5
+lock dependent by _Parent
+authorization dependent by _Parent
+etag master LocalLastChanged
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) SAP_ParentUUID, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association _Parent;
+  mapping for zimppch_pch5 corresponding;
+}
+
+define behavior for ZR_IMPPCH_PCH6 alias PCH6
+persistent table zimppch_pch6
+lock dependent by _Parent
+authorization dependent by _Parent
+etag master LocalLastChanged
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SAP_UUID;
+  field ( readonly ) SAP_ParentUUID, CreatedByUser, LastChangedByUser, LastChangeDateTime, LocalLastChanged;
+  association _Parent;
+  mapping for zimppch_pch6 corresponding;
+}

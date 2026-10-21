@@ -1,0 +1,22 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Despacho'
+define view entity ZR_IMPPCH_PCH3
+  as select from zimppch_pch3
+  association to parent ZR_IMPPCH as _Parent on $projection.SAP_ParentUUID = _Parent.SAP_UUID
+{
+  key sap_uuid   as SAP_UUID,
+  sap_parentuuid as SAP_ParentUUID,
+  lineid as LineId,
+  despacode as DespaCode,
+  despaname as DespaName,
+  despanum as DespaNum,
+  @Semantics.user.createdBy: true
+  createdbyuser      as CreatedByUser,
+  @Semantics.user.lastChangedBy: true
+  lastchangedbyuser  as LastChangedByUser,
+  @Semantics.systemDateTime.lastChangedAt: true
+  lastchangedatetime as LastChangeDateTime,
+  @Semantics.systemDateTime.localInstanceLastChangedAt: true
+  locallastchanged   as LocalLastChanged,
+  _Parent
+}

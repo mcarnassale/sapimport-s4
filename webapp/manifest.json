@@ -1,0 +1,318 @@
+{
+  "_version": "1.86.0",
+  "sap.app": {
+    "id": "acx.sapimport.s4",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/import-process/srvd_a2x/sap/importprocess/0001/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      },
+      "cboDespcal": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_DESPCAL_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_DESPCAL_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cboImplay": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_IMPLAY_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_IMPLAY_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cboImpicfg": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_IMPICFG_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_IMPICFG_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cboImpiprv": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_IMPIPRV_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_IMPIPRV_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cboImppch": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_IMPPCH_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_IMPPCH_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "purchaseOrderService": {
+        "uri": "/sap/opu/odata4/sap/api_purchaseorder_2/srvd_a2x/sap/purchaseorder/0001/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/purchaseOrderService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.151.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {},
+        "sap.ui.table": {},
+        "sap.ui.unified": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "acx.sapimport.s4.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true,
+          "updateGroupId": "deferred",
+          "groupProperties": {
+            "deferred": {
+              "submit": "API"
+            }
+          }
+        }
+      },
+      "despcal": {
+        "dataSource": "cboDespcal",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "implay": {
+        "dataSource": "cboImplay",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "impicfg": {
+        "dataSource": "cboImpicfg",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "impiprv": {
+        "dataSource": "cboImpiprv",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "imppch": {
+        "dataSource": "cboImppch",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "po": {
+        "dataSource": "purchaseOrderService",
+        "preload": false,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": false,
+          "earlyRequests": false
+        }
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "acx.sapimport.s4.view",
+        "async": true,
+        "viewPath": "acx.sapimport.s4.view"
+      },
+      "routes": [
+        {
+          "name": "RouteInicio",
+          "pattern": ":?query:",
+          "target": [
+            "TargetInicio"
+          ]
+        },
+        {
+          "name": "RouteConfigs",
+          "pattern": "configs",
+          "target": [
+            "TargetConfigs"
+          ]
+        },
+        {
+          "name": "RouteProcessosList",
+          "pattern": "processos",
+          "target": [
+            "TargetProcessosList"
+          ]
+        },
+        {
+          "name": "RouteProcessosDetail",
+          "pattern": "processos/{uuid}",
+          "target": [
+            "TargetProcessosDetail"
+          ]
+        },
+        {
+          "name": "RouteDespCalc",
+          "pattern": "despcalc",
+          "target": [
+            "TargetDespCalc"
+          ]
+        },
+        {
+          "name": "RouteLayoutList",
+          "pattern": "layout",
+          "target": [
+            "TargetLayoutList"
+          ]
+        },
+        {
+          "name": "RouteLayoutDetail",
+          "pattern": "layout/{uuid}",
+          "target": [
+            "TargetLayoutDetail"
+          ]
+        },
+        {
+          "name": "RoutePreCalcList",
+          "pattern": "precalc",
+          "target": [
+            "TargetPreCalcList"
+          ]
+        },
+        {
+          "name": "RoutePreCalcDetail",
+          "pattern": "precalc/{uuid}",
+          "target": [
+            "TargetPreCalcDetail"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetBackendStatus": {
+          "id": "BackendStatus",
+          "name": "BackendStatus"
+        },
+        "TargetInicio": {
+          "id": "Inicio",
+          "name": "Inicio"
+        },
+        "TargetPreCalcList": {
+          "id": "PreCalcList",
+          "name": "PreCalcList"
+        },
+        "TargetPreCalcDetail": {
+          "id": "PreCalcDetail",
+          "name": "PreCalcDetail"
+        },
+        "TargetDespCalc": {
+          "id": "DespCalc",
+          "name": "DespCalc"
+        },
+        "TargetLayoutList": {
+          "id": "LayoutList",
+          "name": "LayoutList"
+        },
+        "TargetLayoutDetail": {
+          "id": "LayoutDetail",
+          "name": "LayoutDetail"
+        },
+        "TargetConfigs": {
+          "id": "Configs",
+          "name": "Configs"
+        },
+        "TargetProcessosList": {
+          "id": "ProcessosList",
+          "name": "ProcessosList"
+        },
+        "TargetProcessosDetail": {
+          "id": "ProcessosDetail",
+          "name": "ProcessosDetail"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "acx.sapimport.s4.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

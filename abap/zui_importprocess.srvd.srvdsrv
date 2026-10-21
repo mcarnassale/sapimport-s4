@@ -1,0 +1,16 @@
+@EndUserText.label: 'sapimport - processos de importacao'
+define service ZUI_IMPORTPROCESS {
+  expose ZC_IMPPCH as IMPPCH;
+  expose ZC_IMPPCH_PCH1 as PCH1;
+  expose ZC_IMPPCH_PCH2 as PCH2;
+  expose ZC_IMPPCH_PCH3 as PCH3;
+  expose ZC_IMPPCH_PCH4 as PCH4;
+  expose ZC_IMPPCH_PCH5 as PCH5;
+  expose ZC_IMPPCH_PCH6 as PCH6;
+  expose ZC_IMPICFG as IMPICFG;
+  expose ZC_IMPLAY as IMPLAY;
+  expose ZC_DESPCAL as DESPCAL;
+  expose ZC_IMPIPRV as IMPIPRV;
+  expose ZC_IMPIPRV_PRV1 as PRV1;
+  expose ZC_IMPSETUP as ImpSetup;
+}

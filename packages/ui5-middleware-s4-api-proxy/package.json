@@ -1,0 +1,10 @@
+{
+  "name": "ui5-middleware-s4-api-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local (unpublished) UI5 server-middleware: forwards configured URL prefixes to the S/4HANA Cloud API host, authenticating with the communication user from S4_API_USER/S4_API_PASSWORD.",
+  "main": "s4-api-proxy.js",
+  "ui5": {
+    "dependencies": []
+  }
+}

@@ -1,0 +1,17 @@
+projection;
+strict ( 2 );
+
+define behavior for ZC_IMPIPRV alias IMPIPRV
+{
+  use create;
+  use update;
+  use delete;
+  use association Itens { create; }
+}
+
+define behavior for ZC_IMPIPRV_PRV1 alias PRV1
+{
+  use update;
+  use delete;
+  use association _Parent;
+}

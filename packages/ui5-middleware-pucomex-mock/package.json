@@ -1,0 +1,10 @@
+{
+  "name": "ui5-middleware-pucomex-mock",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local (unpublished) UI5 server-middleware: fakes the /pucomex-server/* routes (Portal Único Siscomex DUIMP/produto lookups) with canned fixture data for local dev, instead of the real gov API. Mock-only counterpart of ../sapimport (B1)'s ui5-middleware-pucomex, which calls the real service.",
+  "main": "pucomex-mock-middleware.js",
+  "ui5": {
+    "dependencies": []
+  }
+}

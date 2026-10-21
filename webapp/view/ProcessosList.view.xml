@@ -1,0 +1,45 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.ProcessosList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="procListPage" title="{i18n>procListTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <Button id="procListAddButton" text="{i18n>procListAdd}" icon="sap-icon://add" press="onAdd"/>
+        </headerContent>
+        <subHeader>
+            <Bar id="procListSearchBar">
+                <contentMiddle>
+                    <Select id="procListSearchFieldSelect" width="10rem" change="onSearch">
+                        <core:Item id="itSearchAll" key="all" text="{i18n>procListSearchAll}"/>
+                        <core:Item id="itSearchProcNum" key="ProcNum" text="{i18n>procProcNum}"/>
+                        <core:Item id="itSearchDINum" key="DINum" text="{i18n>procDINum}"/>
+                        <core:Item id="itSearchAgentCode" key="AgentCode" text="{i18n>procAgentCode}"/>
+                        <core:Item id="itSearchLayout" key="Layout" text="{i18n>procLayout}"/>
+                        <core:Item id="itSearchStatusProc" key="StatusProc" text="{i18n>procStatusProc}"/>
+                    </Select>
+                    <SearchField id="procListSearchField" width="100%"
+                        placeholder="{i18n>procListSearchPlaceholder}"
+                        search="onSearch" liveChange="onSearch"/>
+                </contentMiddle>
+            </Bar>
+        </subHeader>
+        <content>
+            <List id="procList"
+                items="{path: '/YY1_ACX_IMPPCH', sorter: {path: 'DocEntry', descending: true}}"
+                noDataText="{i18n>procListNoData}">
+                <items>
+                    <CustomListItem id="procListItem" type="Active" press="onOpen">
+                        <HBox id="procListItemHBox" justifyContent="SpaceBetween" alignItems="Center" width="100%" class="sapUiTinyMarginBeginEnd">
+                            <VBox id="procListItemVBox" justifyContent="Center">
+                                <Text id="procListItemTitle" text="{ProcNum}"/>
+                                <Text id="procListItemDesc" text="{DINum}"/>
+                            </VBox>
+                            <Button id="procListDeleteButton" icon="sap-icon://delete" type="Transparent"
+                                tooltip="{i18n>procListDelete}" press="onDeleteProcesso"/>
+                        </HBox>
+                    </CustomListItem>
+                </items>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

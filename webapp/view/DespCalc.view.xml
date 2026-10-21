@@ -1,0 +1,48 @@
+<mvc:View controllerName="acx.sapimport.s4.controller.DespCalc"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="despCalcPage" title="{i18n>despCalcTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <subHeader>
+            <Toolbar id="despCalcSubToolbar">
+                <ToolbarSpacer id="despCalcSubToolbarSpacer"/>
+                <Button id="despCalcAddButton" text="{i18n>despCalcAdd}" icon="sap-icon://add" press="onAddRow"/>
+                <Button id="despCalcRecalcButton" text="{i18n>despCalcRecalc}" enabled="false" tooltip="{i18n>despCalcRecalcTooltip}" press="onNotImplemented"/>
+            </Toolbar>
+        </subHeader>
+        <content>
+            <Table id="despCalcTable"
+                items="{path: '/YY1_ACX_DESPCAL', sorter: {path: 'Code'}}"
+                growing="true"
+                growingScrollToLoad="true"
+                mode="Delete"
+                delete="onDeleteRow">
+                <columns>
+                    <Column id="despCalcColCode"><Text id="despCalcColCodeText" text="{i18n>despCalcColCode}"/></Column>
+                    <Column id="despCalcColName"><Text id="despCalcColNameText" text="{i18n>despCalcColName}"/></Column>
+                    <Column id="despCalcColCurrency"><Text id="despCalcColCurrencyText" text="{i18n>despCalcColCurrency}"/></Column>
+                    <Column id="despCalcColValue" hAlign="End"><Text id="despCalcColValueText" text="{i18n>despCalcColValue}"/></Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="despCalcRow">
+                        <cells>
+                            <Input id="despCalcInputCode" value="{Code}" maxLength="50"/>
+                            <Input id="despCalcInputName" value="{Name}" maxLength="30"/>
+                            <Input id="despCalcInputCurrency" value="{Currency}" maxLength="10"
+                                showValueHelp="true"
+                                valueHelpRequest="onCurrencyValueHelp"/>
+                            <Input id="despCalcInputValue" value="{path: 'Valor', type: 'sap.ui.model.odata.type.Decimal', constraints: {precision: 19, scale: 4}}"
+                                textAlign="End"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+        <footer>
+            <Toolbar id="despCalcFooterToolbar">
+                <ToolbarSpacer id="despCalcFooterToolbarSpacer"/>
+                <Button id="despCalcOkButton" text="{i18n>despCalcOk}" type="Emphasized" press="onSave"/>
+                <Button id="despCalcCancelButton" text="{i18n>despCalcCancel}" press="onCancel"/>
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

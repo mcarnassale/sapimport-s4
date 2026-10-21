@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "4.0"
+metadata:
+  name: acx.sapimport.s4
+type: application
+server:
+  customMiddleware:
+    - name: pucomex-middleware
+      afterMiddleware: compression
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertErrors: false
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        flp:
+          theme: sap_horizon
+    - name: sap-fe-mockserver
+      beforeMiddleware: csp
+      configuration:
+        mountPath: /
+        services:
+          - urlPath: /odata/v4/import-process/srvd_a2x/sap/importprocess/0001
+            metadataPath: ./webapp/localService/mainService/metadata.xml
+            mockdataPath: ./webapp/localService/mainService/data
+            generateMockData: true
+          # Custom Business Objects do S/4 (OData V2) — $metadata REAL (npm run fetch-cbo-metadata)
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_DESPCAL_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_DESPCAL_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_DESPCAL_CDS/data
+            generateMockData: false
+          # IMPICFG sem dados: a linha '001' é criada pelo próprio app na abertura (model/cboSetup.js)
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_IMPICFG_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_IMPICFG_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_IMPICFG_CDS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_IMPIPRV_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_IMPIPRV_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_IMPIPRV_CDS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_IMPPCH_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_IMPPCH_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_IMPPCH_CDS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_IMPLAY_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_IMPLAY_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_IMPLAY_CDS/data
+            generateMockData: false
+          # Pedidos de compra — $metadata REAL do api_purchaseorder_2 (npm run fetch-po-metadata).
+          # Sem dados gerados: só os pedidos do fixture (generate-mock.js), senão a busca do
+          # "Inserir Pedidos" traria pedidos aleatórios.
+          - urlPath: /sap/opu/odata4/sap/api_purchaseorder_2/srvd_a2x/sap/purchaseorder/0001
+            metadataPath: ./webapp/localService/purchaseOrderService/metadata.xml
+            mockdataPath: ./webapp/localService/purchaseOrderService/data
+            generateMockData: false
+        annotations: []
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**

@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "arc-1": {
+      "command": "node",
+      "args": ["C:/mcp/arc-1/dist/index.js"],
+      "env": {
+        "SAP_URL": "http://172.22.240.1:50000",
+        "SAP_USER": "DEVELOPER",
+        "SAP_PASSWORD": "${SAP_PASSWORD}",
+        "SAP_CLIENT": "001",
+        "SAP_LANGUAGE": "EN",
+        "SAP_INSECURE": "false",
+        "SAP_ALLOW_WRITES": "true",
+        "SAP_ALLOWED_PACKAGES": "$TMP",
+        "SAP_ALLOW_DATA_PREVIEW": "false",
+        "SAP_ALLOW_FREE_SQL": "false",
+        "SAP_ALLOW_TRANSPORT_WRITES": "false",
+        "SAP_ALLOW_GIT_WRITES": "false"
+      }
+    }
+  }
+}

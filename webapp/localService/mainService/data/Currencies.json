@@ -1,0 +1,12 @@
+[
+  {
+    "Code": "USD",
+    "Name": "Dólar Americano",
+    "Rate": 5
+  },
+  {
+    "Code": "EUR",
+    "Name": "Euro",
+    "Rate": 5.4
+  }
+]

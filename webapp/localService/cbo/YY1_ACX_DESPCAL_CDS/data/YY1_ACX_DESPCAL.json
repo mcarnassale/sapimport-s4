@@ -1,0 +1,23 @@
+[
+  {
+    "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000001",
+    "Code": "DESP01",
+    "Name": "Frete internacional",
+    "Currency": "USD",
+    "Valor": "1500.0000"
+  },
+  {
+    "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000002",
+    "Code": "DESP02",
+    "Name": "Seguro",
+    "Currency": "USD",
+    "Valor": "120.5000"
+  },
+  {
+    "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000003",
+    "Code": "DESP03",
+    "Name": "Armazenagem",
+    "Currency": "BRL",
+    "Valor": "850.0000"
+  }
+]

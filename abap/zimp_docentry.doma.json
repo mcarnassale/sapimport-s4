@@ -1,0 +1,5 @@
+{
+  "description": "sapimport - numero interno do processo",
+  "datatype": "NUMC",
+  "length": 10
+}
