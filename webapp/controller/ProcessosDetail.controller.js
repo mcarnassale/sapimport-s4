@@ -556,11 +556,41 @@ sap.ui.define([
 
         // DocEntry do Processo novo: no B1 o UDO numerava, no RAP um NROB. O CBO não tem
         // numeração própria (e campo numérico não pode ser chave dele), então é o maior + 1, lido
-        // na hora de gravar. Dois Processos gravados no mesmo instante podem pegar o mesmo número
-        // — limitação aceita por ora; resolver exigiria lógica no CBO (determination).
+        // na hora de gravar — e conferido depois de gravar por _ensureUniqueDocEntry, porque dois
+        // Processos gravados no mesmo instante podem pegar o mesmo número.
         async _getNextDocEntry() {
             const [oLast] = await this._readLastProcesso();
             return cbo.toInteger((Number(oLast && oLast.DocEntry) || 0) + 1);
+        },
+
+        /**
+         * Conferência pós-gravação do DocEntry de um Processo novo (identificado pelo ProcNum, que
+         * é único): se outro Processo ficou com o mesmo número, o criado primeiro (SAP_CreatedDateTime,
+         * depois SAP_UUID) fica com ele e o outro passa para o próximo livre. Cada sessão confere o
+         * próprio Processo depois de gravar, então as duas chegam ao mesmo resultado sem combinar
+         * nada; repete se a renumeração colidir de novo. Devolve o DocEntry final.
+         */
+        async _ensureUniqueDocEntry(sProcNum, sDocEntry) {
+            const { model: oModel, path: sPath } = this._getProcSource();
+            let sCurrent = sDocEntry;
+            for (let iTry = 0; iTry < 5; iTry++) {
+                // Os números em disputa são sempre os mais altos: basta o topo da lista (sem $filter
+                // em Edm.Decimal, que o mockserver não aceita)
+                const aTop = await cbo.read(oModel, sPath, {
+                    sorters: [new Sorter("DocEntry", true)],
+                    urlParameters: { $top: 50, $select: "SAP_UUID,DocEntry,ProcNum,SAP_CreatedDateTime" }
+                });
+                const aSame = aTop.filter((o) => Number(o.DocEntry) === Number(sCurrent))
+                    .sort((a, b) => (new Date(a.SAP_CreatedDateTime) - new Date(b.SAP_CreatedDateTime)) || a.SAP_UUID.localeCompare(b.SAP_UUID));
+                const oMine = aSame.find((o) => o.ProcNum === sProcNum);
+                if (!oMine || aSame.length <= 1 || aSame[0] === oMine) {
+                    return sCurrent;
+                }
+                sCurrent = cbo.toInteger(Math.max(...aTop.map((o) => Number(o.DocEntry) || 0)) + 1);
+                oModel.update(cbo.keyPath("IMPPCH", oMine.SAP_UUID), { DocEntry: sCurrent }, { groupId: "changes" });
+                await cbo.submit(oModel);
+            }
+            return sCurrent;
         },
 
         _getProximaSeq(sField) {
@@ -1582,7 +1612,9 @@ sap.ui.define([
                     // Cabeçalho + as 6 tabelas num POST só (deep insert)
                     this._setDocProperty(oContext, "DocEntry", await this._getNextDocEntry());
                     const { model: oModel, path: sPath } = this._getProcSource();
-                    await cbo.saveDocument(oModel, sPath, this._getDocModel().getData(), undefined, NAVS);
+                    const oDoc = this._getDocModel().getData();
+                    await cbo.saveDocument(oModel, sPath, oDoc, undefined, NAVS);
+                    await this._ensureUniqueDocEntry(oDoc.ProcNum, oDoc.DocEntry);
                     this.getView().getModel("detailView").setProperty("/isDirty", false);
                     MessageToast.show(this._t("procSaveSuccess"));
                     this.onNavBack();

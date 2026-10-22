@@ -1,0 +1,5 @@
+# Quebra de linha LF no disco também no Windows (o lint exige LF — regra linebreak-style; sem
+# isto, com core.autocrlf=true, todo checkout/merge reescreve os arquivos com CRLF)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
