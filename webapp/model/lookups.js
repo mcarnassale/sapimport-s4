@@ -51,7 +51,11 @@ sap.ui.define([
 		Warehouses: {
 			model: "storloc", path: "/YY1_ACX_STORLOC", titleField: "StorageLocation", descField: "StorageLocationName",
 			filters: () => [new Filter("Plant", FilterOperator.EQ, BRAZIL.plant)]
-		}
+		},
+		// CBOs nossos (npm run create-cbos), mantidos pelo usuário no app gerado do próprio CBO:
+		// despesas adicionais e utilização da NF ("Usage" é reservado no CBO: UsageName)
+		AdditionalExpenses: { model: "expense", path: "/YY1_ACX_EXPENSE", titleField: "ExpensCode", descField: "Name" },
+		NotaFiscalUsage: { model: "usage", path: "/YY1_ACX_USAGE", titleField: "ID", descField: "UsageName" }
 	};
 
 	/** { model, path, titleField, descField, filters } do value help de sEntity, ou undefined */
@@ -203,5 +207,13 @@ sap.ui.define([
 		return aCandidates.length ? aCandidates[0].rate : 0;
 	}
 
-	return { BRAZIL, source, getItemsInfo, existingProducts, getSuppliers, getRateToday };
+	/** Despesas adicionais cadastradas, no formato do antigo lookup ([{ ExpensCode, Name }]) */
+	async function getExpenses(oComponent) {
+		const aRows = await cbo.read(oComponent.getModel("expense"), "/YY1_ACX_EXPENSE", {
+			sorters: [new Sorter("ExpensCode")], urlParameters: { $select: "ExpensCode,Name", $top: MAX_ROWS }
+		});
+		return aRows.map((o) => ({ ExpensCode: o.ExpensCode, Name: o.Name }));
+	}
+
+	return { BRAZIL, source, getItemsInfo, existingProducts, getSuppliers, getRateToday, getExpenses };
 });

@@ -139,6 +139,7 @@ sap.ui.define([
             this._openLineValueHelp(oEvent, {
                 key: "despCode",
                 title: this._t("preCalcColDesp"),
+                lookup: "AdditionalExpenses",
                 path: "/AdditionalExpenses",
                 titleField: "ExpensCode",
                 descField: "Name",
@@ -199,8 +200,8 @@ sap.ui.define([
 
             let oDialog = this._oLineValueHelpDialogs[oConfig.key];
             if (!oDialog) {
-                // Fornecedores, produtos e moedas vêm do S/4 (model/lookups, com os campos de lá);
-                // despesas, do mainService
+                // Fornecedores, produtos, moedas e despesas vêm do S/4 (model/lookups, com os
+                // campos de lá)
                 const oSource = (oConfig.lookup && lookups.source(this.getOwnerComponent(), oConfig.lookup))
                     || { model: this._getLookupModel(), path: oConfig.path };
                 const sTitleField = oSource.titleField || oConfig.titleField;
@@ -257,20 +258,22 @@ sap.ui.define([
         },
 
         async onAllExpenses() {
-            const oModel = this._getLookupModel();
             const aLines = this._getLines().slice();
             const aExistingCodes = aLines.map((oLine) => oLine.DespCode);
 
-            const oExpensesBinding = oModel.bindList("/AdditionalExpenses", undefined, undefined, undefined, { $select: "ExpensCode,Name" });
-            const aExpenses = await oExpensesBinding.requestContexts();
+            // Despesas adicionais do CBO YY1_ACX_EXPENSE (model/lookups)
+            const aExpenses = await lookups.getExpenses(this.getOwnerComponent()).catch((oError) => {
+                MessageBox.error(oError.message || String(oError));
+                return [];
+            });
 
-            aExpenses.forEach((oExpenseContext) => {
-                const sCode = oExpenseContext.getProperty("ExpensCode");
+            aExpenses.forEach((oExpense) => {
+                const sCode = oExpense.ExpensCode;
                 if (sCode && aExistingCodes.indexOf(sCode) === -1) {
                     aLines.push({
                         ...DEFAULT_LINE,
                         DespCode: sCode,
-                        DespName: oExpenseContext.getProperty("Name")
+                        DespName: oExpense.Name
                     });
                     aExistingCodes.push(sCode);
                 }

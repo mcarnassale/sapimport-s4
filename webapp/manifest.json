@@ -128,6 +128,24 @@
           "odataVersion": "2.0"
         }
       },
+      "cboExpense": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_EXPENSE_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_EXPENSE_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cboUsage": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_USAGE_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_USAGE_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
       "purchaseOrderService": {
         "uri": "/sap/opu/odata4/sap/api_purchaseorder_2/srvd_a2x/sap/purchaseorder/0001/",
         "type": "OData",
@@ -294,6 +312,24 @@
       },
       "storloc": {
         "dataSource": "cdsStorloc",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "expense": {
+        "dataSource": "cboExpense",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "usage": {
+        "dataSource": "cboUsage",
         "preload": false,
         "settings": {
           "defaultBindingMode": "OneWay",

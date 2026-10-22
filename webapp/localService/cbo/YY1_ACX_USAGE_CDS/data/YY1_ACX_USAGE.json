@@ -1,0 +1,4 @@
+[
+  { "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000401", "ID": "1", "UsageName": "Uso e Consumo", "Siscomex": "Uso e Consumo" },
+  { "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000402", "ID": "2", "UsageName": "Revenda", "Siscomex": "Revenda" }
+]

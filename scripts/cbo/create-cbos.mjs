@@ -17,12 +17,21 @@ import { fileURLToPath } from "node:url";
 import { connect, guid, ZERO } from "./designer.mjs";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const METADATA = path.join(ROOT, "webapp/localService/rapService/metadata.xml");
+// Contratos de onde saem os campos: "rap" = o do backend RAP (os CBOs do processo); "main" = o do
+// mainService (lookups que viraram CBO, ex.: despesas adicionais)
+const METADATA = {
+	rap: path.join(ROOT, "webapp/localService/rapService/metadata.xml"),
+	main: path.join(ROOT, "webapp/localService/mainService/metadata.xml")
+};
 // Prefixo dos CBOs: o tenant de demo é compartilhado com outros parceiros (o SAP põe o YY1_ sozinho)
 const PREFIX = process.env.CBO_PREFIX || "ACX_";
 
 // key: chave semântica do nó raiz (o CBO avisa que não dá para incluir chave depois do transporte).
-// Só campo Text pode ser chave — por isso o IMPPCH (DocEntry numérico) fica sem.
+// Só campo Text pode ser chave — por isso o IMPPCH (DocEntry numérico) e a Utilização ficam sem.
+// source/type: contrato e entity set de origem dos campos (padrão: rap, o próprio nome);
+// lengths: tamanho de texto onde o contrato não tem MaxLength; rename: campo com nome reservado no
+// CBO (o app traduz de volta, model/lookups); ui: gera também o app de manutenção do CBO (cadastros
+// que o usuário mantém no S/4, como eram no B1)
 const BOS = [
 	{ name: "DESPCAL", key: "Code" },
 	{ name: "IMPLAY", key: "Code" },
@@ -37,25 +46,28 @@ const BOS = [
 			{ nav: "Previsao", type: "PCH5" },
 			{ nav: "LoteSerie", type: "PCH6" }
 		]
-	}
+	},
+	// Despesas adicionais (OEXD no B1) e utilização da NF (OUSG): cadastros sem equivalente no S/4
+	{ name: "EXPENSE", source: "main", type: "AdditionalExpenses", key: "ExpensCode", lengths: { ExpensCode: 20 }, ui: true },
+	{ name: "USAGE", source: "main", type: "NotaFiscalUsage", rename: { Usage: "UsageName" }, ui: true }
 ];
 
 // Gerados pelo próprio CBO (System Administrative Data) ou técnicos do RAP
 const SKIP = new Set(["SAP_UUID", "SAP_ParentUUID", "CreatedByUser", "LastChangedByUser", "LastChangeDateTime", "LocalLastChanged"]);
 const TEXT_MAX = 500; // limite do CBO para campo Text (SCBO_CONSISTENCY_CHK/013)
 
-const xml = fs.readFileSync(METADATA, "utf8");
+const xml = Object.fromEntries(Object.entries(METADATA).map(([k, f]) => [k, fs.readFileSync(f, "utf8")]));
 
-function fieldsOf(sType) {
-	const m = xml.match(new RegExp(`<EntityType Name="${sType}Type">([\\s\\S]*?)</EntityType>`));
+function fieldsOf(sType, sSource = "rap", oLengths = {}, oRename = {}) {
+	const m = xml[sSource].match(new RegExp(`<EntityType Name="${sType}Type">([\\s\\S]*?)</EntityType>`));
 	if (!m) {
-		throw new Error(`EntityType ${sType}Type não encontrado em ${METADATA}`);
+		throw new Error(`EntityType ${sType}Type não encontrado em ${METADATA[sSource]}`);
 	}
 	return [...m[1].matchAll(/<Property ([^>]*?)\/?>/g)]
 		.map((p) => Object.fromEntries([...p[1].matchAll(/(\w+)="([^"]*)"/g)].map((a) => [a[1], a[2]])))
 		// "__*"/SAP__Messages: controles e mensagens que o RAP injeta no metadata
 		.filter((p) => !SKIP.has(p.Name) && !p.Name.startsWith("__") && p.Name !== "SAP__Messages")
-		.map((p) => ({ id: p.Name, ...cboType(p) }));
+		.map((p) => ({ id: oRename[p.Name] || p.Name, ...cboType(oLengths[p.Name] ? { ...p, MaxLength: String(oLengths[p.Name]) } : p) }));
 }
 
 function cboType(p) {
@@ -76,7 +88,7 @@ const plan = BOS.filter((b) => !only.length || only.includes(b.name)).map((b) =>
 	...b,
 	cboId: `YY1_${PREFIX}${b.name}`,
 	nodes: [
-		{ nodeId: `${PREFIX}${b.name}`, fields: fieldsOf(b.name), key: b.key },
+		{ nodeId: `${PREFIX}${b.name}`, fields: fieldsOf(b.type || b.name, b.source, b.lengths, b.rename), key: b.key },
 		...(b.children || []).map((c) => ({ nodeId: c.nav, fields: fieldsOf(c.type), parent: true }))
 	]
 }));
@@ -138,11 +150,11 @@ async function ensureCbo(b) {
 	let changed = false;
 
 	const bo = await get(`I_Scbo_Registry_C(BusinessObjectID='${id}',DraftUUID=${guid(draft.DraftUUID)},IsActiveEntity=false)/to_Draft`);
-	if (!bo.ServiceGenerationIndicator || !bo.SystemAdminDataGenInd) {
+	if (!bo.ServiceGenerationIndicator || !bo.SystemAdminDataGenInd || (b.ui && !bo.UIGenerationIndicator)) {
 		await call("MERGE", `I_Scbo_Bo_c(BusinessObjectID='${id}',DraftUUID=${guid(bo.DraftUUID)},IsActiveEntity=false)`,
-			{ ServiceGenerationIndicator: true, SystemAdminDataGenInd: true });
+			Object.assign({ ServiceGenerationIndicator: true, SystemAdminDataGenInd: true }, b.ui ? { UIGenerationIndicator: true } : {}));
 		changed = true;
-		console.log("  Back End Service + System Administrative Data ligados");
+		console.log(`  Back End Service + System Administrative Data${b.ui ? " + User Interface" : ""} ligados`);
 	}
 
 	const draftNodes = async () => list(`I_Scbo_Nodes_C?$filter=BusinessObjectID eq '${id}' and IsActiveEntity eq false&$select=NodeID,ParentNodeID,HLevel,DraftUUID`);

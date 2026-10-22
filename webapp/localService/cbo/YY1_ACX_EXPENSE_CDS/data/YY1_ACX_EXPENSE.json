@@ -1,0 +1,4 @@
+[
+  { "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000301", "ExpensCode": "1", "Name": "Frete" },
+  { "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000302", "ExpensCode": "2", "Name": "Seguro" }
+]
