@@ -215,5 +215,19 @@ sap.ui.define([
 		return aRows.map((o) => ({ ExpensCode: o.ExpensCode, Name: o.Name }));
 	}
 
-	return { BRAZIL, source, getItemsInfo, existingProducts, getSuppliers, getRateToday, getExpenses };
+	/**
+	 * Filial (CBO YY1_ACX_FILIAL, mantido pelo admin no app gerado do CBO) com CNPJ e credenciais
+	 * do Portal Único, no formato do antigo lookup BusinessPlaces; null se não existe.
+	 */
+	async function getBusinessPlace(oComponent, iBplId) {
+		// Sem $filter: BplId é Edm.Decimal, e o literal V2 de decimal ("1M") não é aceito pelo
+		// mockserver; são poucas filiais, a escolha é feita aqui
+		const aRows = await cbo.read(oComponent.getModel("filial"), "/YY1_ACX_FILIAL", {
+			urlParameters: { $select: "BplId,Name,TaxIdNumber,WhsCode,WhsTCode,SeqName,ClientId,ClientSecret", $top: MAX_ROWS }
+		});
+		const oRow = aRows.find((o) => Number(o.BplId) === Number(iBplId));
+		return oRow ? Object.assign({}, oRow, { BplId: Number(oRow.BplId) }) : null;
+	}
+
+	return { BRAZIL, source, getItemsInfo, existingProducts, getSuppliers, getRateToday, getExpenses, getBusinessPlace };
 });

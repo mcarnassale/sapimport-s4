@@ -67,6 +67,10 @@ server:
             metadataPath: ./webapp/localService/cbo/YY1_ACX_USAGE_CDS/metadata.xml
             mockdataPath: ./webapp/localService/cbo/YY1_ACX_USAGE_CDS/data
             generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_FILIAL_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_FILIAL_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_FILIAL_CDS/data
+            generateMockData: false
           # Custom CDS Views (cadastros sem API padrão) — $metadata REAL (npm run fetch-cbo-metadata)
           - urlPath: /sap/opu/odata/sap/YY1_ACX_CURRENCY_CDS
             metadataPath: ./webapp/localService/cbo/YY1_ACX_CURRENCY_CDS/metadata.xml

@@ -462,7 +462,7 @@ const LOOKUP_FIXTURES = {
     // WhsTCode/SeqName ficam em branco (não fornecidos). ClientSecret gravado em texto puro por
     // decisão explícita do usuário (é só o mock local, não vai pra produção).
     BusinessPlaces: [
-        { BplId: 1, Name: "Sidel", TaxIdNumber: "61.438.206/0001-92", WhsCode: "", WhsTCode: "", SeqName: "", ClientId: "3f2huq6JeZH6GYFkyHlEEWClTeF3TU1r", ClientSecret: "UwBrIgoKI76FUh-yyeS_KfArYU1nHhEh" }
+        { BplId: 1, Name: "Sidel", TaxIdNumber: "61.438.206/0001-92", WhsCode: "", WhsTCode: "", SeqName: "", ClientId: "MOCK-PORTAL-UNICO-CLIENT-ID", ClientSecret: "MOCK-PORTAL-UNICO-CLIENT-SECRET" }
     ]
 };
 for (const [sEntity, aRows] of Object.entries(LOOKUP_FIXTURES)) {

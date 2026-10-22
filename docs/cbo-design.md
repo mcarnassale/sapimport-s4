@@ -132,7 +132,7 @@ Custom Fields simples sem essa ressalva.
 `BusinessPlaces` (`BplId`/`Name`/`TaxIdNumber`/`WhsCode`/`WhsTCode`/`SeqName`/`ClientId`/
 `ClientSecret`) com **1 fixture real** — os dados de produção da Filial "Sidel", colados pelo
 usuário a partir da `OBPL` do sapimport (B1): CNPJ `61.438.206/0001-92`, `ClientId`
-`3f2huq6JeZH6GYFkyHlEEWClTeF3TU1r`, `ClientSecret` `UwBrIgoKI76FUh-yyeS_KfArYU1nHhEh` (gravado em
+`MOCK-PORTAL-UNICO-CLIENT-ID`, `ClientSecret` `MOCK-PORTAL-UNICO-CLIENT-SECRET` (gravado em
 texto puro por decisão explícita do usuário — é mock local, não produção; `WhsCode`/`WhsTCode`/
 `SeqName` ficaram em branco, não fornecidos). Nenhuma tela consome essa entidade ainda — `BPLId`
 em `ProcessosDetail` continua um `Input` Int32 solto (per `docs/processos-detail-port-notes.md`).

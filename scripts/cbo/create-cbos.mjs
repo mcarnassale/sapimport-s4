@@ -49,7 +49,10 @@ const BOS = [
 	},
 	// Despesas adicionais (OEXD no B1) e utilização da NF (OUSG): cadastros sem equivalente no S/4
 	{ name: "EXPENSE", source: "main", type: "AdditionalExpenses", key: "ExpensCode", lengths: { ExpensCode: 20 }, ui: true },
-	{ name: "USAGE", source: "main", type: "NotaFiscalUsage", rename: { Usage: "UsageName" }, ui: true }
+	{ name: "USAGE", source: "main", type: "NotaFiscalUsage", rename: { Usage: "UsageName" }, ui: true },
+	// Filiais (OBPL no B1) com CNPJ e credenciais do Portal Único por filial (decisão: CBO, até o app
+	// ir para o BTP, onde o segredo passa a um destination)
+	{ name: "FILIAL", source: "main", type: "BusinessPlaces", ui: true }
 ];
 
 // Gerados pelo próprio CBO (System Administrative Data) ou técnicos do RAP

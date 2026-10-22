@@ -396,19 +396,16 @@ sap.ui.define([
             }
         },
 
-        // Porta PUFunctions.newAccessToken (PUFunctions.cs:92-134), só a prioridade "Filial"
-        // (BusinessPlaces.ClientId/ClientSecret) — o fallback por usuário (OUSR.U_ClientId/
-        // U_ClientSecret) NÃO foi portado aqui, mesma decisão já tomada ao portar Configs (ver
-        // docs/configs-port-notes.md "Dropped this pass: Portal Único credentials").
+        // Porta PUFunctions.newAccessToken (PUFunctions.cs:92-134), só a prioridade "Filial":
+        // CNPJ e credenciais do Portal Único da filial do Processo, no CBO YY1_ACX_FILIAL
+        // (model/lookups) — o fallback por usuário (OUSR.U_ClientId/U_ClientSecret) NÃO foi
+        // portado, mesma decisão já tomada ao portar Configs (ver docs/configs-port-notes.md).
         async _getPuCredentials(oHeaderContext) {
             const iBplId = Number(oHeaderContext.getProperty("BPLId")) || 0;
             if (!iBplId) {
                 return null;
             }
-            const oModel = this.getOwnerComponent().getModel();
-            const oListBinding = oModel.bindList("/BusinessPlaces", null, [], [new Filter("BplId", FilterOperator.EQ, iBplId)]);
-            const aContexts = await oListBinding.requestContexts(0, 1).catch(() => []);
-            const oBranch = aContexts[0] && aContexts[0].getObject();
+            const oBranch = await lookups.getBusinessPlace(this.getOwnerComponent(), iBplId).catch(() => null);
             const sCnpj = ((oBranch && oBranch.TaxIdNumber) || "").replace(/\D/g, "");
             const sClientId = oBranch && oBranch.ClientId;
             const sClientSecret = oBranch && oBranch.ClientSecret;

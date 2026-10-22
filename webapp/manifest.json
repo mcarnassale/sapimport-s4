@@ -146,6 +146,15 @@
           "odataVersion": "2.0"
         }
       },
+      "cboFilial": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_FILIAL_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_FILIAL_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
       "purchaseOrderService": {
         "uri": "/sap/opu/odata4/sap/api_purchaseorder_2/srvd_a2x/sap/purchaseorder/0001/",
         "type": "OData",
@@ -330,6 +339,15 @@
       },
       "usage": {
         "dataSource": "cboUsage",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "filial": {
+        "dataSource": "cboFilial",
         "preload": false,
         "settings": {
           "defaultBindingMode": "OneWay",

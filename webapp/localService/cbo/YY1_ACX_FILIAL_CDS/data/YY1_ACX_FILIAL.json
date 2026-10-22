@@ -1,0 +1,13 @@
+[
+  {
+    "SAP_UUID": "0a1b2c3d-0000-4000-8000-000000000501",
+    "BplId": "1",
+    "Name": "Sidel",
+    "TaxIdNumber": "61.438.206/0001-92",
+    "WhsCode": "",
+    "WhsTCode": "",
+    "SeqName": "",
+    "ClientId": "MOCK-PORTAL-UNICO-CLIENT-ID",
+    "ClientSecret": "MOCK-PORTAL-UNICO-CLIENT-SECRET"
+  }
+]
