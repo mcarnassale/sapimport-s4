@@ -13,7 +13,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const S4_API_URL = process.env.S4_API_URL || "https://my404561-api.s4hana.cloud.sap";
-const SERVICES = ["YY1_ACX_DESPCAL_CDS", "YY1_ACX_IMPLAY_CDS", "YY1_ACX_IMPICFG_CDS", "YY1_ACX_IMPIPRV_CDS", "YY1_ACX_IMPPCH_CDS"];
+// CBOs (npm run create-cbos) e Custom CDS Views (npm run create-cds) — todos YY1_ACX_*_CDS
+const SERVICES = [
+	"YY1_ACX_DESPCAL_CDS", "YY1_ACX_IMPLAY_CDS", "YY1_ACX_IMPICFG_CDS", "YY1_ACX_IMPIPRV_CDS", "YY1_ACX_IMPPCH_CDS",
+	"YY1_ACX_CURRENCY_CDS", "YY1_ACX_EXCHRATE_CDS", "YY1_ACX_TAXCODE_CDS", "YY1_ACX_GLACCOUNT_CDS", "YY1_ACX_STORLOC_CDS"
+];
 
 if (!process.env.S4_API_USER || !process.env.S4_API_PASSWORD) {
 	console.error("S4_API_USER/S4_API_PASSWORD não definidas (variáveis de ambiente do usuário).");

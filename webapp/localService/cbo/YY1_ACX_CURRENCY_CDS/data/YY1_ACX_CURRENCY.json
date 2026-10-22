@@ -1,0 +1,17 @@
+[
+  {
+    "Currency": "BRL",
+    "CurrencyName": "Real brasileiro",
+    "Decimals": 2
+  },
+  {
+    "Currency": "EUR",
+    "CurrencyName": "Euro",
+    "Decimals": 2
+  },
+  {
+    "Currency": "USD",
+    "CurrencyName": "Dólar americano",
+    "Decimals": 2
+  }
+]

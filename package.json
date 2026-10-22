@@ -35,7 +35,8 @@
     "generate-abap": "node scripts/generate-abap.js",
     "deploy-abap": "node scripts/abap/deploy.mjs",
     "cbo-browser": "node scripts/cbo/browser.mjs",
-    "create-cbos": "node scripts/cbo/create-cbos.mjs"
+    "create-cbos": "node scripts/cbo/create-cbos.mjs",
+    "create-cds": "node scripts/cbo/create-cds.mjs"
   },
   "sapuxLayer": "CUSTOMER_BASE"
 }

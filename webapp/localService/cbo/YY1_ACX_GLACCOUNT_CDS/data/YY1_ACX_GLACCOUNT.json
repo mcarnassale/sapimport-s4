@@ -1,0 +1,17 @@
+[
+  {
+    "ChartOfAccounts": "YCBR",
+    "GLAccount": "11101001",
+    "GLAccountName": "Fundos líquidos"
+  },
+  {
+    "ChartOfAccounts": "YCBR",
+    "GLAccount": "41101000",
+    "GLAccountName": "Custo de importação"
+  },
+  {
+    "ChartOfAccounts": "YCOA",
+    "GLAccount": "11001000",
+    "GLAccountName": "Bank 1"
+  }
+]

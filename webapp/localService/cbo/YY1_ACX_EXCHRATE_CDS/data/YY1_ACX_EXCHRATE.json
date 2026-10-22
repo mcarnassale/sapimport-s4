@@ -1,0 +1,29 @@
+[
+  {
+    "ExchangeRateType": "M",
+    "SourceCurrency": "USD",
+    "TargetCurrency": "BRL",
+    "ExchangeRateEffectiveDate": "2026-04-15T00:00:00Z",
+    "ExchangeRate": "5.00000",
+    "NumberOfSourceCurrencyUnits": "1",
+    "NumberOfTargetCurrencyUnits": "1"
+  },
+  {
+    "ExchangeRateType": "M",
+    "SourceCurrency": "BRL",
+    "TargetCurrency": "USD",
+    "ExchangeRateEffectiveDate": "2026-10-01T00:00:00Z",
+    "ExchangeRate": "-5.25000",
+    "NumberOfSourceCurrencyUnits": "1",
+    "NumberOfTargetCurrencyUnits": "1"
+  },
+  {
+    "ExchangeRateType": "M",
+    "SourceCurrency": "EUR",
+    "TargetCurrency": "BRL",
+    "ExchangeRateEffectiveDate": "2026-10-01T00:00:00Z",
+    "ExchangeRate": "5.40000",
+    "NumberOfSourceCurrencyUnits": "1",
+    "NumberOfTargetCurrencyUnits": "1"
+  }
+]

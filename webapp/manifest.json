@@ -83,6 +83,51 @@
           "odataVersion": "2.0"
         }
       },
+      "cdsCurrency": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_CURRENCY_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_CURRENCY_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cdsExchrate": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_EXCHRATE_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_EXCHRATE_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cdsTaxcode": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_TAXCODE_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_TAXCODE_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cdsGlaccount": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_GLACCOUNT_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_GLACCOUNT_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "cdsStorloc": {
+        "uri": "/sap/opu/odata/sap/YY1_ACX_STORLOC_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/cbo/YY1_ACX_STORLOC_CDS/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
       "purchaseOrderService": {
         "uri": "/sap/opu/odata4/sap/api_purchaseorder_2/srvd_a2x/sap/purchaseorder/0001/",
         "type": "OData",
@@ -204,6 +249,51 @@
       },
       "bp": {
         "dataSource": "businessPartnerService",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "currency": {
+        "dataSource": "cdsCurrency",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "exchrate": {
+        "dataSource": "cdsExchrate",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "taxcode": {
+        "dataSource": "cdsTaxcode",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "glaccount": {
+        "dataSource": "cdsGlaccount",
+        "preload": false,
+        "settings": {
+          "defaultBindingMode": "OneWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "storloc": {
+        "dataSource": "cdsStorloc",
         "preload": false,
         "settings": {
           "defaultBindingMode": "OneWay",

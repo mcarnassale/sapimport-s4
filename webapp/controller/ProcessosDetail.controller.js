@@ -435,17 +435,10 @@ sap.ui.define([
             return this._oIcfgConfig;
         },
 
-        // Substitui a função OData nativa do B1 Service Layer SBOBobService_GetCurrencyRate (sem
-        // equivalente S/4 confirmado) por uma leitura simples do placeholder Currencies.Rate —
-        // ver docs/po2di-duimp-port-notes.md.
+        // Substitui a função OData nativa do B1 Service Layer SBOBobService_GetCurrencyRate: taxa
+        // do dia (tipo M) cadastrada no S/4, nos dois sentidos de cotação (model/lookups).
         async _getCurrencyRateToday(sCurrency) {
-            if (!sCurrency) {
-                return 0;
-            }
-            const oModel = this.getOwnerComponent().getModel();
-            const oListBinding = oModel.bindList("/Currencies", null, [], [new Filter("Code", FilterOperator.EQ, sCurrency)]);
-            const aContexts = await oListBinding.requestContexts(0, 1).catch(() => []);
-            return (aContexts[0] && Number(aContexts[0].getProperty("Rate"))) || 0;
+            return lookups.getRateToday(this.getOwnerComponent(), sCurrency).catch(() => 0);
         },
 
         // Idêntico ao original — wrapper de fetch simples contra o middleware local (ver

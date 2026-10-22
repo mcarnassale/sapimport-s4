@@ -59,6 +59,27 @@ server:
             metadataPath: ./webapp/localService/cbo/YY1_ACX_IMPLAY_CDS/metadata.xml
             mockdataPath: ./webapp/localService/cbo/YY1_ACX_IMPLAY_CDS/data
             generateMockData: false
+          # Custom CDS Views (cadastros sem API padrão) — $metadata REAL (npm run fetch-cbo-metadata)
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_CURRENCY_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_CURRENCY_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_CURRENCY_CDS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_EXCHRATE_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_EXCHRATE_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_EXCHRATE_CDS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_TAXCODE_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_TAXCODE_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_TAXCODE_CDS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_GLACCOUNT_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_GLACCOUNT_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_GLACCOUNT_CDS/data
+            generateMockData: false
+          - urlPath: /sap/opu/odata/sap/YY1_ACX_STORLOC_CDS
+            metadataPath: ./webapp/localService/cbo/YY1_ACX_STORLOC_CDS/metadata.xml
+            mockdataPath: ./webapp/localService/cbo/YY1_ACX_STORLOC_CDS/data
+            generateMockData: false
           # Cadastros do S/4 (OData V2) — $metadata REAL (npm run fetch-api-metadata)
           - urlPath: /sap/opu/odata/sap/API_PRODUCT_SRV
             metadataPath: ./webapp/localService/s4api/API_PRODUCT_SRV/metadata.xml

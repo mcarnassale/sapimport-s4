@@ -1,0 +1,17 @@
+[
+  {
+    "TaxCalculationProcedure": "ABRX01",
+    "TaxCode": "00",
+    "TaxCodeName": "Compra normal - material"
+  },
+  {
+    "TaxCalculationProcedure": "ABRX01",
+    "TaxCode": "10",
+    "TaxCodeName": "Compra normal - serviço"
+  },
+  {
+    "TaxCalculationProcedure": "0TXUSX",
+    "TaxCode": "I0",
+    "TaxCodeName": "Contabilidade de fornecedores IVA, isento"
+  }
+]

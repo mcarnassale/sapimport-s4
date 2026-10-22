@@ -153,6 +153,7 @@ sap.ui.define([
             this._openLineValueHelp(oEvent, {
                 key: "currency",
                 title: this._t("preCalcColCurrency"),
+                lookup: "Currencies",
                 path: "/Currencies",
                 titleField: "Code",
                 descField: "Name",
@@ -198,8 +199,8 @@ sap.ui.define([
 
             let oDialog = this._oLineValueHelpDialogs[oConfig.key];
             if (!oDialog) {
-                // Fornecedores/produtos vêm das APIs do S/4 (model/lookups, com os campos de lá);
-                // o resto (despesas, moedas), do mainService
+                // Fornecedores, produtos e moedas vêm do S/4 (model/lookups, com os campos de lá);
+                // despesas, do mainService
                 const oSource = (oConfig.lookup && lookups.source(this.getOwnerComponent(), oConfig.lookup))
                     || { model: this._getLookupModel(), path: oConfig.path };
                 const sTitleField = oSource.titleField || oConfig.titleField;

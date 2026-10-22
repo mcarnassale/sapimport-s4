@@ -6,7 +6,8 @@ sap.ui.define([
     "sap/m/StandardListItem",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "acx/sapimport/s4/model/cbo"
+    "acx/sapimport/s4/model/cbo",
+    "acx/sapimport/s4/model/lookups"
 ], /**
  * @param {typeof import("sap/ui/core/mvc/Controller").default} Controller
  * @param {typeof import("sap/m/MessageToast").default} MessageToast
@@ -16,7 +17,8 @@ sap.ui.define([
  * @param {typeof import("sap/ui/model/Filter").default} Filter
  * @param {typeof import("sap/ui/model/FilterOperator").default} FilterOperator
  * @param {object} cbo
- */ (Controller, MessageToast, MessageBox, SelectDialog, StandardListItem, Filter, FilterOperator, cbo) => {
+ * @param {object} lookups
+ */ (Controller, MessageToast, MessageBox, SelectDialog, StandardListItem, Filter, FilterOperator, cbo, lookups) => {
     "use strict";
 
     // Ported from ../sapimport/webapp/controller/DespCalc.controller.js. Differences:
@@ -31,7 +33,7 @@ sap.ui.define([
     //    the Processos.cs business logic will be exposed to Fiori", button disabled there too)
     //    is now onNotImplemented, showing a toast instead of doing nothing silently.
     //  - DESPCAL vem do CBO YY1_ACX_DESPCAL do S/4 (modelo "despcal", OData V2, default desta
-    //    view); o value help de moeda continua no mainService (lookup), por isso o diálogo recebe
+    //    view); o value help de moeda, das moedas do S/4 (model/lookups), por isso o diálogo recebe
     //    esse modelo explicitamente.
 
     return Controller.extend("acx.sapimport.s4.controller.DespCalc", {
@@ -77,20 +79,22 @@ sap.ui.define([
         onCurrencyValueHelp(oEvent) {
             const oInput = oEvent.getSource();
             if (!this._oCurrencyDialog) {
+                const oSource = lookups.source(this.getOwnerComponent(), "Currencies");
                 this._oCurrencyDialog = new SelectDialog({
                     title: this._t("despCalcColCurrency"),
                     items: {
-                        path: "/Currencies",
+                        path: oSource.path,
                         template: new StandardListItem({
-                            title: "{Code}",
-                            description: "{Name}"
+                            title: `{${oSource.titleField}}`,
+                            description: `{${oSource.descField}}`
                         })
                     },
                     search: (oSearchEvent) => {
                         const sValue = oSearchEvent.getParameter("value");
-                        oSearchEvent.getSource().getBinding("items").filter(
-                            new Filter("Code", FilterOperator.Contains, sValue)
-                        );
+                        oSearchEvent.getSource().getBinding("items").filter(sValue ? new Filter({
+                            filters: [oSource.titleField, oSource.descField].map((sField) => new Filter(sField, FilterOperator.Contains, sValue)),
+                            and: false
+                        }) : []);
                     },
                     confirm: (oConfirmEvent) => {
                         const oSelectedItem = oConfirmEvent.getParameter("selectedItem");
@@ -99,7 +103,7 @@ sap.ui.define([
                         }
                     }
                 });
-                this._oCurrencyDialog.setModel(this.getOwnerComponent().getModel());
+                this._oCurrencyDialog.setModel(oSource.model);
                 this.getView().addDependent(this._oCurrencyDialog);
             }
             this._oCurrencyInput = oInput;

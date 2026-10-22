@@ -1,7 +1,8 @@
 /**
- * Cliente do serviço INTERNO do app "Custom Business Objects" (APS_EXT_CBO_D_SRV, OData V2 com
- * draft) do S/4HANA Cloud. Não é API liberada: é o que a própria tela do app chama — por isso só
- * serve como ferramenta de DESENVOLVIMENTO (pode mudar entre releases). Nos clientes, os CBOs vão
+ * Cliente dos serviços INTERNOS dos apps de extensibilidade Key User do S/4HANA Cloud (OData V2 com
+ * draft): "Custom Business Objects" (APS_EXT_CBO_D_SRV, padrão) e "Custom CDS Views"
+ * (APS_EXT_CCV_SRV). Não são APIs liberadas: é o que as próprias telas chamam — por isso só servem
+ * como ferramenta de DESENVOLVIMENTO (podem mudar entre releases). Nos clientes, os objetos vão
  * por Extensibility Template.
  *
  * Autenticação: o tenant só aceita login SSO/SAML de usuário de negócio (comm user não acessa este
@@ -10,14 +11,16 @@
  */
 import { chromium } from "playwright";
 
-const SRV = "/sap/opu/odata/sap/APS_EXT_CBO_D_SRV/";
+export const CBO_SERVICE = "APS_EXT_CBO_D_SRV";
+export const CDS_VIEW_SERVICE = "APS_EXT_CCV_SRV";
 export const DEBUG_PORT = 9333;
 export const ZERO = "00000000-0000-0000-0000-000000000000";
 
 export const guid = (u) => `guid'${u}'`;
 const filter = (s) => s.replace(/ /g, "%20");
 
-export async function connect() {
+export async function connect(sService = CBO_SERVICE) {
+	const SRV = `/sap/opu/odata/sap/${sService}/`;
 	const browser = await chromium.connectOverCDP(`http://127.0.0.1:${DEBUG_PORT}`).catch(() => {
 		throw new Error("Chrome de debug não encontrado — rode `npm run cbo-browser` e faça login no S/4.");
 	});

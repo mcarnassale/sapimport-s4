@@ -1,21 +1,33 @@
 sap.ui.define([
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
+	"sap/ui/model/Sorter",
 	"sap/base/i18n/Localization",
 	"acx/sapimport/s4/model/cbo"
-], (Filter, FilterOperator, Localization, cbo) => {
+], (Filter, FilterOperator, Sorter, Localization, cbo) => {
 	"use strict";
 
 	/**
-	 * Cadastros vindos das APIs padrão do S/4HANA Cloud (OData V2), no lugar dos lookups
-	 * placeholder do mainService: fornecedores (API_BUSINESS_PARTNER, SAP_COM_0008, modelo "bp") e
-	 * produtos (API_PRODUCT_SRV, SAP_COM_0009, modelo "product"). As telas continuam pensando nos
-	 * nomes antigos (entidade "BusinessPartners"/"Items", campos CardCode/ItemCode...): este módulo
-	 * traduz — value help via source(), leituras de cálculo via getItemsInfo()/getSuppliers().
+	 * Cadastros do S/4HANA Cloud (OData V2), no lugar dos lookups placeholder do mainService:
+	 *  - APIs padrão: fornecedores (API_BUSINESS_PARTNER, SAP_COM_0008, modelo "bp") e produtos
+	 *    (API_PRODUCT_SRV, SAP_COM_0009, modelo "product");
+	 *  - Custom CDS Views nossas (npm run create-cds, cenário YY1_ACX_SAPIMPORT): moedas, taxas de
+	 *    câmbio, códigos de imposto, contas contábeis e depósitos (modelos "currency", "exchrate",
+	 *    "taxcode", "glaccount", "storloc").
+	 * As telas continuam pensando nos nomes antigos (entidade "BusinessPartners"/"Items"/
+	 * "Currencies"..., campos CardCode/ItemCode/Code...): este módulo traduz — value help via
+	 * source(), leituras de cálculo via getItemsInfo()/getSuppliers()/getRateToday().
 	 * Lookup que não está aqui continua no mainService.
 	 */
 
 	const MAX_ROWS = 5000;
+
+	/**
+	 * Organização brasileira no tenant (customizing — em cada cliente podem ser outros valores):
+	 * procedimento de cálculo de imposto (os códigos de imposto se repetem por país), plano de
+	 * contas e centro cujos depósitos o app oferece; moeda local.
+	 */
+	const BRAZIL = { taxProcedure: "ABRX01", chartOfAccounts: "YCBR", plant: "1410", currency: "BRL" };
 
 	// Descrição do produto no idioma de logon (A_ProductDescription tem uma linha por idioma)
 	const language = () => Localization.getSAPLogonLanguage();
@@ -26,6 +38,19 @@ sap.ui.define([
 		Items: {
 			model: "product", path: "/A_ProductDescription", titleField: "Product", descField: "ProductDescription",
 			filters: () => [new Filter("Language", FilterOperator.EQ, language())]
+		},
+		Currencies: { model: "currency", path: "/YY1_ACX_CURRENCY", titleField: "Currency", descField: "CurrencyName" },
+		SalesTaxCodes: {
+			model: "taxcode", path: "/YY1_ACX_TAXCODE", titleField: "TaxCode", descField: "TaxCodeName",
+			filters: () => [new Filter("TaxCalculationProcedure", FilterOperator.EQ, BRAZIL.taxProcedure)]
+		},
+		ChartOfAccounts: {
+			model: "glaccount", path: "/YY1_ACX_GLACCOUNT", titleField: "GLAccount", descField: "GLAccountName",
+			filters: () => [new Filter("ChartOfAccounts", FilterOperator.EQ, BRAZIL.chartOfAccounts)]
+		},
+		Warehouses: {
+			model: "storloc", path: "/YY1_ACX_STORLOC", titleField: "StorageLocation", descField: "StorageLocationName",
+			filters: () => [new Filter("Plant", FilterOperator.EQ, BRAZIL.plant)]
 		}
 	};
 
@@ -124,5 +149,59 @@ sap.ui.define([
 			.sort((a, b) => a.CardName.localeCompare(b.CardName));
 	}
 
-	return { source, getItemsInfo, existingProducts, getSuppliers };
+	// Taxa de uma linha de câmbio do S/4: valor em "to" de 1 unidade de "from". ExchangeRate
+	// negativo = cotação indireta (como o S/4 guarda: -5,028 em BRL->USD = 1 USD custa 5,028 BRL);
+	// as unidades (NumberOf...Units) são os fatores de conversão do par.
+	function rateOf(oRow) {
+		const fRate = Number(oRow.ExchangeRate) || 0;
+		const fUnits = (Number(oRow.NumberOfTargetCurrencyUnits) || 1) / (Number(oRow.NumberOfSourceCurrencyUnits) || 1);
+		if (!fRate) {
+			return 0;
+		}
+		return (fRate > 0 ? fRate : 1 / -fRate) * fUnits;
+	}
+
+	async function latestRow(oModel, sFrom, sTo, oDate) {
+		const [oRow] = await cbo.read(oModel, "/YY1_ACX_EXCHRATE", {
+			filters: [
+				new Filter("ExchangeRateType", FilterOperator.EQ, "M"),
+				new Filter("SourceCurrency", FilterOperator.EQ, sFrom),
+				new Filter("TargetCurrency", FilterOperator.EQ, sTo),
+				new Filter("ExchangeRateEffectiveDate", FilterOperator.LE, oDate)
+			],
+			sorters: [new Sorter("ExchangeRateEffectiveDate", true)],
+			urlParameters: { $top: 1 }
+		});
+		return oRow;
+	}
+
+	/**
+	 * Taxa do dia (tipo M, cotação média) de sCurrency para a moeda local: quantos BRL vale 1 unidade
+	 * de sCurrency em oDate (padrão: hoje). O S/4 pode ter a cotação cadastrada em qualquer um dos
+	 * dois sentidos (no tenant, USD está em BRL->USD, indireta) — vale a mais recente dos dois.
+	 * 0 = sem taxa cadastrada.
+	 */
+	async function getRateToday(oComponent, sCurrency, oDate) {
+		if (!sCurrency) {
+			return 0;
+		}
+		if (sCurrency === BRAZIL.currency) {
+			return 1;
+		}
+		const oModel = oComponent.getModel("exchrate");
+		const oAt = oDate || new Date();
+		const [oDirect, oInverse] = await Promise.all([
+			latestRow(oModel, sCurrency, BRAZIL.currency, oAt),
+			latestRow(oModel, BRAZIL.currency, sCurrency, oAt)
+		]);
+		const fInverse = oInverse ? rateOf(oInverse) : 0;
+		const aCandidates = [
+			oDirect && { date: oDirect.ExchangeRateEffectiveDate, rate: rateOf(oDirect) },
+			oInverse && fInverse && { date: oInverse.ExchangeRateEffectiveDate, rate: 1 / fInverse }
+		].filter((o) => o && o.rate);
+		aCandidates.sort((a, b) => b.date - a.date);
+		return aCandidates.length ? aCandidates[0].rate : 0;
+	}
+
+	return { BRAZIL, source, getItemsInfo, existingProducts, getSuppliers, getRateToday };
 });

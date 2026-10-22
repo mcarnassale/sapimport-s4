@@ -1,0 +1,17 @@
+[
+  {
+    "Plant": "1410",
+    "StorageLocation": "141A",
+    "StorageLocationName": "Depósito importação"
+  },
+  {
+    "Plant": "1410",
+    "StorageLocation": "141B",
+    "StorageLocationName": "Depósito geral"
+  },
+  {
+    "Plant": "1710",
+    "StorageLocation": "171A",
+    "StorageLocationName": "US Warehouse"
+  }
+]
